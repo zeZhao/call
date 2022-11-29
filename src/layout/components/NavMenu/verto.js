@@ -28,24 +28,11 @@ require("../../../assets/js/verto-min.js")
       socketUrl: `wss://${url}:${prot}`,
       // TODO: Where is this file, on the server? What is the base path?
       ringFile: './sounds/bell_ring2.wav',
-      // STUN/TURN server config, more than one is allowed.
-      // Instead of an array of objects, you can also pass a Boolean value,
-      // false disables STUN, true uses the default Google STUN servers.
-      // deviceParams: {
-      //   useMic: true,
-      //   useSpeak: true
-      // },
       iceServers: true,
       deviceParams: {
         useMic: true,
         useSpeak: true,
         useCamera: true,
-        // // Set to 'none' to disable outbound audio.
-        // useMic: 'any',
-        // // Set to 'none' to disable inbound audio.
-        // useSpeak: 'any',
-        // // Set to 'none' to disable outbound video.
-        // useCamera: 'any',
       },
       // tag: "video-container",
     }, vertoCallbacks);
@@ -60,11 +47,7 @@ require("../../../assets/js/verto-min.js")
 		vertoHandle.login();
   }
   //退出
-  export function logout(login,passwd,url){
-    // vertoHandle.loginData({
-		// 	login: `${login}@${url}`,
-		// 	passwd: `${passwd}`
-		// });
+  export function logout(){
 		vertoHandle.logout();
   }
   //拨打电话
@@ -130,11 +113,11 @@ require("../../../assets/js/verto-min.js")
     currentCall.answer();
   };
   export function muteCall() {
-    currentCall.mute("off");
+    currentCall.setmute();
   };
   
   export function unmuteCall() {
-    currentCall.mute("on");
+    currentCall.getmute();
   };
   
   export function muteUnmuteCall() {
@@ -157,7 +140,7 @@ require("../../../assets/js/verto-min.js")
     }
   };
 
-  function onWSLogin(verto, success) {
+  export function onWSLogin(verto, success) {
     IsLogin = success
     console.log('onWSLogin', success);
     return success

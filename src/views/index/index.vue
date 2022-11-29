@@ -31,20 +31,32 @@ export default {
         passwd:'',
         url:'vertoweb.jvtdtest.top',
         prot:'8082',
-      }
+      },
+      verto:vertoHandle
     };
   },
-  created() {},
+  created() {
+    const {user,passwd,url,prot} = this.form
+    init(user?user:'2004',passwd?passwd:'123456',url,prot)
+  },
   mounted() {},
   computed: {},
   methods: {
     login(){
       const {user,passwd,url,prot} = this.form
-      init(user,passwd,url,prot)
-      console.log(vertoHandle, vertoCallbacks, currentCall,'QQQQQQQQQQQQQQQQQQQQQ')
+      login(user,passwd,url,prot)
     }
   },
-  watch: {},
+  watch: {
+    verto:{
+      handler(newVal,oldval){
+        console.log(newVal,'-----------new')
+        console.log(oldval,'============old')
+      },
+      deep:true,
+      immediate:true
+    }
+  },
 };
 </script>
 <style lang="scss" scoped></style>
