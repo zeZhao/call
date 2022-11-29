@@ -32,7 +32,6 @@ export default {
         url:'vertoweb.jvtdtest.top',
         prot:'8082',
       },
-      verto:vertoHandle
     };
   },
   created() {
@@ -48,14 +47,6 @@ export default {
     }
   },
   watch: {
-    verto:{
-      handler(newVal,oldval){
-        console.log(newVal,'-----------new')
-        console.log(oldval,'============old')
-      },
-      deep:true,
-      immediate:true
-    }
   },
 };
 </script>

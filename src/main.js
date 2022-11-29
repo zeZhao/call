@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
 import "./assets/css/index.scss"
 import callPlugin from "./utils/plugin"
+require('./assets/js/verto-min')
 
 Vue.config.productionTip = false
 

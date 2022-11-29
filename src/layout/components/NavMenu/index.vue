@@ -58,9 +58,8 @@
 
 <script>
 import { setStorage, getStorage } from "@/utils/auth.js";
-// import vertoCell from "./index.js"
 import {init,makeCall,hangupCall,answerCall,muteCall,unmuteCall,holdCall,unholdCall,logout} from "./verto.js"
-// import { logout } from "@/api/user";
+
 export default {
   components: {},
   data() {
@@ -72,9 +71,6 @@ export default {
     };
   },
   created() {
-    // let verto = new vertoCell()
-
-    console.log(init,'iiiiiiiiiiiiiiii')
     // init('2004','123456','vertoweb.jvtdtest.top','8082')
   },
   mounted() {
