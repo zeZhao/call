@@ -36,13 +36,15 @@ export default {
   },
   created() {
     const {user,passwd,url,prot} = this.form
-    init(user?user:'2004',passwd?passwd:'123456',url,prot)
+    init('2004','123456',url,prot)
   },
   mounted() {},
   computed: {},
   methods: {
     login(){
       const {user,passwd,url,prot} = this.form
+      // init('2004','123456',url,prot)
+      
       login(user,passwd,url,prot)
     }
   },

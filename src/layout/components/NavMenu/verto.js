@@ -1,4 +1,4 @@
-// import $ from 'jquery/dist/jquery.min.js'
+// import $ from 'jquery'
 // require("../../../assets/js/jquery-2.1.1.min.js")
 // require("../../../assets/js/jquery.json-2.4.min.js")
 require("../../../assets/js/verto-min.js")
