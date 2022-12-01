@@ -21,20 +21,39 @@ require("../../../assets/js/verto-min.js")
   
 
   function bootstrap(login,passwd,url,prot) {
-    vertoHandle = new jQuery.verto({
+    vertoHandle = new $.verto({
       login: `${login}@${url}`,
       passwd: passwd,
       // As configured in verto.conf.xml on the server.
       socketUrl: `wss://${url}:${prot}`,
       // TODO: Where is this file, on the server? What is the base path?
-      ringFile: './sounds/bell_ring2.wav',
+      ringFile: './sounds/bell_ring2.mp3',
       iceServers: true,
       deviceParams: {
-        useMic: true,
-        useSpeak: true,
-        useCamera: true,
+        // useMic: true,
+        // useSpeak: true,
+        // useCamera: true,
+          // Set to 'none' to disable outbound audio.
+        useMic: 'any',
+        // Set to 'none' to disable inbound audio.
+        useSpeak: 'any',
+        // Set to 'none' to disable outbound video.
+        useCamera: 'any',
       },
-      // tag: "video-container",
+      audioParams: {
+        googAutoGainControl: false,
+        googNoiseSuppression: false,
+        googHighpassFilter: false
+      },
+      videoParams: {
+        "minWidth": 320,
+        "minHeight": 180,
+        "maxWidth": 320,
+        "maxHeight": 180,
+        "minFrameRate": 15,
+        "vertoBestFrameRate": 30
+      },
+      tag: "webcam",
     }, vertoCallbacks);
   };
 
@@ -60,13 +79,12 @@ require("../../../assets/js/verto-min.js")
       outgoingBandwidth: "default",
       incomingBandwidth: "default",
       useStereo: true,
-      useMic: true,
-      useSpeak: true,
-      useCamera: true,
       useVideo: true,
+      useMic: 'any',
+      useSpeak: 'any',
+      useCamera: 'any',
       dedEnc: false,
       mirrorInput: false,
-
       userVariables: {
         avatar: "",
         email: "test@test.com"
@@ -110,7 +128,16 @@ require("../../../assets/js/verto-min.js")
   };
   export function answerCall() {
     console.log('接听')
-    currentCall.answer();
+    currentCall.answer({
+
+      callee_id_name: "Test Guy",
+      callee_id_number: "2004",
+      useStereo: true,
+      // useMic: 'any',
+      // useSpeak: 'any',
+      // useCamera: 'any',
+
+    });
   };
   export function muteCall() {
     currentCall.setmute();
@@ -121,7 +148,7 @@ require("../../../assets/js/verto-min.js")
   };
   
   export function muteUnmuteCall() {
-    currentCall.mute("toggle");
+    currentCall.setMute("toggle")
   };
 
   export function holdCall() {
@@ -143,19 +170,17 @@ require("../../../assets/js/verto-min.js")
   export function onWSLogin(verto, success) {
     IsLogin = success
     console.log('onWSLogin', success);
-    return success
   };
 
   function onWSClose(verto, success) {
     IsLogout = success
     console.log('onWSClose', success);
-    return success
   };
   
 
   // Receives call state messages from FreeSWITCH.
   //电话记录
-  // function onDialogState(d) {
+  // function. onDialogState(d) {
   //   switch (d.state.name) {
   //     case "trying":
   //       break;
@@ -176,9 +201,12 @@ require("../../../assets/js/verto-min.js")
     onWSLogin: onWSLogin,
     onWSClose: onWSClose,
     onDialogState: onDialogState,
+    onMessage: function(verto, dialog, msg, data){
+      console.log(verto, dialog, msg, data,'======onMessage')
+    }
   };
-  export const a = IsLogin
-  export const b = IsLogout
+  // export const a = IsLogin
+  // export const b = IsLogout
 
 
   

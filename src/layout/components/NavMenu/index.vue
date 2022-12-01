@@ -12,7 +12,7 @@
         <el-button type="primary" icon="el-icon-phone" size="small" round style="margin-left:20px" @click="hangupCall()">挂断</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round @click="answerCall()" class="shake">接听</el-button>
         <!-- <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteCall()">静音</el-button> -->
-        <!-- <el-button type="primary" icon="el-icon-phone" size="small" round @click="unmuteCall()">取消静音</el-button> -->
+        <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteUnmuteCall()">静音/取消静音</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round @click="holdCall()">保持通话</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round @click="unholdCall()">恢复通话</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>转接</el-button>
@@ -58,7 +58,7 @@
 
 <script>
 import { setStorage, getStorage } from "@/utils/auth.js";
-import {init,makeCall,hangupCall,answerCall,muteCall,unmuteCall,holdCall,unholdCall,logout} from "./verto.js"
+import {init,makeCall,hangupCall,answerCall,muteCall,unmuteCall,holdCall,unholdCall,muteUnmuteCall,logout} from "./verto.js"
 
 export default {
   components: {},
@@ -105,6 +105,9 @@ export default {
     },
     unholdCall(){
       unholdCall()
+    },
+    muteUnmuteCall(){
+      muteUnmuteCall()
     },
     logout(){
       logout()
