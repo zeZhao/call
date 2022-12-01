@@ -5,7 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    tagList:[]
+    tagList:[],
+    IsLogin:false,
+    IsLogout:true,
+    vertoState:'',
+    info:{}
   },
   mutations: {
     SET_TAG (state,list){
@@ -13,7 +17,19 @@ export default new Vuex.Store({
     },
     DEL_TAG (state,tag){
       state.tagList = tag
-    }
+    },
+    vertoState(state,str){
+      state.vertoState = str
+    },
+    IsLogin(state,str){
+      state.IsLogin = str
+    },
+    IsLogout(state,str){
+      state.IsLogout = str
+    },
+    setInfo(state,obj){
+      state.info = obj
+    },
   },
   actions: {
     addTag ({commit},list){

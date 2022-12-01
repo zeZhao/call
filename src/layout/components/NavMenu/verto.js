@@ -1,15 +1,7 @@
-// import $ from 'jquery'
-// require("../../../assets/js/jquery-2.1.1.min.js")
-// require("../../../assets/js/jquery.json-2.4.min.js")
+import store from '../../../store'
 require("../../../assets/js/verto-min.js")
 
-
-
-
  export var vertoHandle, vertoCallbacks, currentCall;
-  let IsLogin = false
-  let IsLogout = false
-
 
   // put your code here!
   //配置初始化
@@ -64,6 +56,7 @@ require("../../../assets/js/verto-min.js")
 			passwd: `${passwd}`
 		});
 		vertoHandle.login();
+    store.commit('setInfo',{login,url,passwd})
   }
   //退出
   export function logout(){
@@ -75,7 +68,7 @@ require("../../../assets/js/verto-min.js")
     currentCall = vertoHandle.newCall({
       destination_number: destinationNumber,
       caller_id_name: "Test Guy",
-      caller_id_number: "2004",
+      caller_id_number: store.state.info.login,
       outgoingBandwidth: "default",
       incomingBandwidth: "default",
       useStereo: true,
@@ -96,8 +89,9 @@ require("../../../assets/js/verto-min.js")
     console.debug('onDialogState', dialog);
     console.log(dialog, '------')
     currentCall = dialog;
-
+    store.commit('vertoState',dialog.state.name)
     if (dialog.state.name == 'ringing') {
+      
       alert('有人在呼叫你，快接!');
     }
     switch (dialog.state.name) {
@@ -168,13 +162,14 @@ require("../../../assets/js/verto-min.js")
   };
 
   export function onWSLogin(verto, success) {
-    IsLogin = success
     console.log('onWSLogin', success);
+    store.commit('IsLogin',success)
   };
 
   function onWSClose(verto, success) {
-    IsLogout = success
     console.log('onWSClose', success);
+    store.commit('IsLogout',success)
+    store.commit('IsLogin',false)
   };
   
 
@@ -205,8 +200,6 @@ require("../../../assets/js/verto-min.js")
       console.log(verto, dialog, msg, data,'======onMessage')
     }
   };
-  // export const a = IsLogin
-  // export const b = IsLogout
 
 
   

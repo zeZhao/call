@@ -10,7 +10,7 @@
           <img src="" alt="">
         </div> -->
         <el-button type="primary" icon="el-icon-phone" size="small" round style="margin-left:20px" @click="hangupCall()">挂断</el-button>
-        <el-button type="primary" icon="el-icon-phone" size="small" round @click="answerCall()" class="shake">接听</el-button>
+        <el-button type="primary" icon="el-icon-phone" size="small" round @click="answerCall()" :class="{'shake':isRinging}">接听</el-button>
         <!-- <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteCall()">静音</el-button> -->
         <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteUnmuteCall()">静音/取消静音</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round @click="holdCall()">保持通话</el-button>
@@ -67,6 +67,7 @@ export default {
       name: "xxx",
       account: "xxx",
       confirmVisible: false,
+      isRinging: false,
       tell:'',
     };
   },
@@ -76,7 +77,6 @@ export default {
   mounted() {
     if(JSON.parse(getStorage("info")) !== null){
       const { name, account } = JSON.parse(getStorage("info"));
-      
       this.name = name;
       this.account = account;
     }
@@ -111,6 +111,9 @@ export default {
     },
     logout(){
       logout()
+      if(!this.$store.state.IsLogout){
+        this.$message.success('退出成功！')
+      }
     },
     handleCommand() {
       this.confirmVisible = true;
@@ -127,7 +130,19 @@ export default {
       // });
     },
   },
-  watch: {},
+  watch: {
+    '$store.state.vertoState':{
+      immediate:true,
+      deep:true,
+      handler(val){
+        if(val == 'ringing'){
+          this.isRinging = true
+        }else{
+          this.isRinging = false
+        }
+      }
+    }
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -163,16 +178,16 @@ export default {
       justify-content: center;
       align-items: center;
       width: 80%;
-      // .shake:hover {
-      //       animation: shake 800ms ease-in-out infinite;
-      //   }
-      //   @keyframes shake { /* 水平抖动，核心代码 */
-      //       10%, 90% { transform: translate3d(-1px, 0, 0); }
-      //       20%, 80% { transform: translate3d(+2px, 0, 0); }
-      //       30%, 70% { transform: translate3d(-4px, 0, 0); }
-      //       40%, 60% { transform: translate3d(+4px, 0, 0); }
-      //       50% { transform: translate3d(-4px, 0, 0); }
-      //   }
+      .shake {
+            animation: shake 800ms ease-in-out infinite;
+        }
+        @keyframes shake { /* 水平抖动，核心代码 */
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(+2px, 0, 0); }
+            30%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(+4px, 0, 0); }
+            50% { transform: translate3d(-4px, 0, 0); }
+        }
       .handle_name {
         line-height: 1;
         .name_txt {
