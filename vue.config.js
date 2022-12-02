@@ -33,15 +33,23 @@ module.exports = {
             }
         },
     },
-    configureWebpack:(config) => {
-        const _plugins = []
-        _plugins.push(new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery",
-            "windows.jQuery": "jquery"    
-        }))
+    configureWebpack: {
+        // const _plugins = []
+        // _plugins.push(new webpack.ProvidePlugin({
+        //     $: "jquery",
+        //     jQuery: "jquery",
+        //     "windows.jQuery": "jquery"    
+        // }))
+        plugins: [
+            // 支持 jquery
+            new webpack.ProvidePlugin({
+              $: 'jquery',
+              jQuery: 'jquery',
+              'windows.jQuery': 'jquery'
+            })
+          ],
 
-        config.plugins = [...config.plugins,..._plugins]
+        // config.plugins = [...config.plugins,..._plugins]
     }
     
 }

@@ -15,7 +15,7 @@
         <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteUnmuteCall()">静音/取消静音</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round @click="holdCall()">保持通话</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round @click="unholdCall()">恢复通话</el-button>
-        <el-button type="primary" icon="el-icon-phone" size="small" round>转接</el-button>
+        <!-- <el-button type="primary" icon="el-icon-phone" size="small" round>转接</el-button> -->
         <!-- <el-button type="primary" icon="el-icon-phone" size="small" round>置忙</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>置闲</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>休息</el-button>
@@ -23,6 +23,7 @@
         <el-button type="primary" icon="el-icon-phone" size="small" round>退签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>班组</el-button> -->
         <el-button type="text" style="margin:0 20px" @click="logout">退出</el-button>
+        <video id="webcam" autoplay="autoplay" style="width:100%;height:100%;object-fit:inherit;display:none;"></video>
       </div>
     </div>
     
