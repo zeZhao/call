@@ -23,7 +23,12 @@
         >
       </el-form-item>
     </el-form>
-    <h1 v-else>呼叫中心</h1>
+    <div v-else>
+      <h1>呼叫中心</h1>
+      <video id="webcam" autoplay="autoplay" style="width:100%;height:500px;object-fit:inherit;display:none;"></video>
+    </div>
+    
+    
   </div>
 </template>
 

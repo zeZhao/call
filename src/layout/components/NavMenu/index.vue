@@ -2,7 +2,9 @@
   <div class="NavMenu">
     <div class="nav_conent">
       <div class="nav_conent_title">呼叫中心</div>
+      
       <div class="nav_conent_handle clearfix">
+        <div style="margin-right:20px" v-if="tellName">分机号：{{tellName}}</div>
         <el-input v-model="tell" style="width:220px">
           <el-button slot="append" icon="el-icon-phone" @click="cell"  size="small">呼叫</el-button>
         </el-input>
@@ -23,7 +25,6 @@
         <el-button type="primary" icon="el-icon-phone" size="small" round>退签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>班组</el-button> -->
         <el-button type="text" style="margin:0 20px" @click="logout">退出</el-button>
-        <video id="webcam" autoplay="autoplay" style="width:100%;height:100%;object-fit:inherit;display:none;"></video>
       </div>
     </div>
     
@@ -70,6 +71,7 @@ export default {
       confirmVisible: false,
       isRinging: false,
       tell:'',
+      tellName:''
     };
   },
   created() {
@@ -142,6 +144,17 @@ export default {
           this.isRinging = false
         }
       }
+    },
+    '$store.state.info':{
+      immediate:true,
+      deep:true,
+      handler(val){
+        if(val){
+          this.tellName = val.login
+        }else{
+          this.tellName = ''
+        }
+      }
     }
   },
 };
@@ -164,8 +177,9 @@ export default {
     background: rgba(119, 119, 119, 1);
     color: #fff;
     .nav_conent_title {
+      width:176px;
       float: left;
-      padding-left: 24px;
+      // padding-left: 24px;
       font-family: PingFangSC-Medium;
       font-weight: Medium;
       font-size: 16px;
@@ -176,9 +190,9 @@ export default {
       height: 80px;
       line-height: 80px;
       display: flex;
-      justify-content: center;
+      // justify-content: center;
       align-items: center;
-      width: 80%;
+      width: calc(100% - 176px);
       .shake {
             animation: shake 800ms ease-in-out infinite;
         }
