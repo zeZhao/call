@@ -66,6 +66,7 @@ export function login(login, passwd, url) {
 //退出
 export function logout() {
   vertoHandle.logout();
+  store.commit('setInfo', { })
 }
 //拨打电话
 export function makeCall(destinationNumber) {
