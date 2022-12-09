@@ -21,42 +21,49 @@
             class="login_form"
             autocomplete="on"
             label-position="left"
-            label-width="74px"
+            label-width="100px"
           >
-            <el-form-item prop="username" label="账号">
+            <el-form-item prop="shortName" label="公司简称">
               <el-input
-                ref="username"
-                v-model="loginForm.username"
-                placeholder="请输入账号"
-                name="username"
+                ref="shortName"
+                v-model="loginForm.shortName"
+                placeholder="请输入公司简称"
+                name="shortName"
                 type="text"
-                tabindex="1"
+                style="float: left"
+              />
+            </el-form-item>
+            <el-form-item prop="jobNumber" label="工号">
+              <el-input
+                ref="jobNumber"
+                v-model="loginForm.jobNumber"
+                placeholder="请输入工号"
+                name="jobNumber"
+                type="text"
                 style="float: left"
               />
             </el-form-item>
 
-            <el-form-item prop="password" label="密码">
+            <el-form-item prop="pwd" label="密码">
               <el-input
-                v-model="loginForm.password"
+                v-model="loginForm.pwd"
                 type="password"
                 placeholder="请输入密码"
-                show-password
-                tabindex="2"
+                show-pwd
                 style="float: left"
               />
             </el-form-item>
-            <!-- <el-form-item prop="verifyCode" label="口令">
+            <el-form-item prop="verifyCode" label="验证码">
               <el-input
                 v-model="loginForm.verifyCode"
-                placeholder="请输入口令"
-                prefix-icon="lj-icon-yanzhengma"
-                maxlength="5"
-                style="float: left; width: 67%"
+                placeholder="请输入验证码"
+                maxlength="4"
+                style="float: left; width: 65%"
               ></el-input>
               <div class="captcha_code">
                 <img :src="captcha" ref="code" @click="getCaptcha" />
               </div>
-            </el-form-item> -->
+            </el-form-item>
             <el-button
               :loading="loading"
               type="primary"
@@ -74,121 +81,83 @@
 <script>
 import logo from "@/assets/images/logo.png";
 import { setStorage, getStorage,randomNum, getTime } from "@/utils/auth";
-// import { login } from "@/api/user";
 export default {
   name: "Login",
   data() {
-    const username = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("账号不能为空，请输入账号。"));
-      } else {
-        callback();
-      }
-    };
-    const validatePassword = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("密码不能为空，请输入密码。"));
-      } else {
-        callback();
-      }
-    };
-    const validateVerifyCode = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("口令不能为空，请输入口令。"));
-      } else {
-        callback();
-      }
-    };
     return {
       logo: logo,
       captcha: "",
       loginForm: {
-        username: "",
-        password: "",
+        shortName: "",
+        jobNumber: "",
+        pwd: "",
         verifyCode: "",
-        uuid: randomNum(),
-        time: getTime(),
+        uuId: randomNum(),
       },
       loginRules: {
         // username: [{ trigger: "blur", validator: username }],
-        // username: [
-        //   // { required: true, trigger: "blur", message: "请输入登录账号" },
-        // ],
-        // password: [{ trigger: "blur", validator: validatePassword }],
-        verifyCode: [
-          // { trigger: "blur", validator: validateVerifyCode },
-          // { required: true, trigger: "blur", message: "请输入口令" },
+        shortName: [
+          { required: true, trigger: "blur", message: "请输入公司简称" },
         ],
+        jobNumber: [
+          { required: true, trigger: "blur", message: "请输入工号" },
+        ],
+        pwd: [
+          { required: true, trigger: "blur", message: "请输入密码" },
+        ],
+        verifyCode: [
+          { required: true, trigger: "blur", message: "请输入验证码" },
+        ],
+        // password: [{ trigger: "blur", validator: validatePassword }],
+        // verifyCode: [
+        //   // { trigger: "blur", validator: validateVerifyCode },
+        //   // { required: true, trigger: "blur", message: "请输入口令" },
+        // ],
       },
       loading: false,
     };
   },
   created() {
-    // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
     this.getCaptcha();
-    localStorage.uuid = randomNum();
-    localStorage.time = getTime();
-    // window.localStorage.getItem('uuid')
+    window.addEventListener('keydown',this.keyDown);
   },
   methods: {
+    keyDown(e){
+      //如果是回车则执行登录方法
+      if(e.keyCode == 13){
+         this.handleLogin();
+      }
+    },
     getCaptcha() {
-      console.log(process.env.VUE_APP_BASE_API);
       const num = Math.ceil(Math.random() * 10); //生成一个随机数（防止缓存）
       this.captcha =
         process.env.VUE_APP_BASE_API +
-        "/user/captcha?uuId=" +
-        this.loginForm.uuid +
+        "/attend/captcha?uuId=" +
+        this.loginForm.uuId +
         "&num=" +
         num;
     },
     handleLogin() {
-      // if (this.loginForm.username.length === 0) {
-      //   this.$message.error("请输入手机号");
-      //   return;
-      // }
-      // if (this.loginForm.password.length === 0) {
-      //   this.$message.error("请输入密码");
-      //   return;
-      // }
-      // if (this.loginForm.verifyCode.length === 0) {
-      //   this.$message.error("请输入口令");
-      //   return;
-      // }
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-          this.$http.login.login().then(res=>{
-            if(res.code === 200){
-              setStorage('token',res.data.token)
-              setStorage('info',res.data.info)
+          this.$http.login.login(this.loginForm).then(res=>{
+            if(res.state == '200'){
+              setStorage('token',res.msg)
+              setStorage('info',res.data)
               this.$router.push("/index");
               this.$message.success("登录成功");
               this.loading = false;
+            }else{
+              this.loading = false;
+              this.getCaptcha()
+              this.$message.error(res.msg)
             }
+          }).catch(()=>{
+            this.loading = false;
           })
-          // login({
-          //   loginName: this.loginForm.username,
-          //   password: this.loginForm.password,
-          //   verifyCode: this.loginForm.verifyCode,
-          //   // uuId: this.loginForm.uuid
-          // })
-          //   .then((data) => {
-          //     if (data.code === 200) {
-          //       const smsToken = "token" + randomNum();
-          //       setStorage("token", smsToken);
-          //       setStorage("info", data.data);
-          //       this.$router.push("./aloneExport");
-          //       this.$message.success("登录成功");
-          //     } else {
-          //       this.getCaptcha();
-          //     }
-          //     this.loading = false;
-          //   })
-          //   .catch((error) => {
-          //     this.loading = false;
-          //   });
         } else {
           console.log("error submit!!");
           return false;
@@ -196,6 +165,9 @@ export default {
       });
     },
   },
+  destroyed(){
+  window.removeEventListener('keydown',this.keyDown,false);
+}
 };
 </script>
 
@@ -273,7 +245,7 @@ $light_gray: #eee;
           }
           ::v-deep .el-form-item__error {
             padding-top: 8px;
-            left: -75px;
+            left: -100px;
           }
           .loginBut {
             width: 100%;

@@ -113,15 +113,33 @@ export default {
       muteUnmuteCall()
     },
     logout(){
-      logout()
-      if(!this.$store.state.IsLogout){
-        this.$message.success('退出成功！')
+      try{
+        logout()
+        setStorage("token");
+        setStorage("info");
+        this.$router.push("/login");
+        if(!this.$store.state.IsLogout){
+          this.$message.success('退出成功！')
+        }
+      }catch{
+        setStorage("token");
+        setStorage("info");
+        this.$router.push("/login");
+        if(!this.$store.state.IsLogout){
+          this.$message.success('退出成功！')
+        }
       }
+      
     },
     handleCommand() {
       this.confirmVisible = true;
     },
     submitExport() {
+      try{
+
+      }catch{
+
+      }
       setStorage("token");
       setStorage("info");
           this.$router.push("/login");

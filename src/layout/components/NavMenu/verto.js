@@ -11,6 +11,7 @@ export function init(login, passwd, url, prot = "8082") {
   currentCall = null
   if (login && passwd && url && prot) {
     $.verto.init({}, bootstrap(login, passwd, url, prot));
+    
   }
 }
 
@@ -52,6 +53,11 @@ function bootstrap(login, passwd, url, prot) {
     },
     tag: "webcam",
   }, vertoCallbacks);
+  vertoHandle.loginData({
+    login: `${login}@${url}`,
+    passwd: `${passwd}`
+  });
+  vertoHandle.login();
 };
 
 //登录
@@ -61,12 +67,13 @@ export function login(login, passwd, url) {
     passwd: `${passwd}`
   });
   vertoHandle.login();
-  store.commit('setInfo', { login, url, passwd })
+  // ext,extPwd,extUrl,extPort
+  // store.commit('setInfo', { ext:login, extPwd:passwd,extUrl:url })
 }
 //退出
 export function logout() {
   vertoHandle.logout();
-  store.commit('setInfo', { })
+  // store.commit('setInfo', { })
 }
 //拨打电话
 export function makeCall(destinationNumber) {

@@ -1,10 +1,7 @@
 'use strict'
 const path = require('path')
 const webpack = require('webpack')
-function resolve(dir) {
-    return path.join(__dirname, dir)
-}
-const port = 6666 // dev port
+const port = 5544 // dev port
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -12,6 +9,7 @@ module.exports = {
     outputDir: 'dist',
     assetsDir: 'static',
     lintOnSave: process.env.NODE_ENV === 'dev',
+    lintOnSave:true,
     productionSourceMap: false,
     devServer: {
         port: port,

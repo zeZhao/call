@@ -27,8 +27,6 @@
       <h1>呼叫中心</h1>
       <video id="webcam" autoplay="autoplay" style="width:100%;height:500px;object-fit:inherit;display:none;"></video>
     </div>
-    
-    
   </div>
 </template>
 
@@ -43,6 +41,7 @@ import {
   vertoCallbacks,
   currentCall,
 } from "../../layout/components/NavMenu/verto";
+import { setStorage, getStorage } from "@/utils/auth";
 export default {
   components: {},
   data() {
@@ -57,9 +56,8 @@ export default {
     };
   },
   created() {
-    const { user, passwd, url, prot } = this.form;
-    init("2004", "123456", url, prot);
-    logout()
+    const {ext,extPwd,extUrl,extPort} = JSON.parse(getStorage('info'))
+    init(ext,extPwd,extUrl,extPort);
   },
   mounted() {},
   computed: {
@@ -69,9 +67,9 @@ export default {
   },
   methods: {
     login() {
-      const { user, passwd, url, prot } = this.form;
+      const {ext,extPwd,extUrl,extPort} = JSON.parse(getStorage('info'))
 
-      login(user, passwd, url, prot);
+      login(ext,extPwd,extUrl,extPort);
     },
   },
   watch: {
@@ -82,9 +80,10 @@ export default {
         this.$nextTick(() => {
           if (val) {
             this.loginDisabled = true;
-            this.$message.success("登录成功！");
+            // this.$message.success("登录成功！");
           } else {
             this.loginDisabled = false;
+            // this.$message.error("分机登录失败，请重新登录");
           }
           console.log( this.loginDisabled,'===== this.loginDisabled')
         });
