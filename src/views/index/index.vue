@@ -49,8 +49,8 @@ export default {
       form: {
         user: "",
         passwd: "",
-        url: "vertoweb.jvtdtest.top",
-        prot: "8082",
+        url: JSON.parse(getStorage('info')).extUrl,
+        prot: JSON.parse(getStorage('info')).extPort,
       },
       loginDisabled: false,
     };
