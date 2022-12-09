@@ -20,10 +20,10 @@ router.beforeEach((to, from, next) => {
     if (token) {
       next();
     } else {
-      next()
-      // next({
-      //   path: '/index'
-      // });
+      // next()
+      next({
+        path: '/login'
+      });
     }
   }
 })

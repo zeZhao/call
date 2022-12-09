@@ -110,13 +110,13 @@ export default {
         time: getTime(),
       },
       loginRules: {
-        username: [{ trigger: "blur", validator: username }],
+        // username: [{ trigger: "blur", validator: username }],
         // username: [
         //   // { required: true, trigger: "blur", message: "请输入登录账号" },
         // ],
-        password: [{ trigger: "blur", validator: validatePassword }],
+        // password: [{ trigger: "blur", validator: validatePassword }],
         verifyCode: [
-          { trigger: "blur", validator: validateVerifyCode },
+          // { trigger: "blur", validator: validateVerifyCode },
           // { required: true, trigger: "blur", message: "请输入口令" },
         ],
       },
@@ -159,6 +159,15 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
+          this.$http.login.login().then(res=>{
+            if(res.code === 200){
+              setStorage('token',res.data.token)
+              setStorage('info',res.data.info)
+              this.$router.push("/index");
+              this.$message.success("登录成功");
+              this.loading = false;
+            }
+          })
           // login({
           //   loginName: this.loginForm.username,
           //   password: this.loginForm.password,

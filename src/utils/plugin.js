@@ -1,7 +1,7 @@
 import Page from "@/components/Page"
 import Search from "@/components/searchPanel"
 import FormItem from "@/components/FormItem"
-import Api from "@/utils/http.js";
+import Api from "@/utils/api.js";
 
 class callPlugin {
 
