@@ -58,6 +58,7 @@ function bootstrap(login, passwd, url, prot) {
     passwd: `${passwd}`
   });
   vertoHandle.login();
+  store.commit('setInfo', { login,passwd,url })
 };
 
 //登录
@@ -68,12 +69,13 @@ export function login(login, passwd, url) {
   });
   vertoHandle.login();
   // ext,extPwd,extUrl,extPort
+  store.commit('setInfo', { login,passwd,url })
   // store.commit('setInfo', { ext:login, extPwd:passwd,extUrl:url })
 }
 //退出
 export function logout() {
   vertoHandle.logout();
-  // store.commit('setInfo', { })
+  store.commit('setInfo', { })
 }
 //拨打电话
 export function makeCall(destinationNumber) {
