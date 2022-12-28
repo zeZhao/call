@@ -82,7 +82,7 @@ export function makeCall(destinationNumber) {
 
   currentCall = vertoHandle.newCall({
     destination_number: destinationNumber,
-    caller_id_name: "Test Guy1111",
+    caller_id_name: "JVTD",
     caller_id_number: store.state.info.login,
     outgoingBandwidth: "default",
     incomingBandwidth: "default",
