@@ -6,7 +6,7 @@
     </div> -->
     <div class="content clearfix">
       <div class="left">
-        <h2 class="title">呼叫中心1</h2>
+        <h2 class="title">呼叫中心</h2>
         <div class="img">
           <img src="@/assets/images/logo_banner@2x.png" alt="" />
         </div>
