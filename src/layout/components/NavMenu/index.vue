@@ -2,32 +2,86 @@
   <div class="NavMenu">
     <div class="nav_conent">
       <div class="nav_conent_title">呼叫中心</div>
-      
+
       <div class="nav_conent_handle clearfix">
-        <div style="margin-right:20px" v-if="tellName">分机号：{{tellName}}</div>
-        <el-input v-model="tell" style="width:220px">
-          <el-button slot="append" icon="el-icon-phone" @click="cell"  size="small">呼叫</el-button>
+        <div style="margin-right: 20px" v-if="tellName">
+          分机号：{{ tellName }}
+        </div>
+        <el-input v-model="tell" style="width: 220px">
+          <el-button
+            slot="append"
+            icon="el-icon-phone"
+            @click="cell"
+            size="small"
+            >呼叫</el-button
+          >
         </el-input>
         <!-- <div>
           <img src="" alt="">
         </div> -->
-        <el-button type="primary" icon="el-icon-phone" size="small" round style="margin-left:20px" @click="hangupCall()">挂断</el-button>
-        <el-button type="primary" icon="el-icon-phone" size="small" round @click="answerCall()" :class="{'shake':isRinging}">接听</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-phone"
+          size="small"
+          round
+          style="margin-left: 20px"
+          @click="hangupCall()"
+          >挂断</el-button
+        >
+        <el-button
+          type="primary"
+          icon="el-icon-phone"
+          size="small"
+          round
+          @click="answerCall()"
+          :class="{ shake: isRinging }"
+          >接听</el-button
+        >
         <!-- <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteCall()">静音</el-button> -->
-        <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteUnmuteCall()">静音/取消静音</el-button>
-        <el-button type="primary" icon="el-icon-phone" size="small" round @click="holdCall()">保持通话</el-button>
-        <el-button type="primary" icon="el-icon-phone" size="small" round @click="unholdCall()">恢复通话</el-button>
-        <!-- <el-button type="primary" icon="el-icon-phone" size="small" round>转接</el-button> -->
+        <el-button
+          type="primary"
+          icon="el-icon-phone"
+          size="small"
+          round
+          @click="muteUnmuteCall()"
+          >静音/取消静音</el-button
+        >
+        <el-button
+          type="primary"
+          icon="el-icon-phone"
+          size="small"
+          round
+          @click="holdCall()"
+          >保持通话</el-button
+        >
+        <el-button
+          type="primary"
+          icon="el-icon-phone"
+          size="small"
+          round
+          @click="unholdCall()"
+          >恢复通话</el-button
+        >
+        <el-button
+          type="primary"
+          icon="el-icon-phone"
+          size="small"
+          round
+          @click="transferCall()"
+          >转接</el-button
+        >
         <!-- <el-button type="primary" icon="el-icon-phone" size="small" round>置忙</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>置闲</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>休息</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>长签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>退签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>班组</el-button> -->
-        <el-button type="text" style="margin:0 20px" @click="logout">退出</el-button>
+        <el-button type="text" style="margin: 0 20px" @click="logout"
+          >退出</el-button
+        >
       </div>
     </div>
-    
+
     <el-dialog
       title="温馨提示"
       :visible.sync="confirmVisible"
@@ -60,7 +114,19 @@
 
 <script>
 import { setStorage, getStorage } from "@/utils/auth.js";
-import {init,makeCall,hangupCall,answerCall,muteCall,unmuteCall,holdCall,unholdCall,muteUnmuteCall,logout} from "./verto.js"
+import {
+  init,
+  makeCall,
+  hangupCall,
+  answerCall,
+  muteCall,
+  unmuteCall,
+  holdCall,
+  unholdCall,
+  muteUnmuteCall,
+  transferCall,
+  logout,
+} from "./verto.js";
 
 export default {
   components: {},
@@ -70,110 +136,114 @@ export default {
       account: "xxx",
       confirmVisible: false,
       isRinging: false,
-      tell:'',
-      tellName:''
+      tell: "",
+      tellName: "",
     };
   },
   created() {
     // init('2004','123456','vertoweb.jvtdtest.top','8082')
   },
   mounted() {
-    if(JSON.parse(getStorage("info")) !== null){
+    if (JSON.parse(getStorage("info")) !== null) {
       const { name, account } = JSON.parse(getStorage("info"));
       this.name = name;
       this.account = account;
     }
-    
   },
   computed: {},
   methods: {
     //拨打电话
-    cell(){
-      makeCall(this.tell)
+    cell() {
+      makeCall(this.tell);
     },
-    hangupCall(){
-      hangupCall()
+    hangupCall() {
+      hangupCall();
     },
-    answerCall(){
-      answerCall()
+    answerCall() {
+      answerCall();
     },
-    muteCall(){
-      muteCall()
+    muteCall() {
+      muteCall();
     },
-    unmuteCall(){
-      unmuteCall()
+    unmuteCall() {
+      unmuteCall();
     },
-    holdCall(){
-      holdCall()
+    holdCall() {
+      holdCall();
     },
-    unholdCall(){
-      unholdCall()
+    unholdCall() {
+      unholdCall();
     },
-    muteUnmuteCall(){
-      muteUnmuteCall()
+    muteUnmuteCall() {
+      muteUnmuteCall();
     },
-    logout(){
-      try{
-        logout()
-        setStorage("token");
-        setStorage("info");
-        this.$router.push("/login");
-        if(!this.$store.state.IsLogout){
-          this.$message.success('退出成功！')
+    //转接
+    transferCall() {
+      transferCall();
+    },
+    logout() {
+      this.$http.login.logout().then((res) => {
+        console.log(res, "----");
+        if (res.state === "0000") {
+          try {
+            logout();
+            setStorage("token");
+            setStorage("info");
+            this.$router.push("/login");
+            if (!this.$store.state.IsLogout) {
+              this.$message.success("退出成功！");
+            }
+          } catch {
+            setStorage("token");
+            setStorage("info");
+            this.$router.push("/login");
+            if (!this.$store.state.IsLogout) {
+              this.$message.success("退出成功！");
+            }
+          }
         }
-      }catch{
-        setStorage("token");
-        setStorage("info");
-        this.$router.push("/login");
-        if(!this.$store.state.IsLogout){
-          this.$message.success('退出成功！')
-        }
-      }
-      
+      });
     },
     handleCommand() {
       this.confirmVisible = true;
     },
     submitExport() {
-      try{
-
-      }catch{
-
-      }
+      try {
+      } catch {}
       setStorage("token");
       setStorage("info");
-          this.$router.push("/login");
+      this.$router.push("/login");
       // logout().then((res) => {
       //   if (res.code === 200) {
       //     this.$message.success("退出成功");
-          
+
       //   }
       // });
     },
   },
   watch: {
-    '$store.state.vertoState':{
-      immediate:true,
-      deep:true,
-      handler(val){
-        if(val == 'ringing'){
-          this.isRinging = true
-        }else{
-          this.isRinging = false
+    "$store.state.vertoState": {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        if (val == "ringing") {
+          this.isRinging = true;
+        } else {
+          this.isRinging = false;
         }
-      }
+      },
     },
-    '$store.state.info':{
-      immediate:true,
-      deep:true,
-      handler(val){
-        if(val){
-          this.tellName = val.login
-        }else{
-          this.tellName = ''
+    "$store.state.info": {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        if (val) {
+          this.tellName = val.login;
+        } else {
+          this.tellName = "";
         }
-      }
-    }
+      },
+    },
   },
 };
 </script>
@@ -195,7 +265,7 @@ export default {
     background: rgba(119, 119, 119, 1);
     color: #fff;
     .nav_conent_title {
-      width:176px;
+      width: 176px;
       float: left;
       // padding-left: 24px;
       font-family: PingFangSC-Medium;
@@ -212,15 +282,30 @@ export default {
       align-items: center;
       width: calc(100% - 176px);
       .shake {
-            animation: shake 800ms ease-in-out infinite;
+        animation: shake 800ms ease-in-out infinite;
+      }
+      @keyframes shake {
+        /* 水平抖动，核心代码 */
+        10%,
+        90% {
+          transform: translate3d(-1px, 0, 0);
         }
-        @keyframes shake { /* 水平抖动，核心代码 */
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(+2px, 0, 0); }
-            30%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(+4px, 0, 0); }
-            50% { transform: translate3d(-4px, 0, 0); }
+        20%,
+        80% {
+          transform: translate3d(+2px, 0, 0);
         }
+        30%,
+        70% {
+          transform: translate3d(-4px, 0, 0);
+        }
+        40%,
+        60% {
+          transform: translate3d(+4px, 0, 0);
+        }
+        50% {
+          transform: translate3d(-4px, 0, 0);
+        }
+      }
       .handle_name {
         line-height: 1;
         .name_txt {

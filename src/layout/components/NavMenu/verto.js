@@ -1,3 +1,4 @@
+import { Descriptions } from 'element-ui';
 import store from '../../../store'
 require("../../../assets/js/verto-min.js")
 
@@ -59,6 +60,7 @@ function bootstrap(login, passwd, url, prot) {
   });
   vertoHandle.login();
   store.commit('setInfo', { login,passwd,url })
+  // store.commit('IsLogin', true)
 };
 
 //登录
@@ -171,7 +173,7 @@ export function unmuteCall() {
   currentCall.getmute();
 };
 
-export function muteUnmuteCall() {
+export function muteUnmuteCall() {  
   currentCall.setMute("toggle")
 };
 
@@ -185,7 +187,8 @@ export function unholdCall() {
 
 export function transferCall() {
   // Insert transfer destination number:  prompt("")
-  var destinationNumber = prompt("2005");
+  var destinationNumber = prompt("请输入转接号码");
+  console.log(destinationNumber,'---------destinationNumber')
   if (destinationNumber) {
     currentCall.transfer(destinationNumber);
   }
