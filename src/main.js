@@ -11,7 +11,6 @@ import callPlugin from "./utils/plugin"
 
 Vue.config.productionTip = false
 
-
 Vue.use(jQuery)
 Vue.use(jQueryJson)
 Vue.use(element)

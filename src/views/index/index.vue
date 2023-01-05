@@ -18,14 +18,16 @@
         <el-input v-model="form.prot" placeholder="请输入端口号"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="login"
-          >登录</el-button
-        >
+        <el-button type="primary" @click="login">登录</el-button>
       </el-form-item>
     </el-form>
     <div v-else>
       <h1>呼叫中心</h1>
-      <video id="webcam" autoplay="autoplay" style="width:100%;height:500px;object-fit:inherit;display:none;"></video>
+      <video
+        id="webcam"
+        autoplay="autoplay"
+        style="width: 100%; height: 500px; object-fit: inherit; display: none"
+      ></video>
     </div>
   </div>
 </template>
@@ -49,17 +51,19 @@ export default {
       form: {
         user: "",
         passwd: "",
-        url: JSON.parse(getStorage('info')).extUrl,
-        prot: JSON.parse(getStorage('info')).extPort,
+        url: JSON.parse(getStorage("info")).extUrl,
+        prot: JSON.parse(getStorage("info")).extPort,
       },
       loginDisabled: false,
     };
   },
   created() {
-    const {ext,extPwd,extUrl,extPort} = JSON.parse(getStorage('info'))
-    init(ext,extPwd,extUrl,extPort);
+    const { ext, extPwd, extUrl, extPort } = JSON.parse(getStorage("info"));
+    init(ext, extPwd, extUrl, extPort);
   },
-  mounted() {},
+  mounted() {
+    window.addEventListener("beforeunload", (e) => this.logout(e));
+  },
   computed: {
     IsLogin() {
       return this.$store.state.IsLogin;
@@ -67,13 +71,14 @@ export default {
   },
   methods: {
     login() {
-      const {ext,extPwd,extUrl,extPort} = JSON.parse(getStorage('info'))
+      const { ext, extPwd, extUrl, extPort } = JSON.parse(getStorage("info"));
 
-      login(ext,extPwd,extUrl,extPort);
+      login(ext, extPwd, extUrl, extPort);
     },
-    logout() {
-      this.$http.login.logout().then((res) => {
-        console.log(res, "----");
+    async logout(e) {
+      var e = window.event || e;
+      e.returnValue = "确认关闭页面吗？";
+      await this.$http.login.logout().then((res) => {
         if (res.state === "200") {
           try {
             logout();
@@ -95,8 +100,9 @@ export default {
       });
     },
   },
-  destroyed(){
-    this.logout()
+  destroyed() {
+    // this.logout()
+    window.removeEventListener("beforeunload", (e) => this.logout(e));
   },
   watch: {
     "$store.state.IsLogin": {
@@ -111,7 +117,7 @@ export default {
             this.loginDisabled = false;
             // this.$message.error("分机登录失败，请重新登录");
           }
-          console.log( this.loginDisabled,'===== this.loginDisabled')
+          console.log(this.loginDisabled, "===== this.loginDisabled");
         });
       },
     },
