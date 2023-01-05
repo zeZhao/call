@@ -74,7 +74,7 @@ export default {
     logout() {
       this.$http.login.logout().then((res) => {
         console.log(res, "----");
-        if (res.state === "0000") {
+        if (res.state === "200") {
           try {
             logout();
             setStorage("token");
