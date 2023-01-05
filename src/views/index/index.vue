@@ -71,6 +71,32 @@ export default {
 
       login(ext,extPwd,extUrl,extPort);
     },
+    logout() {
+      this.$http.login.logout().then((res) => {
+        console.log(res, "----");
+        if (res.state === "0000") {
+          try {
+            logout();
+            setStorage("token");
+            setStorage("info");
+            this.$router.push("/login");
+            if (!this.$store.state.IsLogout) {
+              this.$message.success("退出成功！");
+            }
+          } catch {
+            setStorage("token");
+            setStorage("info");
+            this.$router.push("/login");
+            if (!this.$store.state.IsLogout) {
+              this.$message.success("退出成功！");
+            }
+          }
+        }
+      });
+    },
+  },
+  destroyed(){
+    this.logout()
   },
   watch: {
     "$store.state.IsLogin": {

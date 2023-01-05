@@ -80,7 +80,7 @@
 
 <script>
 import logo from "@/assets/images/logo.png";
-import { setStorage, getStorage,randomNum, getTime } from "@/utils/auth";
+import { setStorage, getStorage, randomNum, getTime } from "@/utils/auth";
 export default {
   name: "Login",
   data() {
@@ -99,12 +99,8 @@ export default {
         shortName: [
           { required: true, trigger: "blur", message: "请输入公司简称" },
         ],
-        jobNumber: [
-          { required: true, trigger: "blur", message: "请输入工号" },
-        ],
-        pwd: [
-          { required: true, trigger: "blur", message: "请输入密码" },
-        ],
+        jobNumber: [{ required: true, trigger: "blur", message: "请输入工号" }],
+        pwd: [{ required: true, trigger: "blur", message: "请输入密码" }],
         verifyCode: [
           { required: true, trigger: "blur", message: "请输入验证码" },
         ],
@@ -117,17 +113,16 @@ export default {
       loading: false,
     };
   },
-  created() {
-  },
+  created() {},
   mounted() {
     this.getCaptcha();
-    window.addEventListener('keydown',this.keyDown);
+    window.addEventListener("keydown", this.keyDown);
   },
   methods: {
-    keyDown(e){
+    keyDown(e) {
       //如果是回车则执行登录方法
-      if(e.keyCode == 13){
-         this.handleLogin();
+      if (e.keyCode == 13) {
+        this.handleLogin();
       }
     },
     getCaptcha() {
@@ -143,21 +138,24 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-          this.$http.login.login(this.loginForm).then(res=>{
-            if(res.state == '200'){
-              setStorage('token',res.msg)
-              setStorage('info',res.data)
-              this.$router.push("/index");
-              this.$message.success("登录成功");
+          this.$http.login
+            .login(this.loginForm)
+            .then((res) => {
+              if (res.state == "200") {
+                setStorage("token", res.msg);
+                setStorage("info", res.data);
+                this.$router.push("/index");
+                this.$message.success("登录成功");
+                this.loading = false;
+              } else {
+                this.loading = false;
+                this.getCaptcha();
+                this.$message.error(res.msg);
+              }
+            })
+            .catch(() => {
               this.loading = false;
-            }else{
-              this.loading = false;
-              this.getCaptcha()
-              this.$message.error(res.msg)
-            }
-          }).catch(()=>{
-            this.loading = false;
-          })
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -165,9 +163,9 @@ export default {
       });
     },
   },
-  destroyed(){
-  window.removeEventListener('keydown',this.keyDown,false);
-}
+  destroyed() {
+    window.removeEventListener("keydown", this.keyDown, false);
+  },
 };
 </script>
 
