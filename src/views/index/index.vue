@@ -62,7 +62,7 @@ export default {
     init(ext, extPwd, extUrl, extPort);
   },
   mounted() {
-    window.addEventListener("beforeunload", (e) => this.logout(e));
+    window.addEventListener("unload", (e) => this.logout(e));
   },
   computed: {
     IsLogin() {
@@ -76,8 +76,6 @@ export default {
       login(ext, extPwd, extUrl, extPort);
     },
     async logout(e) {
-      var e = window.event || e;
-      e.returnValue = "确认关闭页面吗？";
       await this.$http.login.logout().then((res) => {
         if (res.state === "200") {
           try {
@@ -100,9 +98,9 @@ export default {
       });
     },
   },
-  destroyed() {
-    // this.logout()
-    window.removeEventListener("beforeunload", (e) => this.logout(e));
+  beforeDestroy() {
+    this.logout();
+    window.removeEventListener("unload", (e) => this.logout(e));
   },
   watch: {
     "$store.state.IsLogin": {
@@ -117,7 +115,6 @@ export default {
             this.loginDisabled = false;
             // this.$message.error("分机登录失败，请重新登录");
           }
-          console.log(this.loginDisabled, "===== this.loginDisabled");
         });
       },
     },

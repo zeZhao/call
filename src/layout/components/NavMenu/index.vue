@@ -76,7 +76,7 @@
         <el-button type="primary" icon="el-icon-phone" size="small" round>长签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>退签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>班组</el-button> -->
-        <el-button type="text" style="margin: 0 20px" @click="logout"
+        <el-button type="text" style="margin: 0 20px" @click="logout" v-if="loginDisabled"
           >退出</el-button
         >
       </div>
@@ -136,6 +136,7 @@ export default {
       account: "xxx",
       confirmVisible: false,
       isRinging: false,
+      loginDisabled: false,
       tell: "",
       tellName: "",
     };
@@ -242,6 +243,21 @@ export default {
         } else {
           this.tellName = "";
         }
+      },
+    },
+    "$store.state.IsLogin": {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        this.$nextTick(() => {
+          if (val) {
+            this.loginDisabled = true;
+            // this.$message.success("登录成功！");
+          } else {
+            this.loginDisabled = false;
+            // this.$message.error("分机登录失败，请重新登录");
+          }
+        });
       },
     },
   },
