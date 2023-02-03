@@ -26,97 +26,118 @@ const constRouterList = [
       },
     ]
   },
-  // {
-  //   path: '/partner',
-  //   name: 'partner',
-  //   component:Layout,
-  //   // redirect: "/partner/company",
-  //   meta: {
-  //     title: '合作方管理',
-  //   },
-  //   children:[
-  //     {
-  //       path:"/partner/company",
-  //       name:"company",
-  //       component: () => import(/* webpackChunkName: "about" */ '@/views/partner/company/index.vue'),
-  //       meta: {
-  //         title: '企业管理',
-  //       }
-  //     },
-  //     {
-  //       path:"/partner/user",
-  //       name:"user",
-  //       component: () => import(/* webpackChunkName: "about" */ '@/views/partner/user/index.vue'),
-  //       meta: {
-  //         title: '商家管理',
-  //       }
-  //     },
-  //     {
-  //       path:"/partner/supplier",
-  //       name:"supplier",
-  //       component: () => import(/* webpackChunkName: "about" */ '@/views/partner/supplier/index.vue'),
-  //       meta: {
-  //         title: '供应商管理',
-  //       }
-  //     },
-  //     {
-  //       path:"/partner/agent",
-  //       name:"agent",
-  //       component: () => import(/* webpackChunkName: "about" */ '@/views/partner/agent/index.vue'),
-  //       meta: {
-  //         title: '代理商管理',
-  //       }
-  //     },
-  //   ]
-  // },
-  // {
-  //   path: "/",
-  //   component: Layout,
-  //   redirect: "/billing",
-  //   parent: true,
-  //   children: [
-  //     {
-  //       path: '/billing',
-  //       name: 'billing',
-  //       component: () => import(/* webpackChunkName: "about" */ '@/views/billing/billing/index.vue'),
-  //       meta: {
-  //         title: '计费管理',
-  //       }
-  //     },
-  //   ]
-  // },
-  // {
-  //   path: "/",
-  //   component: Layout,
-  //   redirect: "/line",
-  //   parent: true,
-  //   children: [
-  //     {
-  //       path: '/line',
-  //       name: 'line',
-  //       component: () => import(/* webpackChunkName: "about" */ '@/views/line/line/index.vue'),
-  //       meta: {
-  //         title: '语音线路管理',
-  //       }
-  //     },
-  //   ]
-  // },
-  // {
-  //   path: "/",
-  //   component: Layout,
-  //   redirect: "/IVR",
-  //   parent: true,
-  //   children: [
-  //     {
-  //       path: '/IVR',
-  //       name: 'IVR',
-  //       component: () => import(/* webpackChunkName: "about" */ '@/views/IVR/IVR/index.vue'),
-  //       meta: {
-  //         title: 'IVR管理',
-  //       }
-  //     },
-  //   ]
-  // },
+  {
+    path: '/B-Call',
+    name: 'B-Call',
+    component: Layout,
+    meta: {
+      title: '批量外呼',
+    },
+    children: [
+      // {
+      //   path: '/B-Call/outbound',
+      //   name: 'outbound',
+      //   component: () => import(/* webpackChunkName: "about" */ '@/views/B-Call/outbound/index.vue'),
+      //   meta: {
+      //     title: '外呼任务',
+      //   },
+      // },
+      {
+        path: '/B-Call/incomeCallManage',
+        name: 'incomeCallManage',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/B-Call/incomeCallManage/index.vue'),
+        meta: {
+          title: '任务管理',
+        },
+      },
+    ]
+  },
+  {
+    path: '/dataQuery',
+    name: 'dataQuery',
+    component: Layout,
+    meta: {
+      title: '数据查询',
+    },
+    children: [
+      {
+        path: '/dataQuery/callList',
+        name: 'callList',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/dataQuery/callList/index.vue'),
+        meta: {
+          title: '通话详单',
+        },
+      },
+      {
+        path: '/dataQuery/PhoneLog',
+        name: 'PhoneLog',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/dataQuery/PhoneLog/index.vue'),
+        meta: {
+          title: '短信记录',
+        },
+      },
+      {
+        path: '/dataQuery/AIrecord',
+        name: 'AIrecord',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/dataQuery/AIrecord/index.vue'),
+        meta: {
+          title: 'AI对话记录',
+        },
+      },
+      {
+        path: '/dataQuery/recording',
+        name: 'recording',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/dataQuery/recording/index.vue'),
+        meta: {
+          title: '录音记录',
+        },
+      },
+    ]
+  },
+  {
+    path: '/seats',
+    name: 'seats',
+    component: Layout,
+    meta: {
+      title: '系统管理',
+    },
+    children: [
+      // {
+      //   path: '/seats/extension',
+      //   name: 'extension',
+      //   component: () => import(/* webpackChunkName: "about" */ '@/views/seats/extension/index.vue'),
+      //   meta: {
+      //     title: '分机',
+      //   },
+      // },
+      {
+        path: '/seats/seatsIndex',
+        name: 'seats',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/seats/seatsIndex/index.vue'),
+        meta: {
+          title: '坐席',
+        },
+      },
+      {
+        path: '/seats/permission',
+        name: 'permission',
+        hidden: false,
+        component: () => import(/* webpackChunkName: "about" */ '@/views/seats/permission/index.vue'),
+        meta: {
+          title: '坐席权限',
+        },
+      },
+      {
+        path: '/seats/skillGroups',
+        name: 'skillGroups',
+        hidden: false,
+        component: () => import(/* webpackChunkName: "about" */ '@/views/seats/skillGroups/index.vue'),
+        meta: {
+          title: '技能组',
+        },
+      },
+    ]
+  },
   
   
 ]

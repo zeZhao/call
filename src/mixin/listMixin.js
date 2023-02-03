@@ -40,18 +40,18 @@ function DynamicKey(key, val) {
         pageSize: this.pageObj.pageSize
       }
     };
-    if(this.namespaceType === 'Array'){
+    if (this.namespaceType === 'Array') {
       params.data[key] = [
         {
           ...val
         }
       ];
-    }else{
+    } else {
       params.data[key] = {
         ...val
       };
     }
-    
+
 
     //短信通道筛选标签的特殊格式
     // if (params.data[key]['labelName']) {
@@ -113,9 +113,9 @@ async function queryData() {
       params = {
         ...searchParam,
         // pageIndex: this.pageObj.currentPage,
-        pageNumber: this.pageObj.currentPage,
+        current: this.pageObj.currentPage,
         // pageNum: this.pageObj.currentPage,
-        pageSize: this.pageObj.pageSize
+        size: this.pageObj.pageSize
       };
     }
 
@@ -179,13 +179,15 @@ export default {
         pageSize: 10,
         total: 0
       },
+      formTit: "新增",
+      addChannel: false,
       //查询条件参数
       searchParam: {},
 
       listData: [
-        {corpId:"416123",userId:"412412",userName:"dada"},
-        {corpId:"416123",userId:"412412",userName:"dada"},
-        {corpId:"416123",userId:"412412",userName:"dada"},
+        // {corpId:"416123",userId:"412412",userName:"dada"},
+        // {corpId:"416123",userId:"412412",userName:"dada"},
+        // {corpId:"416123",userId:"412412",userName:"dada"},
       ],
       //统计
       statistics: {},
@@ -364,6 +366,7 @@ export default {
         } else {
           params = id.toString()
         }
+
 
         const { namespace, detele } = this.searchAPI;
         this.$http[namespace][detele](params).then(res => {
@@ -557,7 +560,8 @@ export default {
         this._mxGetList();
         this.addChannel = false;
       } else {
-        this.$message.error(res.data || res.msg);
+        console.log(111)
+        this.$message.error(res.msg || res.data);
       }
     },
 
@@ -617,7 +621,7 @@ export default {
      * @param optionVal 设置value的值
      * @private
      */
-    _setDefaultValue(list, data, key, optionKey, optionVal) {
+    _setDefaultValue(list, data, key, optionKey, optionVal, disabled) {
       let arr = []
       list.forEach(item => {
         if (item.key === key) {
@@ -626,11 +630,17 @@ export default {
             data.forEach(t => {
               let obj = {
                 key: t[optionKey],
-                value: t[optionVal]
+                value: t[optionVal],
+                disabled: t[disabled] === 1 ? true : false || false
               };
               item.optionData.push(obj)
             });
           } else if (item.type === 'input') {
+            this.$nextTick(() => {
+              this.$set(item, 'defaultValue', optionKey)
+              item.defaultValue = optionKey
+            })
+          } else {
             this.$nextTick(() => {
               this.$set(item, 'defaultValue', optionKey)
               item.defaultValue = optionKey

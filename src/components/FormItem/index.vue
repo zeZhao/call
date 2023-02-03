@@ -8,7 +8,7 @@
       v-if="formConfig.length"
       class="demo-ruleForm"
     >
-      <el-row :gutter="gutter">
+      <el-row :gutter="gutter" class="clearfix">
         <el-col
           v-for="(item, index) in formConfig"
           :key="index"
@@ -20,7 +20,7 @@
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
-            :rules="item.rules"
+            :rules="item.rules || itemRules"
             v-if="!item.isShow"
           >
             <!--输入框-->
@@ -35,13 +35,11 @@
                 :maxlength="item.maxlength"
                 show-word-limit
                 @blur="
-                  item.defaultValue = $event.target.value = $event.target.value.replace(
-                    /^\s+|\s+$/gm,
-                    ''
-                  )
+                  item.defaultValue = $event.target.value =
+                    $event.target.value.replace(/^\s+|\s+$/gm, '')
                 "
                 @input="
-                  val => {
+                  (val) => {
                     onInputChange(val, item);
                   }
                 "
@@ -70,13 +68,11 @@
                 :maxlength="item.maxlength"
                 show-word-limit
                 @blur="
-                  item.defaultValue = $event.target.value = $event.target.value.replace(
-                    /^\s+|\s+$/gm,
-                    ''
-                  )
+                  item.defaultValue = $event.target.value =
+                    $event.target.value.replace(/^\s+|\s+$/gm, '')
                 "
                 @input="
-                  val => {
+                  (val) => {
                     onInputChange(val, item);
                   }
                 "
@@ -94,21 +90,11 @@
                 :maxlength="item.maxlength"
                 :autosize="{ minRows: 3, maxRows: 4 }"
                 @input="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
               />
-              <slot
-                v-if="item.isChooseProviceOrCity"
-                name="isChooseProviceOrCity"
-              ></slot>
-              <div v-if="item.mobileTips" class="item-tips">
-                {{ returnMobileTips(formData[item.key]) }}
-              </div>
-              <div v-if="item.contentTips" class="item-tips">
-                {{ returnContentTips(formData[item.key]) }}
-              </div>
             </template>
             <!--数字输入框-->
             <template v-if="item.type === 'inputNum'">
@@ -135,7 +121,7 @@
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 @input="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -155,7 +141,7 @@
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
-                  val => {
+                  (val) => {
                     selectChange(val, item);
                   }
                 "
@@ -185,7 +171,7 @@
                   :disabled="it.disabled"
                   :placeholder="it.placeholder || `请选择${it.label}`"
                   @change="
-                    val => {
+                    (val) => {
                       selectChange(val, it);
                     }
                   "
@@ -209,7 +195,7 @@
                 clearable
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
-                  val => {
+                  (val) => {
                     selectChange(val, item);
                   }
                 "
@@ -235,7 +221,7 @@
               <el-checkbox-group
                 v-model="formData[item.key]"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -254,7 +240,7 @@
               <el-radio-group
                 v-model="formData[item.key]"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -278,7 +264,7 @@
                 :picker-options="item.disabledDate || null"
                 v-model="formData[item.key]"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -297,7 +283,7 @@
                 :picker-options="item.disabledDate || null"
                 v-model="formData[item.key]"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -313,7 +299,7 @@
                 :value-format="item.format || 'yyyy-MM'"
                 v-model="formData[item.key]"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -329,7 +315,7 @@
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 :picker-options="item.pickerOptions || ''"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -347,7 +333,7 @@
                 :end-placeholder="item.endPlaceholder || '结束时间'"
                 :placeholder="item.placeholder || '选择时间范围'"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -363,7 +349,7 @@
                 :picker-options="item.disabledDate || null"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -382,7 +368,7 @@
                 :end-placeholder="item.endPlaceholder || '结束日期'"
                 :picker-options="item.disabledDate || null"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -394,7 +380,7 @@
                 style="display: block"
                 v-model="formData[item.key]"
                 @change="
-                  val => {
+                  (val) => {
                     onChange(val, item);
                   }
                 "
@@ -426,7 +412,7 @@
                     }
                   "
                   :before-upload="
-                    file => {
+                    (file) => {
                       beforeUpload(item, file);
                     }
                   "
@@ -492,13 +478,18 @@
                     }
                   "
                   :before-upload="
-                    file => {
+                    (file) => {
                       beforeUpload(item, file);
                     }
                   "
                   :on-progress="
                     (event, file, fileList) => {
                       handleProgress(item, event, file, fileList);
+                    }
+                  "
+                  :on-change="
+                    (file, fileList) => {
+                      handleChange(item, file, fileList);
                     }
                   "
                   :on-error="handleError"
@@ -512,10 +503,33 @@
                 </el-upload>
               </div>
             </template>
+            <!-- input上传 获取file文件 -->
+            <template v-if="item.type === 'fileUpload'">
+              <!-- <el-button type="primary">上传</el-button> -->
+              <input
+                ref="fileUpload"
+                type="file"
+                name="fileUpload"
+                accept="*"
+                @change="
+                  (e) => {
+                    changeFileUpload(item, e);
+                  }
+                "
+                :title="item.title || '未选择任何文件'"
+              />
+            </template>
+            <!-- 自定义 -->
+            <!-- <template v-if="item.type === 'custom'"></template> -->
             <p v-if="item.tip" class="tip">{{ item.tip }}</p>
           </el-form-item>
         </el-col>
+        <!-- 自定义表单项 -->
+        <div style="clear: both"></div>
         <div>
+          <slot name="custom" :formData="formData"></slot>
+        </div>
+        <div v-if="isSubmitBtn">
           <slot name="Other"></slot>
           <div
             class="submitBtn"
@@ -556,70 +570,84 @@ export default {
       type: Array,
       default() {
         return [];
-      }
+      },
     },
     btnTxt: {
       type: String,
       default() {
         return "新增";
-      }
+      },
     },
     isCancel: {
       type: Boolean,
       default() {
         return true;
-      }
+      },
     },
     labelPosition: {
       type: String,
       default() {
         return "right";
-      }
+      },
     },
     labelWidth: {
       type: [String, Number],
       default() {
-        return 150;
-      }
+        return 120;
+      },
     },
     gutter: {
       type: [String, Number],
       default() {
         return 24;
-      }
+      },
     },
     colSpan: {
       type: [String, Number],
       default() {
         return 24;
-      }
+      },
     },
     //footer文字是否居中
     footerIsCenter: {
       type: Boolean,
       default() {
         return false;
-      }
+      },
     },
     // 提交按钮是否可点击
     confirmDisabled: {
       type: Boolean,
       default() {
         return false;
-      }
-    }
+      },
+    },
+    // 是否展示footer提交按钮
+    isSubmitBtn: {
+      type: Boolean,
+      default() {
+        return true;
+      },
+    },
   },
   data() {
     return {
       formData: {},
       action: `${process.env.VUE_APP_BASE_API}/sysPrepaidCard/uploadFile`,
       header: {
-        token: getStorage('token')
+        token: getStorage("token"),
       },
       href: window.location.origin,
       dialogVisible: false,
       dialogImageUrl: "",
-      submitDisabled: false
+      submitDisabled: false,
+      itemRules: [
+        {
+          required: true,
+          message: "请输入必填项",
+          trigger: ["blur", "change"],
+        },
+      ],
     };
   },
   mounted() {
@@ -638,6 +666,7 @@ export default {
     //  select 事件
     onChange(val, item) {
       this._setDefaultVal(val, item);
+      console.log(33333);
       this.$emit("onChange", { val, item });
     },
     // 选择组件
@@ -648,12 +677,16 @@ export default {
      * 提交验证
      */
     onSubmit(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.formConfig.forEach(item => {
-            for(const i in this.formData) {
-              if (item.key === i && item.type === "inputNum" && this.formData[i]) {
-                this.formData[i] = +(this.formData[i]); // 转为number类型
+          this.formConfig.forEach((item) => {
+            for (const i in this.formData) {
+              if (
+                item.key === i &&
+                item.type === "inputNum" &&
+                this.formData[i]
+              ) {
+                this.formData[i] = +this.formData[i]; // 转为number类型
               }
             }
           });
@@ -673,12 +706,12 @@ export default {
      */
     initComponent() {
       const form = {};
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         const { key, type } = item;
         form[key] = item.defaultValue;
 
         if (type === "selects") {
-          item.list.forEach(v => {
+          item.list.forEach((v) => {
             form[v.key] = v.defaultValue;
           });
         }
@@ -697,7 +730,7 @@ export default {
      * 重置表单
      */
     resetForm() {
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         const { defaultValue, key, type } = item;
         if (defaultValue || this.formData[key] || defaultValue === 0) {
           if (type === "checkbox") {
@@ -714,10 +747,10 @@ export default {
               "switch",
               "date",
               "time",
-              "selectGroup"
+              "selectGroup",
             ].includes(type)
           ) {
-            if (item.initDefaultValue) {
+            if (item.initDefaultValue || item.initDefaultValue === 0) {
               this.$set(item, "defaultValue", item.initDefaultValue);
             } else {
               item.defaultValue = null;
@@ -730,7 +763,7 @@ export default {
             this.formData[key] = null;
           }
         } else if (type === "selects") {
-          item.list.forEach(v => {
+          item.list.forEach((v) => {
             v.defaultValue = null;
           });
         }
@@ -762,6 +795,10 @@ export default {
         this.$set(item, "defaultValue", val);
       }
     },
+    //input 上传
+    changeFileUpload(item, e) {
+      this.$emit("changeFileUpload", { item, e });
+    },
     //  文件上传成功时的钩子
     handleSuccess(item, response, file, fileList) {
       this.submitDisabled = false;
@@ -778,6 +815,9 @@ export default {
       this.$nextTick(() => {
         this.submitDisabled = true;
       });
+    },
+    handleChange(item, file, fileList) {
+      this.$emit("handleChange", { item, file, fileList });
     },
     //  文件上传时的钩子
     handleProgress(item, event, file, fileList) {
@@ -816,25 +856,6 @@ export default {
     clearValidateMore(arr) {
       this.$refs.form.clearValidate(arr);
     },
-
-    //回显input下列提示
-    returnMobileTips(value) {
-      if (!value) return "已输入0个手机号";
-      const arr = value.split(",");
-      let num = 0;
-      arr.forEach(item => {
-        if (item) num++;
-      });
-      return `已输入${num}个手机号`;
-    },
-    //回显input下列提示
-    returnContentTips(value) {
-      const num = 67; //67个文字算一条
-      const computeder = value ? value.length / num : 0;
-      return `已输入${value ? value.length : 0}字符，将按${
-        value ? Math.ceil(computeder) : 1
-      }条计费，计费条数仅供参考，以实际扣费为准！`;
-    }
   },
   watch: {
     formConfig: {
@@ -842,9 +863,9 @@ export default {
         this.initComponent();
       },
       deep: true,
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 };
 </script>
 

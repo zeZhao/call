@@ -232,9 +232,9 @@
             </slot>
           </div>
         </el-col>
-        <el-col :span="8" v-show="$slots.Other || isOther">
+        <el-col :span="8" v-show="$slots.other || isOther">
           <div class="btnStyle">
-            <slot name="Other" :form="form"></slot>
+            <slot name="other" :form="form"></slot>
           </div>
         </el-col>
       </el-row>
@@ -274,7 +274,7 @@
       </el-col>
     </el-row> -->
 
-    <el-row style="margin-top:8px" v-show="add">
+    <el-row style="margin-top:8px" class="textLeft" v-show="add">
       <el-col>
         <el-button
           v-if="add && searchFormConfig.length"

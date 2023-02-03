@@ -62,7 +62,7 @@ export default {
     init(ext, extPwd, extUrl, extPort);
   },
   mounted() {
-    window.addEventListener("unload", (e) => this.logout(e));
+    // window.addEventListener("unload", (e) => this.logout(e));
   },
   computed: {
     IsLogin() {
@@ -99,8 +99,8 @@ export default {
     },
   },
   beforeDestroy() {
-    this.logout();
-    window.removeEventListener("unload", (e) => this.logout(e));
+    // this.logout();
+    // window.removeEventListener("unload", (e) => this.logout(e));
   },
   watch: {
     "$store.state.IsLogin": {

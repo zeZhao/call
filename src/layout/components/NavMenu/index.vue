@@ -283,11 +283,13 @@ export default {
     .nav_conent_title {
       width: 176px;
       float: left;
+      text-align: center;
       // padding-left: 24px;
       font-family: PingFangSC-Medium;
       font-weight: Medium;
-      font-size: 16px;
+      font-size: 22px;
       color: #ffffff;
+      font-weight: bold;
     }
     .nav_conent_handle {
       float: right;
