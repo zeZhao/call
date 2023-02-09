@@ -213,4 +213,103 @@ export default {
       return request("/skillGroup/delete", 'delete', params);
     },
   },
+  //分机
+  extensions: {
+    //列表
+    list(data) {
+      return request('/extensions/list', 'post', data)
+    },
+    //新增
+    saveExtensions(data) {
+      return request('/extensions/saveExtensions', 'post', data)
+    },
+    //修改
+    updateExtensions(data) {
+      return request('/extensions/updateExtensions', 'post', data)
+    },
+    //删除
+    delete(data) {
+      return request('/extensions/delete', 'get', data)
+    },
+    // 下拉分机列表
+    extensionsList(data) {
+      return request('/extensions/extensionsList', 'get', data)
+    },
+  },
+  //分机
+  attend: {
+    //列表
+    list(data) {
+      return request('/extensions/list', 'post', data)
+    },
+    //新增
+    saveExtensions(data) {
+      return request('/extensions/saveExtensions', 'post', data)
+    },
+    //修改
+    updateExtensions(data) {
+      return request('/extensions/updateExtensions', 'post', data)
+    },
+    //删除
+    delete(data) {
+      return request('/extensions/delete', 'get', data)
+    },
+    // 下拉分机列表
+    extensionsList(data) {
+      return request('/extensions/extensionsList', 'get', data)
+    },
+  },
+  //通话详单
+  dataquery: {
+    //列表
+    voicetalkList(data) {
+      return request('/dataquery/voicetalk/list', 'post', data)
+    },
+    //通话详单-AI对话详情
+    voicetalkAiList(data) {
+      return request(`/dataquery/voicetalk/ai/${data}`, 'post')
+    },
+  },
+  //外呼数据管理-列表
+  outboundata: {
+    //列表
+    list(data) {
+      return request('/outboundata/list', 'post', data)
+    },
+    //外呼数据管理-导出
+    export(data) {
+      return request(`/outboundata/export`, 'post', data, true)
+    },
+  },
+  //坐席角色
+  role: {
+    //列表
+    list(data) {
+      return request('/attend/role/list', 'post', data)
+    },
+    //新增
+    post(data) {
+      return request(`/attend/role/post`, 'post', data)
+    },
+    //修改
+    put(data) {
+      return request(`/attend/role/put`, 'put', data)
+    },
+    //删除
+    del(data) {
+      return request(`/attend/role/del`, 'delete', data)
+    },
+    //角色权限
+    permissionsList(data) {
+      return request(`/attend/role/permissions/list`, 'post', data)
+    },
+    //设置权限
+    permissionsPost(data) {
+      return request(`/attend/role/permissions/post`, 'post', data)
+    },
+    //获取所有菜单列表
+    sysMenuList(data) {
+      return request('/sysMenu/list', 'post', data)
+    },
+  },
 }

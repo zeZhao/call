@@ -621,7 +621,7 @@ export default {
      * @param optionVal 设置value的值
      * @private
      */
-    _setDefaultValue(list, data, key, optionKey, optionVal, disabled) {
+    _setDefaultValue(list, data, key, optionKey, optionVal, disabled, defaultData) {
       let arr = []
       list.forEach(item => {
         if (item.key === key) {
@@ -635,16 +635,24 @@ export default {
               };
               item.optionData.push(obj)
             });
-          } else if (item.type === 'input') {
-            this.$nextTick(() => {
-              this.$set(item, 'defaultValue', optionKey)
-              item.defaultValue = optionKey
-            })
-          } else {
-            this.$nextTick(() => {
-              this.$set(item, 'defaultValue', optionKey)
-              item.defaultValue = optionKey
-            })
+          } else if (item.type === 'input' || item.type === 'transfer') {
+            if (item.type === 'input') {
+              this.$nextTick(() => {
+                this.$set(item, 'defaultValue', optionKey)
+                item.defaultValue = optionKey
+              })
+            } else {
+              if (optionKey) {
+                this.$nextTick(() => {
+                  this.$set(item, 'defaultValue', optionKey)
+                })
+              } else if (defaultData) {
+                this.$nextTick(() => {
+                  this.$set(item, 'data', defaultData)
+                })
+              }
+            }
+
           }
         }
       });
@@ -703,6 +711,22 @@ export default {
 
         }
       });
+    },
+    /**
+     * 通过key查询表单项数据
+     * @param list 选择项
+     * @param key 选择项key值
+     * @private
+     */
+    _getFormKeyData(list, key) {
+      let val = null
+      list.forEach(item => {
+        if (item.key === key) {
+          val = item.defaultValue
+        }
+      })
+      return val
+
     },
 
     /**

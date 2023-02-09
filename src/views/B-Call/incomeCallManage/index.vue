@@ -8,7 +8,7 @@
     <div id="noteBox" v-if="$route.matched.length < 3">
       <div id="queryBox">
         <el-form :inline="true" class="demo-form-inline" size="small">
-          <el-form-item label="商户名称：" v-if="!userType">
+          <!-- <el-form-item label="商户名称：" v-if="!userType">
             <el-select
               v-model="quertForm.corpId"
               @change="queryListScene"
@@ -23,8 +23,8 @@
                 :key="index"
               ></el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="场景名称：" v-if="!userType">
+          </el-form-item> -->
+          <el-form-item label="任务名称：" v-if="!userType">
             <el-select
               v-model="quertForm.sceneId"
               clearable
@@ -38,14 +38,14 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="被叫号码：">
+          <el-form-item label="主叫号码：">
             <el-input
               v-model="quertForm.phone"
               clearable
-              placeholder="请输入被叫号码"
+              placeholder="请输入主叫号码"
             ></el-input>
           </el-form-item>
-          <el-form-item label="更新时间：">
+          <!-- <el-form-item label="更新时间：">
             <el-date-picker
               size="small"
               :clearable="false"
@@ -56,7 +56,7 @@
               end-placeholder="结束日期"
               :default-time="['00:00:00', '23:59:59']"
             ></el-date-picker>
-          </el-form-item>
+          </el-form-item> -->
           <!-- <el-form-item label="商户ID：" v-if="!userType">
             <el-input v-model="quertForm.corpId" clearable placeholder="请输入商户ID"></el-input>
 
@@ -64,13 +64,19 @@
           <el-form-item label="场景ID：">
             <el-input v-model="quertForm.sceneId" clearable placeholder="请输入场景ID"></el-input>
           </el-form-item>-->
-          <!-- <el-form-item label="任务状态：">
-            <el-select v-model="quertForm.status" clearable placeholder="请选择任务状态">
-              <el-option label="开启" value="1"></el-option>
-              <el-option label="禁用" value="0"></el-option>
+          <el-form-item label="任务类型">
+            <el-select v-model="quertForm.status" clearable placeholder="请选择任务类型">
+              <el-option label="自动语音" value="1"></el-option>
+              <el-option label="呼通后转人工" value="0"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="场景名称：" v-if="!userType">
+          <el-form-item label="任务状态：">
+            <el-select v-model="quertForm.status" clearable placeholder="请选择任务状态">
+              <el-option label="已停止" value="1"></el-option>
+              <el-option label="运行中" value="0"></el-option>
+            </el-select>
+          </el-form-item>
+          <!-- <el-form-item label="场景名称：" v-if="!userType">
             <el-select v-model="quertForm.sceneId" clearable placeholder="请选择场景名称">
               <el-option
                 v-for="(item,index) in  querySceneData"
@@ -282,7 +288,7 @@
             size="small"
           >
             <el-divider></el-divider>
-            <el-form-item label="商户名称：" prop="corpId" v-if="!userType">
+            <!-- <el-form-item label="商户名称：" prop="corpId" v-if="!userType">
               <el-select
                 v-model="RuleForm.corpId"
                 clearable
@@ -297,7 +303,7 @@
                   :key="index"
                 ></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="任务名称：" prop="taskName">
               <el-input
                 v-model="RuleForm.taskName"
@@ -602,7 +608,7 @@ export default {
       // 搜索条件
       quertForm: {
         sceneId: "",
-        corpId: "",
+        corpId: JSON.parse(getStorage('info')).corpId,
         campaignName: "",
         phone: "",
         status: "",
@@ -713,7 +719,7 @@ export default {
         // ],
       },
       RuleForm: {
-        corpId: "", //商户id
+        corpId: JSON.parse(getStorage('info')).corpId, //商户id
         taskName: "", //任务名称
         taskType: "", // 任务类型
         extId: "", // 线路
@@ -785,8 +791,10 @@ export default {
   },
   created() {
     this.List();
-
-    this.listClient();
+    this.queryListScene()
+    this.getExtList();
+    this.listScene();
+    // this.listClient();
     this.userType = false;
   },
   mounted() {},
@@ -794,7 +802,11 @@ export default {
 
   components: {},
 
-  computed: {},
+  computed: {
+    info(){
+      return JSON.parse(getStorage('info'))
+    }
+  },
 
   methods: {
     //选择商户change操作
@@ -811,7 +823,7 @@ export default {
       };
       console.log(data, "=====");
       this.$http.extensions.extensionsList(data).then((res) => {
-        if (res.state === "200") {
+        if (res.state === "0000") {
           this.extList = res.data;
           console.log(res);
         } else {
@@ -829,7 +841,7 @@ export default {
         version: "1.0",
       };
       this.$http.outbound.listScene(data).then((res) => {
-        if (res.state === "200") {
+        if (res.state === "0000") {
           this.sceneList = res.data;
           console.log(res);
         } else {
@@ -988,7 +1000,7 @@ export default {
           version: "1.0",
         };
         this.$http.outbound.updateInboundStatus(data).then((res) => {
-          if (res.state == "200") {
+          if (res.state == "0000") {
             self.$message({
               type: "success",
               message: "删除成功!",
@@ -1019,7 +1031,7 @@ export default {
         version: "1.0",
       };
       this.$http.outbound.updateInboundStatus(data).then((res) => {
-        if (res.state == "200") {
+        if (res.state == "0000") {
           self.$message({
             type: "success",
             message: "修改成功!",
@@ -1036,6 +1048,8 @@ export default {
      */
     queryListScene() {
       const self = this;
+      console.log(this.info,'======info')
+      console.log(self.quertForm.corpId)
       if (!self.quertForm.corpId) {
         self.querySceneData = [];
         self.quertForm.sceneId = "";
@@ -1048,7 +1062,7 @@ export default {
         version: "1.0",
       };
       this.$http.outbound.listSceneByState(data).then((res) => {
-        if (res.state == "200") {
+        if (res.state == "0000") {
           // sceneId
           var SceneIdArr = res.data.filter(
             (val) => val.sceneId == self.quertForm.sceneId
@@ -1072,7 +1086,7 @@ export default {
         corpType: 0,
       };
       this.$http.select.queryCorpByCorpType(data).then((res) => {
-        if (res.state == "200") {
+        if (res.state == "0000") {
           self.clientList = res.data.records;
         } else {
           self.$message.error(res.msg);
@@ -1132,7 +1146,7 @@ export default {
             console.log(data);
             this.$http.outbound.addInbound(data).then((res) => {
               self.SubmitLoading = false;
-              if (res.state == "200") {
+              if (res.state == "0000") {
                 self.isNew = false;
 
                 self.$message({
@@ -1161,7 +1175,7 @@ export default {
             console.log(data);
             this.$http.outbound.updateInbound(data).then((res) => {
               self.SubmitLoading = false;
-              if (res.state == "200") {
+              if (res.state == "0000") {
                 self.isNew = false;
 
                 self.$message({
@@ -1303,7 +1317,7 @@ export default {
       };
       this.$http.outbound.listTaskByPage(data).then((res) => {
         self.loading = false;
-        if (res.state == "200") {
+        if (res.state == "0000") {
           var arr = [];
 
           res.data.records.forEach((val) => {

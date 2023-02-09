@@ -13,15 +13,13 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
-      <el-table-column prop="corpId" label="商家公司名" />
-      <el-table-column prop="corpId" label="账户" />
       <el-table-column prop="corpId" label="开始时间" />
       <el-table-column prop="corpId" label="终止时间" />
+      <el-table-column prop="corpId" label="被叫号码" />
       <el-table-column prop="corpId" label="通话时长" />
       <el-table-column prop="corpId" label="用户标签" />
       <el-table-column prop="corpId" label="挂断方" />
       <el-table-column prop="corpId" label="挂断原因" />
-      <el-table-column prop="corpId" label="代理商" />
       <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button

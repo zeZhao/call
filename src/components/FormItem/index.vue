@@ -217,6 +217,7 @@
             </template>
 
             <!--多选框-->
+            <!-- 需要设置defaultValue 来确定是数组类型 -->
             <template v-if="item.type === 'checkbox'">
               <el-checkbox-group
                 v-model="formData[item.key]"
@@ -519,8 +520,16 @@
                 :title="item.title || '未选择任何文件'"
               />
             </template>
-            <!-- 自定义 -->
-            <!-- <template v-if="item.type === 'custom'"></template> -->
+            <!-- 穿梭框 -->
+            <template v-if="item.type === 'transfer'">
+              <el-transfer
+                v-model="formData[item.key]"
+                :data="item.data"
+                :titles="item.titles"
+                :left-default-checked="item.leftDefaultChecked"
+                :right-default-checked="item.rightDefaultChecked"
+              ></el-transfer>
+            </template>
             <p v-if="item.tip" class="tip">{{ item.tip }}</p>
           </el-form-item>
         </el-col>

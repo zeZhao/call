@@ -96,17 +96,11 @@
         @selectChange="selectChange"
         :isSubmitBtn="true"
       >
-        <template v-slot:custom="{ formData }">
+        <!-- <template v-slot:custom="{ formData }">
           <div style="margin-left: 50px; margin-bottom: 20px">
-            <el-transfer
-              v-model="formData.attendIdList"
-              :data="transferData"
-              :titles="['待关联座席', '已关联座席']"
-              :left-default-checked="leftDefaultCheckedList"
-              :right-default-checked="rightDefaultCheckedList"
-            ></el-transfer>
+            
           </div>
-        </template>
+        </template> -->
       </FormItem>
     </el-dialog>
   </div>
@@ -114,28 +108,18 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { setStorage, getStorage } from "@/utils/auth";
 export default {
   mixins: [listMixin],
   components: {},
   data() {
-    const generateData = (_) => {
-      const data = [];
-      for (let i = 1; i <= 8; i++) {
-        data.push({
-          key: i,
-          label: `000${i}张三`,
-          // disabled: i % 4 === 0
-        });
-      }
-      return data;
-    };
     return {
       transferData: [],
       leftDefaultCheckedList: [],
       rightDefaultCheckedList: [],
       // 搜索框配置
       searchFormConfig: [
-        { type: "input", label: "商户名称", key: "corpId" },
+        // { type: "input", label: "商户名称", key: "corpId" },
         { type: "input", label: "技能组流程", key: "taskName" },
         { type: "inputNum", label: "满意度流程", key: "extId" },
         { type: "inputNum", label: "技能组名称", key: "extId" },
@@ -196,11 +180,11 @@ export default {
       // 表单配置
       formConfig: [
         {
-          type: "select",
+          type: "input",
           label: "商户名称",
           key: "corpId",
           defaultValue: "",
-          optionData: [],
+          isShow:true,
         },
         {
           type: "input",
@@ -244,6 +228,17 @@ export default {
         {
           type: "divider",
         },
+        {
+          type: "transfer",
+          label: "",
+          key: "attendIdList",
+          data: [],
+          defaultValue: [],
+          titles: ["待关联座席", "已关联座席"],
+          leftDefaultCheckedList: this.leftDefaultCheckedList,
+          rightDefaultCheckedList: this.rightDefaultCheckedList,
+          rules: [],
+        },
       ],
       id: "",
       //技能组列表
@@ -258,10 +253,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.queryCorpByCorpType();
-    // this.getlistAll();
-    // this.getListAttendAll();
-    // this.getListAttendAllBySkillGroup();
+    // this.queryCorpByCorpType();
   },
   computed: {},
   methods: {
@@ -274,7 +266,7 @@ export default {
         version: "1.0",
       };
       this.$http.outbound.listScene(data).then((res) => {
-        if (res.state === "200") {
+        if (res.state === "0000") {
           this.sceneList = res.data;
           this._setDefaultValue(
             this.formConfig,
@@ -301,45 +293,60 @@ export default {
       });
     },
     // 获取技能组列表
-    getlistAll() {
-      this.$http.skillGroup.listAll().then((res) => {
-        console.log(res);
-      });
-    },
+    // getlistAll() {
+    //   this.$http.skillGroup.listAll().then((res) => {
+    //     console.log(res);
+    //   });
+    // },
     // 获取本企业所有坐席
-    getListAttendAll(corpId) {
-      this.$http.skillGroup.listAttendAll({ corpId }).then((res) => {
+    async getListAttendAll(corpId) {
+      await this.$http.skillGroup.listAttendAll({ corpId }).then((res) => {
         if (resOk(res)) {
-          this.transferData = [];
+          let arr = [];
+          let checkList = [];
           res.data.forEach((item) => {
-            this.transferData.push({
+            if (item.state != 1) {
+              arr.push({
+                key: item.attendId,
+                label: item.attendName,
+                disabled: item.state == 1 ? true : false,
+              });
+            }
+          });
+          this.attendSkillGroupList.forEach((item) => {
+            arr.push({
               key: item.attendId,
               label: item.attendName,
               disabled: item.state == 1 ? true : false,
             });
+            checkList.push(item.attendId);
           });
+          console.log(arr, "=========获取本企业所有坐席");
+          console.log(checkList, "=========技能组所有坐席");
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "attendIdList",
+            "",
+            "",
+            "",
+            arr
+          );
+          this._setDefaultValue(this.formConfig, [], "attendIdList", checkList);
         }
         // console.log(res);
       });
     },
     // 获取本技能组所有坐席
-    getListAttendAllBySkillGroup(sgId) {
-      this.$http.skillGroup.listAttendAllBySkillGroup({ sgId }).then((res) => {
-        if (resOk(res)) {
-          res.data.forEach((item) => {
-            this.rightDefaultCheckedList.push(item.attendId);
-          });
-
-          this._setDefaultValue(
-            this.formConfig,
-            [],
-            "attendIdList",
-            this.rightDefaultCheckedList
-          );
-          console.log(this.formConfig, "======formConfig");
-        }
-        console.log(res);
-      });
+    async getListAttendAllBySkillGroup(sgId) {
+      await this.$http.skillGroup
+        .listAttendAllBySkillGroup({ sgId })
+        .then((res) => {
+          if (resOk(res)) {
+            this.attendSkillGroupList = res.data;
+          }
+          // console.log(res);
+        });
     },
     selectChange({ val, item }) {
       if (item.key === "corpId") {
@@ -360,6 +367,26 @@ export default {
       }
     },
 
+
+
+     /**
+     * 创建表单
+     * @param row  当前行数据
+     * @param id  当前行ID
+     * @private
+     */
+
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      let corpId = JSON.parse(getStorage("info")).corpId
+      this._deleteDefaultValue(this.formConfig,[], "corpId",corpId);
+      this.getListAttendAll(corpId);
+      this.listScene(corpId);
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+    },
     /**
      * 编辑表单
      * @param row  当前行数据
@@ -372,7 +399,8 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.getListAttendAllBySkillGroup(row.sgId);
+      await this.formConfig.forEach(async (item) => {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
@@ -382,14 +410,14 @@ export default {
           this.$set(item, "defaultValue", "");
         }
         if (item.key === "corpId") {
-          this.listScene(item.defaultValue);
-          this.getListAttendAll(item.defaultValue);
+          await this.listScene(item.defaultValue);
+          await this.getListAttendAll(item.defaultValue);
         }
       });
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
-      await this.getListAttendAllBySkillGroup(row.sgId);
+
       this.addChannel = true;
     },
     // _mxHandleSubmit(form) {

@@ -31,7 +31,7 @@ const constRouterList = [
     name: 'B-Call',
     component: Layout,
     meta: {
-      title: '批量外呼',
+      title: '自动外呼',
     },
     children: [
       // {
@@ -47,7 +47,15 @@ const constRouterList = [
         name: 'incomeCallManage',
         component: () => import(/* webpackChunkName: "about" */ '@/views/B-Call/incomeCallManage/index.vue'),
         meta: {
-          title: '任务管理',
+          title: '外呼任务',
+        },
+      },
+      {
+        path: '/B-Call/callMataManagement',
+        name: 'callMataManagement',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/B-Call/callMataManagement/index.vue'),
+        meta: {
+          title: '外呼数据管理',
         },
       },
     ]
