@@ -24,7 +24,7 @@
               ></el-option>
             </el-select>
           </el-form-item> -->
-          <el-form-item label="任务名称：" v-if="!userType">
+          <!-- <el-form-item label="任务名称：" v-if="!userType">
             <el-select
               v-model="quertForm.sceneId"
               clearable
@@ -37,6 +37,13 @@
                 :key="index"
               ></el-option>
             </el-select>
+          </el-form-item> -->
+          <el-form-item label="任务名称：">
+            <el-input
+              v-model="quertForm.sceneId"
+              clearable
+              placeholder="请输入任务名称："
+            ></el-input>
           </el-form-item>
           <el-form-item label="主叫号码：">
             <el-input
@@ -791,7 +798,7 @@ export default {
   },
   created() {
     this.List();
-    this.queryListScene()
+    // this.queryListScene()
     this.getExtList();
     this.listScene();
     // this.listClient();
@@ -1109,22 +1116,22 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 时间段格式处理
-          self.RuleForm.callTime1End = self.RuleForm.callTime1Start
-            ? self.RuleForm.callTime1Start[1]
-            : "";
+          self.RuleForm.callTime1End = self.RuleForm.callTime1End
+            ? self.RuleForm.callTime1End[1]
+            : null;
           self.RuleForm.callTime1Start = self.RuleForm.callTime1Start
             ? self.RuleForm.callTime1Start[0]
-            : "";
+            : null;
           //  时间段2
-          self.RuleForm.callTime2End = self.RuleForm.callTime2Start
-            ? self.RuleForm.callTime2Start[1]
+          self.RuleForm.callTime2End = self.RuleForm.callTime2End
+            ? self.RuleForm.callTime2End[1]
             : null;
           self.RuleForm.callTime2Start = self.RuleForm.callTime2Start
             ? self.RuleForm.callTime2Start[0]
             : null;
           //  时间段3
-          self.RuleForm.callTime3End = self.RuleForm.callTime3Start
-            ? self.RuleForm.callTime3Start[1]
+          self.RuleForm.callTime3End = self.RuleForm.callTime3End
+            ? self.RuleForm.callTime3End[1]
             : null;
           self.RuleForm.callTime3Start = self.RuleForm.callTime3Start
             ? self.RuleForm.callTime3Start[0]
