@@ -14,6 +14,7 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
+      <el-table-column prop="corpName" label="商家名称" />
       <el-table-column prop="roleName" label="角色名称" />
       <el-table-column prop="remarks" label="描述" />
       <el-table-column prop="status" label="状态">
@@ -90,6 +91,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { setStorage, getStorage } from "@/utils/auth";
 export default {
   mixins: [listMixin],
   components: {},
@@ -125,13 +127,14 @@ export default {
       namespaceType: "Array",
       // 表单配置
       formConfig: [
-        // {
-        //   type: "select",
-        //   label: "角色名称",
-        //   key: "roleName",
-        //   defaultValue: "",
-        //   optionData:[]
-        // },
+        {
+          type: "input",
+          label: "商户名称",
+          key: "corpId",
+          defaultValue: "",
+          isShow:true,
+          // optionData: [],
+        },
         {
           type: "input",
           label: "角色名称",
@@ -165,57 +168,84 @@ export default {
         label: "name",
       },
       roleId: "",
+      corpId: "",
     };
   },
   created() {},
   mounted() {
-    this.getSysMenuList();
-    // this.sysRoleMenuList()
   },
   computed: {},
   methods: {
+    /**
+     * 创建表单
+     * @param row  当前行数据
+     * @param id  当前行ID
+     * @private
+     */
+
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+    },
     getSysMenuList() {
       this.$http.role.sysMenuList().then((res) => {
-        this.treeData = res.data;
+        let arr = []
+        res.data.forEach(item=>{
+          if(item.type === 1){
+            arr.push(item)
+          }
+        })
+        this.treeData = arr;
         console.log(res);
       });
     },
     sysRoleMenuList(roleId) {
       this.defaultCheckedList = [];
       this.$http.role.permissionsList({ roleId }).then((res) => {
-        this.defaultCheckedList = [];
-        let arr = [];
-        res.data.forEach((item) => {
-          arr.push(item.menuId);
-        });
+        let arr = []
+        let checkedList = []
+        res.data.forEach(item=>{
+          if(item.type === 1){
+            arr.push(item)
+          }
+        })
+         this.treeData = arr;
+         arr.forEach(item=>{
+          if(item.childMenu && item.childMenu.length > 0){
+            item.childMenu.forEach(i=>{
+              if(i.ifChecked == 1){
+                checkedList.push(i.menuId)
+              }
+            })
+          }else{
+            if(item.ifChecked == 1){
+                checkedList.push(item.menuId)
+              }
+          }
+         })
         this.$nextTick(() => {
-          this.$refs.tree.setCheckedKeys(arr);
-          this.defaultCheckedList = arr;
+          this.$refs.tree.setCheckedKeys(checkedList);
+          this.defaultCheckedList = checkedList;
         });
       });
     },
     jurisdictionBtn(row) {
-      const { roleId } = row;
+      const { roleId,corpId } = row;
       this.roleId = roleId;
+      this.corpId = corpId;
       this.jurisdictionVisible = true;
-      // console.log(row, "====");
 
       this.sysRoleMenuList(roleId);
     },
     submitTree() {
-      console.log(this.$refs.tree);
-      console.log(this.$refs.tree.getCheckedKeys());
       let arr = this.$refs.tree.getCheckedKeys();
-      let sysRoleMenu = [];
-      arr.forEach((item) => {
-        sysRoleMenu.push({ roleId: this.roleId, menuId: item });
-      });
-      console.log({ sysRoleMenu }, ";;;;;;;");
-      this.$http.role.permissionsPost([...sysRoleMenu]).then((res) => {
+      this.$http.role.permissionsPost({roleId: this.roleId,corpId:this.corpId,menuIdList:arr}).then((res) => {
         if (resOk) {
           this.jurisdictionVisible = false;
           this.roleId = "";
-          // this.$message.s
         }
       });
     },

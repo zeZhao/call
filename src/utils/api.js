@@ -297,7 +297,7 @@ export default {
     },
     //删除
     del(data) {
-      return request(`/attend/role/del`, 'delete', data)
+      return request(`/attend/role/del`, 'post', data)
     },
     //角色权限
     permissionsList(data) {

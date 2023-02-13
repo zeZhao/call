@@ -84,7 +84,7 @@ export default {
     return {
       // 搜索框配置
       searchFormConfig: [
-        { type: "input", label: "商家账号", key: "userName" },
+        // { type: "input", label: "商家账号", key: "userName" },
         { type: "input", label: "座席名称", key: "attendName" },
         { type: "inputNum", label: "工号", key: "jobNumber" },
         {
@@ -131,14 +131,16 @@ export default {
       // 列表参数
       namespace: "",
       namespaceType: "Array",
+      info:{},
       // 表单配置
       formConfig: [
         {
-          type: "select",
+          type: "input",
           label: "商家名称",
           key: "userId",
           defaultValue: "",
-          optionData:[]
+          // optionData:[],
+          isShow:true,
         },
         {
           type: "input",
@@ -206,6 +208,24 @@ export default {
       this.$http.select.userListAll({corpType:0}).then(res=>{
         this._setDefaultValue(this.formConfig,res.data.records,'userId','userId','userName')
       })
+    },
+    /**
+     * 创建表单
+     * @param row  当前行数据
+     * @param id  当前行ID
+     * @private
+     */
+
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      let corpId = JSON.parse(getStorage("info")).corpId
+      this._deleteDefaultValue(this.formConfig,[], "corpId",corpId);
+      // this.getListAttendAll(corpId);
+      // this.listScene(corpId);
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
   },
   watch: {},
