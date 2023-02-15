@@ -81,9 +81,9 @@
         <div class="user">
           <span>工号：{{ info.jobNumber }}</span>
           <span>状态：</span>
-          <el-select v-model="states" style="width: 100px">
-            <el-option label="就绪" :value="1"></el-option>
-            <el-option label="暂停" :value="2"></el-option>
+          <el-select v-model="states" style="width: 100px" @change="changeStates">
+            <el-option label="就绪" :value="2"></el-option>
+            <el-option label="暂停" :value="4"></el-option>
           </el-select>
           <el-button type="text" style="margin: 0 20px" @click="logout"
             >退出</el-button
@@ -149,7 +149,7 @@ export default {
       loginDisabled: false,
       tell: "",
       tellName: "",
-      states: 1,
+      states: 2,
       info: JSON.parse(getStorage("info")),
     };
   },
@@ -233,6 +233,16 @@ export default {
       //   }
       // });
     },
+    changeStates(e){
+      this.$http.role.updateAttendAndLoginMode({attendId:this.info.attendId,attendStatus:e}).then(res=> {
+        if (res.state === "200") {
+          this.$message.success('修改状态成功')
+        }else{
+          this.$message.error('修改状态失败')
+        }
+      })
+
+    }
   },
   watch: {
     "$store.state.vertoState": {

@@ -311,5 +311,9 @@ export default {
     sysMenuList(data) {
       return request('/sysMenu/list', 'post', data)
     },
+    //修改坐席状态
+    updateAttendAndLoginMode(data) {
+      return request('/attend/updateAttendAndLoginMode', 'post', data)
+    },
   },
 }
