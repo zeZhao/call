@@ -30,7 +30,13 @@
       </el-table-column>
       <el-table-column prop="mobile" label="外呼号码" />
       <el-table-column prop="talkDuration" label="通话时长" />
-      <el-table-column prop="isConnected" label="呼叫状态" />
+      <el-table-column prop="isConnected" label="呼叫状态" >
+        <template slot-scope="{row}">
+          <span v-if="row.isConnected == 0">未接通</span>
+          <span v-else-if="row.isConnected == 1">接通</span>
+          <span v-else>未开始</span>
+        </template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"

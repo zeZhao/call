@@ -15,8 +15,16 @@
       <el-table-column label="序号" type="index" align="center" />
       <el-table-column prop="attendName" label="座席姓名" />
       <el-table-column prop="jobNumber" label="座席工号" />
-      <el-table-column prop="startTime" label="开始时间" />
-      <el-table-column prop="endTime" label="终止时间" />
+      <el-table-column prop="startTime" label="开始时间" >
+        <template slot-scope="{row}">
+          <span>{{row.startTime | dateTime}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="endTime" label="终止时间" >
+        <template slot-scope="{row}">
+          <span>{{row.endTime | dateTime}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="calledId" label="被叫号码" />
       <el-table-column prop="talkDuration" label="通话时长（秒）" />
       <el-table-column prop="billingTime" label="计费时长（秒）" />

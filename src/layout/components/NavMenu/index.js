@@ -19,8 +19,6 @@ export default class vertoCell {
   }
 
   initTell(login, passwd, url, prot) {
-    console.log($.vertos,'===========$.vertos')
-    console.log(1111213123)
     if (login && passwd && url && prot) {
       vertos.init({}, this.bootstrap(login, passwd, url, prot));
     }

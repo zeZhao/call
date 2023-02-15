@@ -4,8 +4,9 @@
       <div class="nav_conent_title">呼叫中心</div>
 
       <div class="nav_conent_handle clearfix">
-        <div style="margin-right: 20px" v-if="tellName">
-          分机号：{{ tellName }}
+        <div class="handle">
+          <div style="margin-right: 20px" v-if="info.ext">
+          分机号：{{ info.ext }}
         </div>
         <el-input v-model="tell" style="width: 220px">
           <el-button
@@ -38,14 +39,14 @@
           >接听</el-button
         >
         <!-- <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteCall()">静音</el-button> -->
-        <el-button
+        <!-- <el-button
           type="primary"
           icon="el-icon-phone"
           size="small"
           round
           @click="muteUnmuteCall()"
           >静音/取消静音</el-button
-        >
+        > -->
         <el-button
           type="primary"
           icon="el-icon-phone"
@@ -70,15 +71,24 @@
           @click="transferCall()"
           >转接</el-button
         >
+        </div>
         <!-- <el-button type="primary" icon="el-icon-phone" size="small" round>置忙</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>置闲</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>休息</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>长签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>退签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>班组</el-button> -->
-        <el-button type="text" style="margin: 0 20px" @click="logout" v-if="loginDisabled"
-          >退出</el-button
-        >
+        <div class="user">
+          <span>工号：{{ info.jobNumber }}</span>
+          <span>状态：</span>
+          <el-select v-model="states" style="width: 100px">
+            <el-option label="就绪" :value="1"></el-option>
+            <el-option label="暂停" :value="2"></el-option>
+          </el-select>
+          <el-button type="text" style="margin: 0 20px" @click="logout"
+            >退出</el-button
+          >
+        </div>
       </div>
     </div>
 
@@ -139,6 +149,8 @@ export default {
       loginDisabled: false,
       tell: "",
       tellName: "",
+      states: 1,
+      info: JSON.parse(getStorage("info")),
     };
   },
   created() {
@@ -295,9 +307,9 @@ export default {
       float: right;
       height: 80px;
       line-height: 80px;
-      display: flex;
+      // display: flex;
       // justify-content: center;
-      align-items: center;
+      // align-items: center;
       width: calc(100% - 176px);
       .shake {
         animation: shake 800ms ease-in-out infinite;
@@ -384,6 +396,18 @@ export default {
       }
       span:last-child {
         cursor: pointer;
+      }
+      .user,.handle{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .handle{
+        float: left;
+        height: 80px;
+      }
+      .user{
+        float: right;
       }
     }
   }

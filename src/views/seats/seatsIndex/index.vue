@@ -196,19 +196,19 @@ export default {
   },
   created() {},
   mounted() {
-    this.queryCorpByCorpType()
+    // this.queryCorpByCorpType()
   },
   activated(){
-    this.queryCorpByCorpType()
+    // this.queryCorpByCorpType()
   },
   computed: {},
   methods: {
     //获取公司下拉
-    queryCorpByCorpType(){
-      this.$http.select.userListAll({corpType:0}).then(res=>{
-        this._setDefaultValue(this.formConfig,res.data.records,'userId','userId','userName')
-      })
-    },
+    // queryCorpByCorpType(){
+    //   this.$http.select.userListAll({corpType:0}).then(res=>{
+    //     this._setDefaultValue(this.formConfig,res.data.records,'userId','userId','userName')
+    //   })
+    // },
     /**
      * 创建表单
      * @param row  当前行数据

@@ -23,7 +23,11 @@
           <span v-if="row.status == 1">启用</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createTime" label="创建时间" >
+        <template slot-scope="{row}">
+          <span>{{row.createTime | dateTime}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="150" fixed="right">
         <template slot-scope="scope">
           <el-button

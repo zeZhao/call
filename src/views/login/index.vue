@@ -144,6 +144,7 @@ export default {
               if (res.state == "200") {
                 setStorage("token", res.msg);
                 setStorage("info", res.data);
+                setStorage("menu", res.data.sysMenus);
                 this.$router.push("/index");
                 this.$message.success("登录成功");
                 this.loading = false;

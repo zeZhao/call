@@ -215,7 +215,10 @@
             label="更新时间"
             min-width="80"
             :show-overflow-tooltip="true"
-          ></el-table-column>
+          ><template slot-scope="{row}">
+          <span>{{row.updateTime | dateTime}}</span>
+        </template>
+      </el-table-column>
           <!-- <el-table-column
             align="center"
             prop="statusText"
