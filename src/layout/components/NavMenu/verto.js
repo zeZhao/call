@@ -11,6 +11,7 @@ export function init(login, passwd, url, prot = "8082") {
   vertoHandle = null
   currentCall = null
   if (login && passwd && url && prot) {
+    console.log(login, passwd, url, prot,'坐席初始化配置数据')
     $.verto.init({}, bootstrap(login, passwd, url, prot));
     
   }
@@ -65,6 +66,7 @@ function bootstrap(login, passwd, url, prot) {
 
 //登录
 export function login(login, passwd, url) {
+  console.log("初始化登录！")
   vertoHandle.loginData({
     login: `${login}@${url}`,
     passwd: `${passwd}`
@@ -196,13 +198,21 @@ export function transferCall() {
 
 export function onWSLogin(verto, success) {
   console.log('onWSLogin', success);
-  store.commit('IsLogin', success)
+  if (success){
+    store.commit('IsLogin', success)
+    console.log("分机登录成功~")
+  }
+  
 };
 
 function onWSClose(verto, success) {
   console.log('onWSClose', success);
-  store.commit('IsLogout', success)
-  store.commit('IsLogin', false)
+  if (success) {
+    store.commit('IsLogout', success)
+    store.commit('IsLogin', false)
+    console.log("分机退出成功~")
+  }
+  
 };
 
 

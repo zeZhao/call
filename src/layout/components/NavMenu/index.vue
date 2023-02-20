@@ -5,9 +5,9 @@
 
       <div class="nav_conent_handle clearfix">
         <div class="handle">
-          <div style="margin-right: 20px" v-if="info.ext">
+          <!-- <div style="margin-right: 20px" v-if="info.ext">
           分机号：{{ info.ext }}
-        </div>
+        </div> -->
         <el-input v-model="tell" style="width: 220px">
           <el-button
             slot="append"

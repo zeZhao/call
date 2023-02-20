@@ -22,7 +22,7 @@
       </el-form-item>
     </el-form>
     <div v-else>
-      <h1>呼叫中心</h1>
+      <h2>呼叫中心</h2>
       <video
         id="webcam"
         autoplay="autoplay"
@@ -38,7 +38,6 @@ import {
   logout,
   init,
   onWSLogin,
-  a,
   vertoHandle,
   vertoCallbacks,
   currentCall,
@@ -49,8 +48,8 @@ export default {
   data() {
     return {
       form: {
-        user: "",
-        passwd: "",
+        user: JSON.parse(getStorage("info")).ext,
+        passwd: JSON.parse(getStorage("info")).extPwd,
         url: JSON.parse(getStorage("info")).extUrl,
         prot: JSON.parse(getStorage("info")).extPort,
       },
