@@ -280,18 +280,6 @@ export default {
         }
       });
     },
-    //获取公司下拉
-    queryCorpByCorpType() {
-      this.$http.select.userListAll({}).then((res) => {
-        this._setDefaultValue(
-          this.formConfig,
-          res.data.records,
-          "corpId",
-          "userId",
-          "userName"
-        );
-      });
-    },
     // 获取技能组列表
     // getlistAll() {
     //   this.$http.skillGroup.listAll().then((res) => {
@@ -380,7 +368,7 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       let corpId = JSON.parse(getStorage("info")).corpId
-      this._deleteDefaultValue(this.formConfig,[], "corpId",corpId);
+      this._setDefaultValue(this.formConfig, [], "attendIdList", []);
       this.getListAttendAll(corpId);
       this.listScene(corpId);
       setTimeout(() => {
@@ -420,9 +408,16 @@ export default {
 
       this.addChannel = true;
     },
-    // _mxHandleSubmit(form) {
-    //   console.log(form, "----");
-    // },
+    /**
+     * 提交表单前调整表单内数据
+     * @param formData
+     * @private
+     */
+    _mxArrangeSubmitData(formData) {
+      let corpId = JSON.parse(getStorage("info")).corpId
+      formData.corpId = corpId
+      return formData;
+    },
   },
   watch: {},
 };
