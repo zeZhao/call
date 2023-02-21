@@ -121,8 +121,8 @@ export default {
       searchFormConfig: [
         // { type: "input", label: "商户名称", key: "corpId" },
         { type: "input", label: "技能组流程", key: "taskName" },
-        { type: "inputNum", label: "满意度流程", key: "extId" },
-        { type: "inputNum", label: "技能组名称", key: "extId" },
+        { type: "input", label: "满意度流程", key: "extId" },
+        { type: "input", label: "技能组名称", key: "extId" },
         {
           type: "select",
           label: "座席分配策略",
@@ -224,6 +224,22 @@ export default {
           colSpan: 12,
           defaultValue: 1,
           optionData: [],
+        },
+        {
+          type: "select",
+          label: "是否报工号",
+          key: "isJobnumber",
+          colSpan: 12,
+          defaultValue: 1,
+          optionData: [{key:1,value:"是"},{key:0,value:"否"}],
+        },
+        {
+          type: "select",
+          label: "状态",
+          key: "status",
+          colSpan: 12,
+          defaultValue: 1,
+          optionData: [{key:1,value:"启用"},{key:0,value:"禁用"}],
         },
         {
           type: "divider",
