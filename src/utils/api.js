@@ -236,29 +236,6 @@ export default {
       return request('/extensions/extensionsList', 'get', data)
     },
   },
-  //分机
-  attend: {
-    //列表
-    list(data) {
-      return request('/extensions/list', 'post', data)
-    },
-    //新增
-    saveExtensions(data) {
-      return request('/extensions/saveExtensions', 'post', data)
-    },
-    //修改
-    updateExtensions(data) {
-      return request('/extensions/updateExtensions', 'post', data)
-    },
-    //删除
-    delete(data) {
-      return request('/extensions/delete', 'get', data)
-    },
-    // 下拉分机列表
-    extensionsList(data) {
-      return request('/extensions/extensionsList', 'get', data)
-    },
-  },
   //通话详单
   dataquery: {
     //列表
