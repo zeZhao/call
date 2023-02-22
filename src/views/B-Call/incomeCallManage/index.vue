@@ -917,7 +917,7 @@ export default {
     上传
      */
     uploadSucess: function (response) {
-      if (response.state == "200") {
+      if (response.state == "0000") {
         this.$message({
           type: "success",
           message: "导入成功",
