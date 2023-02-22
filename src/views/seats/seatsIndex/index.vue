@@ -20,7 +20,7 @@
       <el-table-column prop="jobNumber" label="工号" />
       <el-table-column prop="pwd" label="座席密码" />
       <el-table-column prop="roleName" label="角色" />
-      <el-table-column prop="skillgroupId" label="归属技能组" />
+      <el-table-column prop="skillGroupName" label="归属技能组" />
       <el-table-column prop="loginMode" label="坐席登录方式" >
         <template slot-scope="{row}">
           <span v-if="row.loginMode == 0">人工</span>
@@ -77,6 +77,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { setStorage, getStorage } from "@/utils/auth";
 export default {
   mixins: [listMixin],
   components: {},
@@ -166,8 +167,8 @@ export default {
           key: "attendroleId",
           defaultValue: "",
           optionData:[
-            {key:2,value:'普通坐席'},
-            {key:1,value:'企业管理员'},
+            // {key:2,value:'普通坐席'},
+            // {key:1,value:'企业管理员'},
           ],
         },
         {
@@ -196,13 +197,19 @@ export default {
   },
   created() {},
   mounted() {
-    // this.queryCorpByCorpType()
+    this.getRoleList()
   },
   activated(){
-    // this.queryCorpByCorpType()
+    this.getRoleList()
   },
   computed: {},
   methods: {
+    //获取公司下拉
+    getRoleList(){
+      this.$http.role.list({enablePage:false}).then(res=>{
+        this._setDefaultValue(this.formConfig,res.data.list,'attendroleId','roleId','roleName')
+      })
+    },
     //获取公司下拉
     // queryCorpByCorpType(){
     //   this.$http.select.userListAll({corpType:0}).then(res=>{
@@ -226,6 +233,18 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
+    },
+    _mxArrangeSubmitData(formData) {
+      let form = Object.assign({}, formData);
+      let userId = form.userId;
+      if (userId) {
+        this.userList.forEach((item) => {
+          if (item.userId === userId) {
+            form.corpId = item.corpId;
+          }
+        });
+      }
+      return form;
     },
   },
   watch: {},
