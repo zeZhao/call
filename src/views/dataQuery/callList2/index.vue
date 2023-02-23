@@ -28,18 +28,11 @@
       </el-table-column>
       <el-table-column prop="calledId" label="被叫号码" />
       <el-table-column prop="talkDuration" label="通话时长（秒）" />
-      <el-table-column prop="billingTime" label="计费时长（秒）" />
+      <el-table-column prop="costDuration" label="计费时长（秒）" />
       <el-table-column prop="cost" label="费用（元）" />
-      <el-table-column prop="callType" label="呼叫类型" >
-        <template slot-scope="{row}">
-          <span v-if="row.callType == 1">AI外呼 </span>
-          <span v-if="row.callType == 2">外呼人工</span>
-          <span v-if="row.callType == 3">呼入</span>
-          <span v-if="row.callType == 4">呼入人工</span>
-        </template>
-      </el-table-column>
+      <!-- <el-table-column prop="callType" label="呼叫类型" /> -->
       <el-table-column prop="hangupCause" label="挂断原因" />
-      <el-table-column label="操作" width="100" fixed="right">
+      <!-- <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button
             @click="dialogue(scope.index, scope.row)"
@@ -48,7 +41,7 @@
             >通话详情</el-button
           >
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -122,6 +115,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { setStorage, getStorage } from "@/utils/auth";
 export default {
   mixins: [listMixin],
   components: {},
@@ -134,11 +128,13 @@ export default {
         { type: "inputNum", label: "联系电话", key: "userId" },
       ],
       //搜索框数据
-      searchParam: {},
+      searchParam: {
+        
+      },
       //接口地址
       searchAPI: {
         namespace: "dataquery",
-        list: "voicetalkList",
+        list: "attendLogList",
       },
       isParamsNotData: false,
       submitParamsIsData: false,
@@ -155,6 +151,17 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    /**
+     * 调整筛选条件提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(data) {
+      data.corpId = JSON.parse(getStorage("info")).corpId
+      return data;
+    },
     /*
       试听
      */
@@ -182,7 +189,7 @@ export default {
       self.title =
         "电话:" + self.rowData.calledId + "   时间:" + new Date(self.rowData.startTime).Format("yyyy-MM-dd hh:mm:ss");
       this.$http.dataquery.voicetalkAiList(row.dataId).then(res => {
-        if (res.state == "0000") {
+        if (res.state == "200") {
           if (res.data.length == 0) {
             self.$notify({
               title: "提示",
