@@ -8,38 +8,38 @@
           <!-- <div style="margin-right: 20px" v-if="info.ext">
           分机号：{{ info.ext }}
         </div> -->
-        <el-input v-model="tell" style="width: 220px">
-          <el-button
-            slot="append"
-            icon="el-icon-phone"
-            @click="cell"
-            size="small"
-            >呼叫</el-button
-          >
-        </el-input>
-        <!-- <div>
+          <el-input v-model="tell" style="width: 220px" clearable>
+            <el-button
+              slot="append"
+              icon="el-icon-phone"
+              @click="cell"
+              size="small"
+              >呼叫</el-button
+            >
+          </el-input>
+          <!-- <div>
           <img src="" alt="">
         </div> -->
-        <el-button
-          type="danger"
-          icon="el-icon-phone"
-          size="small"
-          round
-          style="margin-left: 20px"
-          @click="hangupCall()"
-          >挂断</el-button
-        >
-        <el-button
-          type="success"
-          icon="el-icon-phone"
-          size="small"
-          round
-          @click="answerCall()"
-          :class="{ shake: isRinging }"
-          >接听</el-button
-        >
-        <!-- <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteCall()">静音</el-button> -->
-        <!-- <el-button
+          <el-button
+            type="danger"
+            icon="el-icon-phone"
+            size="small"
+            round
+            style="margin-left: 20px"
+            @click="hangupCall()"
+            >挂断</el-button
+          >
+          <el-button
+            type="success"
+            icon="el-icon-phone"
+            size="small"
+            round
+            @click="answerCall()"
+            :class="{ shake: isRinging }"
+            >接听</el-button
+          >
+          <!-- <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteCall()">静音</el-button> -->
+          <!-- <el-button
           type="primary"
           icon="el-icon-phone"
           size="small"
@@ -47,27 +47,23 @@
           @click="muteUnmuteCall()"
           >静音/取消静音</el-button
         > -->
-        <el-button
-          icon="el-icon-phone"
-          size="small"
-          round
-          @click="holdCall()"
-          >保持通话</el-button
-        >
-        <el-button
-          icon="el-icon-phone"
-          size="small"
-          round
-          @click="unholdCall()"
-          >恢复通话</el-button
-        >
-        <el-button
-          icon="el-icon-phone"
-          size="small"
-          round
-          @click="transferCall()"
-          >转接</el-button
-        >
+          <el-button icon="el-icon-phone" size="small" round @click="holdCall()"
+            >保持通话</el-button
+          >
+          <el-button
+            icon="el-icon-phone"
+            size="small"
+            round
+            @click="unholdCall()"
+            >恢复通话</el-button
+          >
+          <el-button
+            icon="el-icon-phone"
+            size="small"
+            round
+            @click="transferCall()"
+            >转接</el-button
+          >
         </div>
         <!-- <el-button type="primary" icon="el-icon-phone" size="small" round>置忙</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>置闲</el-button>
@@ -78,7 +74,11 @@
         <div class="user">
           <span>工号：{{ info.jobNumber }}</span>
           <span>状态：</span>
-          <el-select v-model="states" style="width: 100px" @change="changeStates">
+          <el-select
+            v-model="states"
+            style="width: 100px"
+            @change="changeStates"
+          >
             <el-option label="就绪" :value="2"></el-option>
             <el-option label="暂停" :value="4"></el-option>
           </el-select>
@@ -164,7 +164,11 @@ export default {
   methods: {
     //拨打电话
     cell() {
-      makeCall(this.tell);
+      if (/[\u4E00-\u9FA5]/g.test(this.tell)) {
+        this.$message.error("拨打电话不能输入汉字!");
+      } else {
+        makeCall(this.tell);
+      }
     },
     hangupCall() {
       hangupCall();
@@ -230,16 +234,20 @@ export default {
       //   }
       // });
     },
-    changeStates(e){
-      this.$http.role.updateAttendAndLoginMode({attendId:this.info.attendId,attendStatus:e}).then(res=> {
-        if (res.state === "200") {
-          this.$message.success('修改状态成功')
-        }else{
-          this.$message.error('修改状态失败')
-        }
-      })
-
-    }
+    changeStates(e) {
+      this.$http.role
+        .updateAttendAndLoginMode({
+          attendId: this.info.attendId,
+          attendStatus: e,
+        })
+        .then((res) => {
+          if (res.state === "200") {
+            this.$message.success("修改状态成功");
+          } else {
+            this.$message.error("修改状态失败");
+          }
+        });
+    },
   },
   watch: {
     "$store.state.vertoState": {
@@ -404,16 +412,17 @@ export default {
       span:last-child {
         cursor: pointer;
       }
-      .user,.handle{
+      .user,
+      .handle {
         display: flex;
         justify-content: center;
         align-items: center;
       }
-      .handle{
+      .handle {
         float: left;
         height: 80px;
       }
-      .user{
+      .user {
         float: right;
       }
     }
