@@ -14,31 +14,49 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
-      <el-table-column prop="attendName" label="座席姓名" />
-      <el-table-column prop="jobNumber" label="座席工号" />
+      <el-table-column prop="uploadTime" label="导入时间" >
+        <template slot-scope="{row}">
+          <span>{{row.uploadTime | dateTime}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="startTime" label="开始时间" >
         <template slot-scope="{row}">
           <span>{{row.startTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="endTime" label="终止时间" >
+      <el-table-column prop="connTime" label="接通时间" >
+        <template slot-scope="{row}">
+          <span>{{row.connTime | dateTime}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="endTime" label="结束时间" >
         <template slot-scope="{row}">
           <span>{{row.endTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="calledId" label="被叫号码" />
-      <el-table-column prop="talkDuration" label="通话时长（秒）" />
-      <el-table-column prop="billingTime" label="计费时长（秒）" />
-      <el-table-column prop="cost" label="费用（元）" />
-      <el-table-column prop="callType" label="呼叫类型" >
+      <el-table-column prop="callerId" label="主叫" />
+      <el-table-column prop="calledId" label="被叫" />
+      <el-table-column prop="callId" label="呼叫ID" />
+      <el-table-column prop="callType" label="通话类型" >
         <template slot-scope="{row}">
-          <span v-if="row.callType == 1">AI外呼 </span>
+          <span v-if="row.callType == 1">AI外呼</span>
           <span v-if="row.callType == 2">外呼人工</span>
           <span v-if="row.callType == 3">呼入</span>
           <span v-if="row.callType == 4">呼入人工</span>
         </template>
       </el-table-column>
-      <el-table-column prop="hangupCause" label="挂断原因" />
+      <el-table-column prop="hangupCause" label="挂机原因" />
+      <el-table-column prop="talkDuration" label="通话时长" />
+      <el-table-column prop="costType" label="用户收费类型" >
+        <template slot-scope="{row}">
+          <span v-if="row.costType == 1">费率</span>
+          <span v-if="row.costType == 2">套餐</span>
+          <span v-if="row.costType == 3">套餐+余额</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="costDuration" label="用户收费时长" />
+      <el-table-column prop="cost" label="用户费用" />
+      <el-table-column prop="dataTag" label="标签" />
       <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button
@@ -97,10 +115,10 @@
           <li class="liRight">
             <!-- 不可以删 -->
             <div></div>
-            <div v-show="item.custSpeechText">
-              <div class="date">
+            <div v-show="item.customerSpeechText">
+              <div class="date customer">
                 <span>
-                  客户：{{ item.custSpeechTime }}
+                  客户：{{ item.customerSpeechTime }}
                   <i
                     class="el-icon-service"
                     @click="Audition(item.replyAudio)"
@@ -111,7 +129,7 @@
                 </span>
               </div>
 
-              <div class="content cur">{{ item.custSpeechText }}</div>
+              <div class="content cur">{{ item.customerSpeechText }}</div>
             </div>
           </li>
         </ul>
@@ -129,9 +147,12 @@ export default {
     return {
       // 搜索框配置
       searchFormConfig: [
-        { type: "input", label: "公司名称", key: "corpName" },
-        { type: "input", label: "联系人", key: "corpNames" },
-        { type: "inputNum", label: "联系电话", key: "userId" },
+        { type: "input", label: "主叫", key: "callerId" },
+        { type: "input", label: "被叫", key: "calledId" },
+        { type: "input", label: "挂机原因", key: "hangupCause" },
+        { type: "input", label: "通话时长>", key: "talkDuration" },
+        { type: "date", label: "导入开始时间", key: "startTime" },
+        { type: "date", label: "导入终止时间", key: "endTime" },
       ],
       //搜索框数据
       searchParam: {},
@@ -180,7 +201,7 @@ export default {
       self.rowData = row;
       this.auditionUrl = row.recordFile;
       self.title =
-        "电话:" + self.rowData.calledId + "   时间:" + new Date(self.rowData.startTime).Format("yyyy-MM-dd hh:mm:ss");
+        "电话：" + self.rowData.calledId + "   时间：" + new Date(self.rowData.startTime).Format("yyyy-MM-dd hh:mm:ss");
       this.$http.dataquery.voicetalkAiList(row.dataId).then(res => {
         if (res.state == "0000") {
           if (res.data.length == 0) {
@@ -193,7 +214,7 @@ export default {
           self.isDetails = true;
           res.data.forEach(val => {
             val.robotSpeechTime = new Date(val.robotSpeechTime).Format("yyyy-MM-dd hh:mm:ss");
-            val.custSpeechTime = new Date(val.custSpeechTime).Format("yyyy-MM-dd hh:mm:ss");
+            val.customerSpeechTime = new Date(val.customerSpeechTime).Format("yyyy-MM-dd hh:mm:ss");
             // val.custSpeechTime = datetime(val.custSpeechTime);
           });
           self.detailsData = res.data;
@@ -251,9 +272,11 @@ export default {
       width: 100%;
       display: flex;
       justify-content: space-between;
-
       .date {
         text-align: right;
+      }
+      .customer{
+        justify-content: end;
       }
     }
 
