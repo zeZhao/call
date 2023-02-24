@@ -21,7 +21,7 @@
           <img src="" alt="">
         </div> -->
         <el-button
-          type="primary"
+          type="danger"
           icon="el-icon-phone"
           size="small"
           round
@@ -30,7 +30,7 @@
           >挂断</el-button
         >
         <el-button
-          type="primary"
+          type="success"
           icon="el-icon-phone"
           size="small"
           round
@@ -48,7 +48,6 @@
           >静音/取消静音</el-button
         > -->
         <el-button
-          type="primary"
           icon="el-icon-phone"
           size="small"
           round
@@ -56,7 +55,6 @@
           >保持通话</el-button
         >
         <el-button
-          type="primary"
           icon="el-icon-phone"
           size="small"
           round
@@ -64,7 +62,6 @@
           >恢复通话</el-button
         >
         <el-button
-          type="primary"
           icon="el-icon-phone"
           size="small"
           round

@@ -124,13 +124,10 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         { type: "input", label: "公司名称", key: "corpName" },
-        { type: "input", label: "联系人", key: "corpNames" },
-        { type: "inputNum", label: "联系电话", key: "userId" },
+         { type: "inputNum", label: "联系电话", key: "userId" },
       ],
       //搜索框数据
-      searchParam: {
-        
-      },
+      searchParam: {},
       //接口地址
       searchAPI: {
         namespace: "dataquery",
@@ -246,10 +243,8 @@ export default {
     li {
       width: 50%;
       list-style-type: none;
-
       margin-bottom: 5px;
       float: left;
-
       .date {
         display: flex;
       }
@@ -258,7 +253,6 @@ export default {
       width: 100%;
       display: flex;
       justify-content: space-between;
-
       .date {
         text-align: right;
       }
@@ -270,7 +264,6 @@ export default {
       border-radius: 50%;
       border: 1px solid rgb(107, 103, 103);
       display: inline-block;
-
       margin-right: 15px;
       img {
         width: 30px;

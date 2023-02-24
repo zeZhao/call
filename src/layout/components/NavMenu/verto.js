@@ -37,7 +37,7 @@ function bootstrap(login, passwd, url, prot) {
       // Set to 'none' to disable inbound audio.
       useSpeak: 'any',
       // Set to 'none' to disable outbound video.
-      useCamera: 'any',
+      useCamera: 'none',
       onResCheck: null
     },
     audioParams: {
@@ -94,7 +94,7 @@ export function makeCall(destinationNumber) {
     useVideo: true,
     useMic: "any",
     useSpeak: "any",
-    useCamera: 'any',
+    useCamera: 'none',
     screenShare: false,
     // deviceParams:{
     //   useMic: 'any',
@@ -111,13 +111,11 @@ export function makeCall(destinationNumber) {
 };
 
 function onDialogState(dialog) {
-  console.debug('onDialogState', dialog);
-  console.log(dialog, '------')
   currentCall = dialog;
   store.commit('vertoState', dialog.state.name)
   if (dialog.state.name == 'ringing') {
 
-    alert('有人在呼叫你，快接!');
+    console.log('有人在呼叫你，快接!');
   }
   switch (dialog.state.name) {
     case "trying":
@@ -129,13 +127,6 @@ function onDialogState(dialog) {
     case "active":
       currentCall.setMute("on")
       console.log('正在通话-----active')
-      // vertoHandle.subscribe("presence", {
-      //   handler: function (v, e) {
-      //     if (e.data.channelUUID === master && e.data.channelCallState === "HANGUP") {
-      //       currentCall.hangup();
-      //     }
-      //   }
-      // });
       break;
     case "hangup":
       console.log('暂停-----hangup')
@@ -163,7 +154,7 @@ export function answerCall() {
     useStereo: true,
     useMic: 'any',
     useSpeak: 'any',
-    useCamera: 'any',
+    useCamera: 'none',
 
   });
 };
