@@ -153,8 +153,14 @@ export default {
     return {
       // 搜索框配置
       searchFormConfig: [
-        { type: "input", label: "公司名称", key: "corpName" },
-         { type: "inputNum", label: "联系电话", key: "userId" },
+        { type: "input", label: "主叫", key: "callerId" },
+        { type: "input", label: "被叫", key: "calledId" },
+        { type: "input", label: "座席姓名", key: "attendName" },
+        { type: "input", label: "工号", key: "jobNumber" },
+        { type: "input", label: "挂机原因", key: "hangupCause" },
+        { type: "input", label: "通话时长>", key: "talkDuration" },
+        { type: "date", label: "开始时间", key: "startTime" },
+        { type: "date", label: "终止时间", key: "endTime" },
       ],
       //搜索框数据
       searchParam: {},
