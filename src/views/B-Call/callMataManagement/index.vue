@@ -17,6 +17,7 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
+      <el-table-column prop="corpName" label="公司名称" />
       <el-table-column prop="taskName" label="任务标题" />
       <el-table-column prop="startTime" label="开始时间" >
         <template slot-scope="{row}">
@@ -55,9 +56,21 @@ export default {
     return {
       // 搜索框配置
       searchFormConfig: [
-        { type: "input", label: "公司名称", key: "corpName" },
-        { type: "input", label: "联系人", key: "corpNames" },
-        { type: "inputNum", label: "联系电话", key: "userId" },
+        { type: "input", label: "任务名称", key: "taskName" },
+        { type: "input", label: "外呼号码", key: "mobile" },
+        {
+          type: "select",
+          label: "呼叫状态",
+          key: "isConnected",
+          optionData: [
+            { key: "0", value: "未接通" },
+            { key: "1", value: "接通" },
+            { key: "", value: "未开始" },
+          ],
+        },
+        { type: "input", label: "通话时长>", key: "talkDuration" },
+        { type: "date", label: "导入开始时间", key: "startTime" },
+        { type: "date", label: "导入终止时间", key: "endTime" },
         // {
         //   type: "select",
         //   label: "签名",
