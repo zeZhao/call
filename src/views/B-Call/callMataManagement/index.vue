@@ -78,7 +78,7 @@ export default {
         list: "list",
       },
       // 列表参数
-      namespace: "configs",
+      namespace: "",
       namespaceType: "Array",
     };
   },

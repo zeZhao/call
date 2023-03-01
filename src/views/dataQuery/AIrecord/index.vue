@@ -100,7 +100,7 @@ export default {
         detele: "delete",
       },
       // 列表参数
-      namespace: "configs",
+      namespace: "",
       namespaceType: "Array",
       // 表单配置
       formConfig: [

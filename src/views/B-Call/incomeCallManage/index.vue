@@ -270,7 +270,7 @@
         <!-- 分页 -->
         <el-pagination
           background
-          layout="prev, pager, next"
+          layout="total, sizes, prev, pager, next, jumper"
           :total="totalNumber"
           :current-page="page"
           style="float: right; margin-right: 30px"

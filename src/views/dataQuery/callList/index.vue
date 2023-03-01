@@ -56,6 +56,8 @@
       </el-table-column>
       <el-table-column prop="costDuration" label="用户收费时长" />
       <el-table-column prop="cost" label="用户费用" />
+      <el-table-column prop="period" label="用户计费周期" />
+      <el-table-column prop="costSetMeal" label="用户套餐扣除时长" />
       <el-table-column prop="dataTag" label="标签" />
       <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
