@@ -27,6 +27,14 @@
           <span v-if="row.loginMode == 1">自动</span>
         </template>
       </el-table-column>
+      <el-table-column prop="attendState" label="坐席状态">
+        <template slot-scope="{ row }">
+          <span v-if="row.attendState == 1">未登录</span>
+          <span v-if="row.attendState == 2">登录</span>
+          <span v-if="row.attendState == 3">忙</span>
+          <span v-if="row.attendState == 4">暂停</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="{row}">
           <span v-if="row.status == 0">禁用</span>
