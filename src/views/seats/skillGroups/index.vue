@@ -324,7 +324,6 @@ export default {
               arr.push({
                 key: item.attendId,
                 label: item.attendName,
-                disabled: item.state == 1 ? true : false,
               });
             }
           });
@@ -332,7 +331,6 @@ export default {
             arr.push({
               key: item.attendId,
               label: item.attendName,
-              disabled: item.state == 1 ? true : false,
             });
             checkList.push(item.attendId);
           });
@@ -408,8 +406,8 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
-      this.getListAttendAllBySkillGroup(row.sgId);
-      await this.formConfig.forEach(async (item) => {
+      await this.getListAttendAllBySkillGroup(row.sgId);
+      this.formConfig.forEach(async (item) => {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
@@ -419,7 +417,7 @@ export default {
           this.$set(item, "defaultValue", "");
         }
         if (item.key === "corpId") {
-          await this.listScene(item.defaultValue);
+          this.listScene(item.defaultValue);
           await this.getListAttendAll(item.defaultValue);
         }
       });
