@@ -302,6 +302,17 @@ export default {
     //     console.log(res);
     //   });
     // },
+
+
+    //设置穿梭框数据
+    setAttendIdList(data) {
+      this.formConfig.forEach((item) => {
+        if (item.key === "attendIdList")
+          this.$nextTick(() => {
+            this.$set(item, "data", data);
+          });
+      });
+    },
     // 获取本企业所有坐席
     async getListAttendAll(corpId) {
       await this.$http.skillGroup.listAttendAll({ corpId }).then((res) => {
@@ -327,15 +338,7 @@ export default {
           });
           console.log(arr, "=========获取本企业所有坐席");
           console.log(checkList, "=========技能组所有坐席");
-          this._setDefaultValue(
-            this.formConfig,
-            res.data,
-            "attendIdList",
-            "",
-            "",
-            "",
-            arr
-          );
+          this.setAttendIdList(arr)
           this._setDefaultValue(this.formConfig, [], "attendIdList", checkList);
         }
         // console.log(res);
@@ -343,6 +346,7 @@ export default {
     },
     // 获取本技能组所有坐席
     async getListAttendAllBySkillGroup(sgId) {
+      this.attendSkillGroupList = []
       await this.$http.skillGroup
         .listAttendAllBySkillGroup({ sgId })
         .then((res) => {
@@ -385,6 +389,7 @@ export default {
       this.formTit = "新增";
       let corpId = JSON.parse(getStorage("info")).corpId
       this._setDefaultValue(this.formConfig, [], "attendIdList", []);
+      this.attendSkillGroupList = []
       this.getListAttendAll(corpId);
       this.listScene(corpId);
       setTimeout(() => {

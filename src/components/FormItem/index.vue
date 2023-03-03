@@ -742,7 +742,7 @@ export default {
       this.formConfig.forEach((item) => {
         const { defaultValue, key, type } = item;
         if (defaultValue || this.formData[key] || defaultValue === 0) {
-          if (type === "checkbox") {
+          if (type === "checkbox" || type === "transfer") {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);
             } else {
