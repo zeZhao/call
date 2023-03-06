@@ -1,4 +1,6 @@
 import axios from "axios";
+import Vue from 'vue'
+import Api from "@/utils/api.js";
 import { Message } from 'element-ui'
 import { setStorage, getStorage } from "@/utils/auth";
 import store from '@/store/index.js';
@@ -32,6 +34,10 @@ service.interceptors.response.use(
         message: '登录过期，请重新登录！',
         type: 'error',
       })
+      Api.role.updateAttendAndLoginMode({
+          attendId: JSON.parse(getStorage('info')).attendId,
+          attendStatus: 4,
+        })
       setTimeout(() => window.location.reload(), 2000);
     }
     return res

@@ -61,7 +61,7 @@ class callPlugin {
           state
         } = res
         if (code === '200' || code === 200 || res.data || state === '0000') {
-          if (code === 500 || code === '500') {
+          if (code === 9000 || code === '9000') {
             return false
           }
           return true;
