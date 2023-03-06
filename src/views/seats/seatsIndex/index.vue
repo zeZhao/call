@@ -212,7 +212,7 @@ export default {
   },
   computed: {},
   methods: {
-    //获取公司下拉
+    //获取角色下拉
     getRoleList(){
       this.$http.role.list({enablePage:false}).then(res=>{
         this._setDefaultValue(this.formConfig,res.data.list,'attendroleId','roleId','roleName')
@@ -234,8 +234,6 @@ export default {
     _mxCreate() {
       this.addChannel = true;
       this.formTit = "新增";
-      let corpId = JSON.parse(getStorage("info")).corpId
-      this._deleteDefaultValue(this.formConfig,[], "corpId",corpId);
       // this.getListAttendAll(corpId);
       // this.listScene(corpId);
       setTimeout(() => {
@@ -244,14 +242,18 @@ export default {
     },
     _mxArrangeSubmitData(formData) {
       let form = Object.assign({}, formData);
-      let userId = form.userId;
-      if (userId) {
-        this.userList.forEach((item) => {
-          if (item.userId === userId) {
-            form.corpId = item.corpId;
-          }
-        });
-      }
+      let corpId = JSON.parse(getStorage("info")).corpId
+      let userId = JSON.parse(getStorage("info")).userId
+      form.corpId = corpId;
+      form.userId = userId;
+      // let userId = form.userId;
+      // if (userId) {
+      //   this.userList.forEach((item) => {
+      //     if (item.userId === userId) {
+      //       form.corpId = item.corpId;
+      //     }
+      //   });
+      // }
       return form;
     },
   },
