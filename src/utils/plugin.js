@@ -82,8 +82,11 @@ class callPlugin {
   /*------------------添加vue过滤器------------------*/
   installFilter(Vue) {
     Vue.filter('dateTime',function (value) {
-      if(!value) return '-'
-      return new Date(value).Format("yyyy-MM-dd hh:mm:ss")
+      if (value && value !== null && value !== '-') {
+        return new Date(value).Format("yyyy-MM-dd hh:mm:ss")
+      } else {
+        return '-'
+      }
     })
   }
 
