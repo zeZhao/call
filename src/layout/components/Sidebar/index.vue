@@ -54,7 +54,7 @@ export default {
       let menuList = JSON.parse(getStorage('menu'))
       let arr = []
       menuList.forEach(item=>{
-        if(item.ifChecked === '1'){
+        if(item.ifChecked === '1' && item.linkUrl !== "/tel"){
           arr.push(item)
         }
       })

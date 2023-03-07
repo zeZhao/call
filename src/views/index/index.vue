@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <el-form :model="form" v-if="!loginDisabled">
+    <el-form :model="form" v-if="!loginDisabled && isShowTel">
       <el-form-item label="分机号：">
         <el-input v-model="form.user" placeholder="请输入分机号"></el-input>
       </el-form-item>
@@ -54,6 +54,7 @@ export default {
         prot: JSON.parse(getStorage("info")).extPort,
       },
       loginDisabled: false,
+      isShowTel: false,
     };
   },
   created() {
@@ -61,6 +62,20 @@ export default {
     init(ext, extPwd, extUrl, extPort);
   },
   mounted() {
+    if (JSON.parse(getStorage("info")) !== null) {
+      const { sysMenus } = JSON.parse(getStorage("info"))
+      if(sysMenus && sysMenus.length > 0){
+        sysMenus.forEach(item=>{
+          if(item.linkUrl === '/tel' && item.ifChecked === '1'){
+            this.isShowTel = true
+          }else{
+            this.isShowTel = false
+          }
+        })
+      }else{
+        this.isShowTel = false
+      }
+    }
     // window.addEventListener("unload", (e) => this.logout(e));
   },
   computed: {

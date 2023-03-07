@@ -4,7 +4,7 @@
       <div class="nav_conent_title">呼叫中心</div>
 
       <div class="nav_conent_handle clearfix">
-        <div class="handle">
+        <div class="handle" v-if="isShowTel">
           <!-- <div style="margin-right: 20px" v-if="info.ext">
           分机号：{{ info.ext }}
         </div> -->
@@ -72,17 +72,20 @@
         <el-button type="primary" icon="el-icon-phone" size="small" round>退签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>班组</el-button> -->
         <div class="user">
-          <span>工号：{{ info.jobNumber }}</span>
-          <span>状态：</span>
-          <el-select
-            v-model="states"
-            style="width: 100px"
-            @change="changeStates"
-          >
-            <el-option label="就绪" :value="2"></el-option>
-            <el-option label="暂停" :value="4"></el-option>
-          </el-select>
-          <el-button type="text" style="margin: 0 20px" @click="logout"
+          <div v-if="isShowTel">
+            <span>工号：{{ info.jobNumber }}</span>
+            <span>状态：</span>
+            <el-select
+              v-model="states"
+              style="width: 100px"
+              @change="changeStates"
+            >
+              <el-option label="就绪" :value="2"></el-option>
+              <el-option label="暂停" :value="4"></el-option>
+            </el-select>
+          </div>
+
+          <el-button type="text" style="margin: 0 20px;height:80px" @click="logout"
             >退出</el-button
           >
         </div>
@@ -148,17 +151,36 @@ export default {
       tellName: "",
       states: 2,
       info: JSON.parse(getStorage("info")),
+      isShowTel: true,
     };
   },
   created() {
+    if (JSON.parse(getStorage("info")) !== null) {
+      const { name, account, sysMenus } = JSON.parse(getStorage("info"));
+      this.name = name;
+      this.account = account;
+      this.$nextTick(() => {
+        if (sysMenus && sysMenus.length > 0) {
+          sysMenus.forEach((item) => {
+            if (item.linkUrl === "/tel" && item.ifChecked === "1") {
+              this.$nextTick(()=>{
+                this.isShowTel = true;
+              })
+              
+            } else {
+              this.isShowTel = false;
+            }
+          });
+        } else {
+          this.isShowTel = false;
+        }
+      });
+    }
     // init('2004','123456','vertoweb.jvtdtest.top','8082')
   },
   mounted() {
-    if (JSON.parse(getStorage("info")) !== null) {
-      const { name, account } = JSON.parse(getStorage("info"));
-      this.name = name;
-      this.account = account;
-    }
+    console.log(this.isShowTel,'======电话条权限')
+    
   },
   computed: {},
   methods: {
