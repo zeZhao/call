@@ -35,10 +35,14 @@ service.interceptors.response.use(
         type: 'error',
       })
       Api.role.updateAttendAndLoginMode({
-          attendId: JSON.parse(getStorage('info')).attendId,
-          attendStatus: 4,
-        })
-      setTimeout(() => window.location.reload(), 2000);
+        attendId: JSON.parse(getStorage('info')).attendId,
+        attendStatus: 1,
+      }).then(res => {
+        if (res.state == '200') {
+          setTimeout(() => window.location.reload(), 2000);
+        }
+      })
+      return 
     }
     return res
   },
