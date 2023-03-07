@@ -323,19 +323,17 @@ export default {
             if (item.state != 1) {
               arr.push({
                 key: item.attendId,
-                label: item.attendName,
+                label: `${item.attendName}（${item.jobNumber}）`,
               });
             }
           });
           this.attendSkillGroupList.forEach((item) => {
             arr.push({
               key: item.attendId,
-              label: item.attendName,
+              label: `${item.attendName}（${item.jobNumber}）`,
             });
             checkList.push(item.attendId);
           });
-          console.log(arr, "=========获取本企业所有坐席");
-          console.log(checkList, "=========技能组所有坐席");
           this.setAttendIdList(arr)
           this._setDefaultValue(this.formConfig, [], "attendIdList", checkList);
         }
