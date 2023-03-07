@@ -37,7 +37,7 @@ function bootstrap(login, passwd, url, prot) {
       // Set to 'none' to disable inbound audio.
       useSpeak: 'any',
       // Set to 'none' to disable outbound video.
-      useCamera: 'none',
+      useCamera: 'any',
       onResCheck: null
     },
     audioParams: {
@@ -94,7 +94,7 @@ export function makeCall(destinationNumber) {
     useVideo: true,
     useMic: "any",
     useSpeak: "any",
-    useCamera: 'none',
+    useCamera: 'any',
     screenShare: false,
     // deviceParams:{
     //   useMic: 'any',
@@ -154,7 +154,7 @@ export function answerCall() {
     useStereo: true,
     useMic: 'any',
     useSpeak: 'any',
-    useCamera: 'none',
+    useCamera: 'any',
 
   });
 };
