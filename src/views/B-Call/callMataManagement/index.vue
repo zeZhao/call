@@ -17,7 +17,7 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
-      <el-table-column prop="corpName" label="公司名称" />
+      <!-- <el-table-column prop="corpName" label="公司名称" /> -->
       <el-table-column prop="taskName" label="任务标题" />
       <el-table-column prop="startTime" label="开始时间" >
         <template slot-scope="{row}">
