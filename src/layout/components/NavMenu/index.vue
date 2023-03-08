@@ -26,6 +26,7 @@
             size="small"
             round
             style="margin-left: 20px"
+            :disabled="destroyDisabled"
             @click="hangupCall()"
             >挂断</el-button
           >
@@ -72,8 +73,8 @@
         <el-button type="primary" icon="el-icon-phone" size="small" round>退签</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>班组</el-button> -->
         <div class="user">
+          <span>工号：{{ info.jobNumber }}</span>
           <div v-if="isShowTel">
-            <span>工号：{{ info.jobNumber }}</span>
             <span>状态：</span>
             <el-select
               v-model="states"
@@ -147,6 +148,7 @@ export default {
       confirmVisible: false,
       isRinging: false,
       loginDisabled: false,
+      destroyDisabled: true,
       tell: "",
       tellName: "",
       states: 2,
@@ -277,9 +279,13 @@ export default {
       deep: true,
       handler(val) {
         if (val == "ringing") {
+          this.destroyDisabled = false
           this.isRinging = true;
+        }else if(val == 'active'){
+          this.destroyDisabled = false
         } else {
           this.isRinging = false;
+          this.destroyDisabled = true;
         }
       },
     },
