@@ -8,9 +8,11 @@
       <div class="content_cnt">
         <Tags></Tags>
         <div class="content_page" id="content_page">
-          <router-view />
+          <keep-alive>
+            <router-view v-if="!$route.meta.keepAliveNo"/>   
+          </keep-alive>
+          <router-view v-if="$route.meta.keepAliveNo"></router-view>
         </div>
-        
       </div>
     </div>
   </div>

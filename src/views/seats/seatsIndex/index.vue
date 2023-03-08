@@ -90,6 +90,19 @@ export default {
   mixins: [listMixin],
   components: {},
   data() {
+    // 标签名称验证
+    var tagNameValidator = (rule, value, callback) => {
+      if (value) {
+        let test = /^[\da-z]+$/i.test(value)
+        if (!test) {
+          callback(new Error("工号只能输入字母、数字!"));
+        } else {
+          callback();
+        }
+      } else {
+        callback(new Error("工号不能为空!"));
+      }
+    };
     return {
       // 搜索框配置
       searchFormConfig: [
@@ -162,6 +175,13 @@ export default {
           label: "工号",
           key: "jobNumber",
           defaultValue: "",
+          rules: [
+            {
+              required: true,
+              validator: tagNameValidator,
+              trigger: "blur",
+            },
+          ],
         },
         {
           type: "password",
