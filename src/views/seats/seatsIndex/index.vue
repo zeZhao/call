@@ -114,8 +114,6 @@ export default {
           label: "角色",
           key: "attendroleId",
           optionData: [
-            { key: 2, value: "普通坐席" },
-            { key: 1, value: "企业管理员" },
           ],
         },
         {
@@ -123,9 +121,6 @@ export default {
           label: "归属技能组",
           key: "skillgroupId",
           optionData: [
-            { key: "1", value: "全部" },
-            { key: "2", value: "技能组A" },
-            { key: "3", value: "技能组B" },
           ],
         },
         {
@@ -221,21 +216,53 @@ export default {
         },
       ],
       id: "",
+      info:JSON.parse(getStorage('info'))
     };
   },
   created() {},
   mounted() {
+    const {userId} = this.info
     this.getRoleList()
+    this.skillGroupListAll()
+    this.getRoleList(userId)
   },
   activated(){
+    const {userId} = this.info
     this.getRoleList()
+    this.skillGroupListAll()
+    this.getRoleList(userId)
   },
   computed: {},
   methods: {
+    skillGroupListAll(){
+      this.$http.select.skillGroupListAll().then(res=>{
+        this._setDefaultValue(
+          this.searchFormConfig,
+          res.data,
+          "skillgroupId",
+          "sgId",
+          "skillGroupName"
+        );
+      })
+    },
     //获取角色下拉
-    getRoleList(){
-      this.$http.role.list({enablePage:false}).then(res=>{
-        this._setDefaultValue(this.formConfig,res.data.list,'attendroleId','roleId','roleName')
+    getRoleList(corpId){
+      this.$http.role.list({enablePage:false,corpId}).then(res=>{
+        
+          this._setDefaultValue(
+          this.formConfig,
+          res.data.list,
+          "attendroleId",
+          "roleId",
+          "roleName"
+        );
+        this._setDefaultValue(
+          this.searchFormConfig,
+          res.data.list,
+          "attendroleId",
+          "roleId",
+          "roleName"
+        );
       })
     },
     //获取公司下拉

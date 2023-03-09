@@ -159,8 +159,10 @@ export default {
         { type: "input", label: "工号", key: "jobNumber" },
         { type: "input", label: "挂机原因", key: "hangupCause" },
         { type: "input", label: "通话时长>", key: "talkDuration" },
-        { type: "date", label: "开始时间", key: "startTime" },
-        { type: "date", label: "终止时间", key: "endTime" },
+        { type: "datetime", label: "导入时间", key: ["","startTime","endTime"] },
+
+        // { type: "date", label: "开始时间", key: "startTime" },
+        // { type: "date", label: "终止时间", key: "endTime" },
       ],
       //搜索框数据
       searchParam: {},

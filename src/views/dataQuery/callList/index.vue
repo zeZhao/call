@@ -153,8 +153,8 @@ export default {
         { type: "input", label: "被叫", key: "calledId" },
         { type: "input", label: "挂机原因", key: "hangupCause" },
         { type: "input", label: "通话时长>", key: "talkDuration" },
-        { type: "date", label: "导入开始时间", key: "startTime" },
-        { type: "date", label: "导入终止时间", key: "endTime" },
+        { type: "datetime", label: "导入时间", key: ["","startTime","endTime"] },
+
       ],
       //搜索框数据
       searchParam: {},

@@ -120,9 +120,10 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         // { type: "input", label: "商户名称", key: "corpId" },
-        { type: "input", label: "技能组流程", key: "taskName" },
-        { type: "input", label: "满意度流程", key: "extId" },
-        { type: "input", label: "技能组名称", key: "extId" },
+        // { type: "input", label: "技能组流程", key: "taskName" },
+        { type: "input", label: "坐席组名称", key: "extId" },
+        { type: "select", label: "满意度流程", key: "satisfactionIvrId",optionData:[] },
+        
         {
           type: "select",
           label: "座席分配策略",
@@ -269,6 +270,7 @@ export default {
   },
   created() {},
   mounted() {
+    this.listScene()
     // this.queryCorpByCorpType();
   },
   computed: {},
@@ -284,13 +286,23 @@ export default {
       this.$http.outbound.listScene(data).then((res) => {
         if (res.state === "0000") {
           this.sceneList = res.data;
-          this._setDefaultValue(
-            this.formConfig,
-            res.data,
-            "satisfactionIvrId",
-            "sceneId",
-            "sceneName"
-          );
+          if (corpId) {
+            this._setDefaultValue(
+              this.formConfig,
+              res.data,
+              "satisfactionIvrId",
+              "sceneId",
+              "sceneName"
+            );
+          } else {
+            this._setDefaultValue(
+              this.searchFormConfig,
+              res.data,
+              "satisfactionIvrId",
+              "sceneId",
+              "sceneName"
+            );
+          }
         } else {
           this.$message.error(res.msg);
         }

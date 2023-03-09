@@ -181,11 +181,17 @@ export default {
     // init('2004','123456','vertoweb.jvtdtest.top','8082')
   },
   mounted() {
-    console.log(this.isShowTel,'======电话条权限')
+    window.addEventListener("keydown", this.keyDown);
     
   },
   computed: {},
   methods: {
+    keyDown(e) {
+      //如果是回车则执行登录方法
+      if (e.keyCode == 13) {
+        this.cell();
+      }
+    },
     //拨打电话
     cell() {
       if (/[\u4E00-\u9FA5]/g.test(this.tell)) {
@@ -272,6 +278,9 @@ export default {
           }
         });
     },
+  },
+  destroyed() {
+    window.removeEventListener("keydown", this.keyDown, false);
   },
   watch: {
     "$store.state.vertoState": {
