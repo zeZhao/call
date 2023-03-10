@@ -25,7 +25,7 @@ function bootstrap(login, passwd, url, prot) {
     // As configured in verto.conf.xml on the server.
     socketUrl: `wss://${url}:${prot}`,
     // TODO: Where is this file, on the server? What is the base path?
-    ringFile: "https://ccclient.jvtdtest.top/voice/sentence20230309155755643.wav",
+    ringFile: 'sounds/bell_ring2.wav',
     iceServers: true,
 
     wsFallbackURL: null,
