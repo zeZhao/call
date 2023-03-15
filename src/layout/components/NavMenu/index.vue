@@ -14,6 +14,7 @@
               icon="el-icon-phone"
               @click="cell"
               size="small"
+              :disabled="!destroyDisabled"
               >呼叫</el-button
             >
           </el-input>
@@ -65,6 +66,7 @@
             @click="transferCall()"
             >转接</el-button
           >
+          <span style="padding-left: 20px" v-show="callDuration">通话时长：{{ this.timeTxt }}</span>
         </div>
         <!-- <el-button type="primary" icon="el-icon-phone" size="small" round>置忙</el-button>
         <el-button type="primary" icon="el-icon-phone" size="small" round>置闲</el-button>
@@ -86,7 +88,10 @@
             </el-select>
           </div>
 
-          <el-button type="text" style="margin: 0 20px;height:80px" @click="logout"
+          <el-button
+            type="text"
+            style="margin: 0 20px; height: 80px"
+            @click="logout"
             >退出</el-button
           >
         </div>
@@ -147,13 +152,20 @@ export default {
       account: "xxx",
       confirmVisible: false,
       isRinging: false,
-      loginDisabled: false,
       destroyDisabled: true,
       tell: "",
-      tellName: "",
       states: 2,
       info: JSON.parse(getStorage("info")),
       isShowTel: true,
+      callDuration: true,
+      second: 1,
+      minute: 0,
+      hours: 0,
+      s10: "",
+      m10: "",
+      h10: "",
+      timeTxt: "00:00:00",
+      setTime:null
     };
   },
   created() {
@@ -165,10 +177,9 @@ export default {
         if (sysMenus && sysMenus.length > 0) {
           sysMenus.forEach((item) => {
             if (item.linkUrl === "/tel" && item.ifChecked === "1") {
-              this.$nextTick(()=>{
+              this.$nextTick(() => {
                 this.isShowTel = true;
-              })
-              
+              });
             } else {
               this.isShowTel = false;
             }
@@ -182,10 +193,26 @@ export default {
   },
   mounted() {
     window.addEventListener("keydown", this.keyDown);
-    
   },
   computed: {},
   methods: {
+    startTime() {
+      if (this.second > 0 && this.second % 60 == 0) {
+        this.minute += 1;
+        this.second = 0;
+      }
+      if (this.minute > 0 && this.minute % 60 == 0) {
+        this.hours += 1;
+        this.minute = 0;
+      }
+      this.s10 = this.second < 10 ? `0${this.second}` : this.second;
+      this.m10 = this.minute < 10 ? `0${this.minute}` : this.minute;
+      this.h10 = this.hours < 10 ? `0${this.hours}` : this.hours;
+      this.$nextTick(() => {
+        this.timeTxt = this.h10 + ":" + this.m10 + ":" + this.s10;
+      });
+      this.second += 1;
+    },
     keyDown(e) {
       //如果是回车则执行登录方法
       if (e.keyCode == 13) {
@@ -260,7 +287,6 @@ export default {
       // logout().then((res) => {
       //   if (res.code === 200) {
       //     this.$message.success("退出成功");
-
       //   }
       // });
     },
@@ -288,40 +314,27 @@ export default {
       deep: true,
       handler(val) {
         if (val == "ringing") {
-          this.destroyDisabled = false
+          this.destroyDisabled = false;
           this.isRinging = true;
-        }else if(val == 'active'){
-          this.destroyDisabled = false
+        } else if (val == "active") {
+          this.destroyDisabled = false;
+          this.setTime = setInterval(() => {
+            this.startTime();
+          }, 1000);
+          this.callDuration = true
         } else {
           this.isRinging = false;
+          this.callDuration = false;
           this.destroyDisabled = true;
+          this.setTime = clearInterval(this.setTime);
+          this.second = 1;
+          this.minute = 0;
+          this.hours = 0;
+          this.s10 = "";
+          this.m10 = "";
+          this.h10 = "";
+          this.timeTxt = "00:00:00";
         }
-      },
-    },
-    "$store.state.info": {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        if (val) {
-          this.tellName = val.login;
-        } else {
-          this.tellName = "";
-        }
-      },
-    },
-    "$store.state.IsLogin": {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        this.$nextTick(() => {
-          if (val) {
-            this.loginDisabled = true;
-            // this.$message.success("登录成功！");
-          } else {
-            this.loginDisabled = false;
-            // this.$message.error("分机登录失败，请重新登录");
-          }
-        });
       },
     },
   },
