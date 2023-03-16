@@ -19,8 +19,8 @@
       <el-table-column prop="pwd" label="分机密码" />
       <el-table-column prop="extType" label="分机类型" >
         <template slot-scope="{row}">
-          <span v-if="row.status == 0">网页电话</span>
-          <span v-if="row.status == 1">SIP话机</span>
+          <span v-if="row.extType == 0">网页电话</span>
+          <span v-if="row.extType == 1">SIP话机</span>
         </template>
       </el-table-column>
       <el-table-column prop="attendName" label="绑定座席" />
