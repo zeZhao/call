@@ -19,8 +19,8 @@
       <el-table-column prop="pwd" label="分机密码" />
       <el-table-column prop="extType" label="分机类型" >
         <template slot-scope="{row}">
-          <span v-if="row.extType == 0">网页电话</span>
-          <span v-if="row.extType == 1">SIP话机</span>
+          <span v-if="row.extType == 0">WEB电话</span>
+          <span v-if="row.extType == 1">SIP电话</span>
         </template>
       </el-table-column>
       <el-table-column prop="attendName" label="绑定座席" />
@@ -99,8 +99,8 @@ export default {
           label: "分机类型",
           key: "extType",
           optionData: [
-            { key: 1, value: "SIP话机" },
-            { key: 0, value: "网页电话" },
+            { key: 1, value: "SIP电话" },
+            { key: 0, value: "WEB电话" },
           ],
         },
         {
@@ -199,8 +199,8 @@ export default {
           key: "extType",
           defaultValue: "",
           optionData:[
-            { key: 1, value: "sip电话" },
-            { key: 0, value: "web电话" },
+            { key: 1, value: "SIP电话" },
+            { key: 0, value: "WEB电话" },
           ],
           colSpan:12
         },
