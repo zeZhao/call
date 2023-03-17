@@ -322,6 +322,8 @@ export default {
             this.startTime();
           }, 1000);
           this.callDuration = true
+        }else if (val == "trying"){
+          this.destroyDisabled = false;
         } else {
           this.isRinging = false;
           this.callDuration = false;
