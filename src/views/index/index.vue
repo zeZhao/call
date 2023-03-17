@@ -29,6 +29,7 @@
         style="width: 100%; height: 500px; object-fit: inherit; display: none"
       ></video>
     </div>
+    
   </div>
 </template>
 
@@ -58,11 +59,12 @@ export default {
     };
   },
   created() {
-    const { ext, extPwd, extUrl, extPort } = JSON.parse(getStorage("info"));
-    init(ext, extPwd, extUrl, extPort);
+    
   },
   mounted() {
     if (JSON.parse(getStorage("info")) !== null) {
+      const { ext, extPwd, extUrl, extPort } = JSON.parse(getStorage("info"));
+      init(ext, extPwd, extUrl, extPort);
       const { sysMenus } = JSON.parse(getStorage("info"))
       if(sysMenus && sysMenus.length > 0){
         sysMenus.forEach(item=>{

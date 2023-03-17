@@ -1,4 +1,3 @@
-import { Descriptions } from 'element-ui';
 import store from '../../../store'
 require("../../../assets/js/verto-min.js")
 
@@ -24,8 +23,8 @@ function bootstrap(login, passwd, url, prot) {
     passwd: passwd,
     // As configured in verto.conf.xml on the server.
     socketUrl: `wss://${url}:${prot}`,
-    // TODO: Where is this file, on the server? What is the base path?
-    ringFile: 'sounds/bell_ring2.wav',
+    tag: "webcam",
+    ringFile: 'https://ccclient.jvtdtest.top/voice/sentence20230317103803909.wav',
     iceServers: true,
 
     wsFallbackURL: null,
@@ -53,7 +52,7 @@ function bootstrap(login, passwd, url, prot) {
       "minFrameRate": 15,
       "vertoBestFrameRate": 30
     },
-    tag: "webcam",
+    
   }, vertoCallbacks);
   vertoHandle.loginData({
     login: `${login}@${url}`,
@@ -96,17 +95,12 @@ export function makeCall(destinationNumber) {
     useSpeak: "any",
     useCamera: 'any',
     screenShare: false,
-    // deviceParams:{
-    //   useMic: 'any',
-    //   useSpeak: 'any',
-    //   useCamera: 'any',
-    // },
     dedEnc: false,
     mirrorInput: false,
-    // userVariables: {
-    //   avatar: "",
-    //   email: "test@test.com"
-    // },
+    userVariables: {
+      avatar: "",
+      email: ""
+    },
   });
 };
 
@@ -114,7 +108,7 @@ function onDialogState(dialog) {
   currentCall = dialog;
   store.commit('vertoState', dialog.state.name)
   if (dialog.state.name == 'ringing') {
-
+    console.log(dialog,'=======dialog')
     console.log('有人在呼叫你，快接!');
   }
   switch (dialog.state.name) {

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-import jQuery from 'jquery'
 import jQueryJson from 'jquery-json'
 import router from './router/setting.js'
 import element from "element-ui"
@@ -11,7 +10,6 @@ import callPlugin from "./utils/plugin"
 
 Vue.config.productionTip = false
 
-Vue.use(jQuery)
 Vue.use(jQueryJson)
 Vue.use(element)
 Vue.use(callPlugin)
