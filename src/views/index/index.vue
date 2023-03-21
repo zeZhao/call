@@ -25,6 +25,7 @@
       <h2>呼叫中心</h2>
       <video
         id="webcam"
+        ref="webcam"
         autoplay="autoplay"
         style="width: 100%; height: 500px; object-fit: inherit; display: none"
       ></video>
@@ -59,7 +60,16 @@ export default {
     };
   },
   created() {
-    
+     navigator.mediaDevices.getUserMedia({ audio: true })
+    // var stream = navigator.mediaDevices.getUserMedia({ audio: true });
+    // // 添加用户交互事件
+    // document.body.addEventListener('click', function() {
+    //     // 播放媒体流
+    //     var audio = new Audio();
+    //     audio.srcObject = stream;
+    //     audio.play();
+    // });
+
   },
   mounted() {
     if (JSON.parse(getStorage("info")) !== null) {
@@ -115,8 +125,9 @@ export default {
     },
   },
   beforeDestroy() {
+    // window.removeEventListener('unload', this.logout);
     // this.logout();
-    // window.removeEventListener("unload", (e) => this.logout(e));
+    // window.removeEventListener("click");
   },
   watch: {
     "$store.state.IsLogin": {

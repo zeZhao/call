@@ -198,6 +198,18 @@
           ></el-table-column>
           <el-table-column
             align="center"
+            prop="lineConcurrency"
+            label="主叫线路并发"
+            :show-overflow-tooltip="true"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="attendConcurrency"
+            label="空闲坐席并发"
+            :show-overflow-tooltip="true"
+          ></el-table-column>
+          <el-table-column
+            align="center"
             prop="status"
             label="任务状态"
             min-width="80"

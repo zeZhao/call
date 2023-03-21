@@ -322,7 +322,7 @@ export default {
             this.startTime();
           }, 1000);
           this.callDuration = true
-        }else if (val == "trying"){
+        }else if (val == "early"){
           this.destroyDisabled = false;
         } else {
           this.isRinging = false;
