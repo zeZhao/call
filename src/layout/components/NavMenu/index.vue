@@ -50,12 +50,14 @@
           >静音/取消静音</el-button
         > -->
           <el-button icon="el-icon-phone" size="small" round @click="holdCall()"
+          :disabled="vertoStatus !== 'active'"
             >保持通话</el-button
           >
           <el-button
             icon="el-icon-phone"
             size="small"
             round
+            :disabled="vertoStatus !== 'held'"
             @click="unholdCall()"
             >恢复通话</el-button
           >
@@ -63,6 +65,7 @@
             icon="el-icon-phone"
             size="small"
             round
+            :disabled="vertoStatus !== 'active'"
             @click="transferCall()"
             >转接</el-button
           >
@@ -165,7 +168,8 @@ export default {
       m10: "",
       h10: "",
       timeTxt: "00:00:00",
-      setTime:null
+      setTime:null,
+      vertoStatus:null,
     };
   },
   created() {
@@ -313,6 +317,7 @@ export default {
       immediate: true,
       deep: true,
       handler(val) {
+        this.vertoStatus = val;
         if (val == "ringing") {
           this.destroyDisabled = false;
           this.isRinging = true;
