@@ -19,6 +19,11 @@
       <el-table-column label="序号" type="index" align="center" />
       <!-- <el-table-column prop="corpName" label="公司名称" /> -->
       <el-table-column prop="taskName" label="任务标题" />
+      <el-table-column prop="uploadTime" label="导入时间">
+        <template slot-scope="{ row }">
+          <span>{{ row.uploadTime | dateTime }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="startTime" label="开始时间" >
         <template slot-scope="{row}">
           <span>{{row.startTime | dateTime}}</span>
@@ -69,8 +74,9 @@ export default {
           ],
         },
         { type: "input", label: "通话时长>", key: "talkDuration" },
-        { type: "date", label: "导入开始时间", key: "startTime" },
-        { type: "date", label: "导入终止时间", key: "endTime" },
+        { type: "datetime", label: "导入时间", key: ["","startTime","endTime"] },
+        // { type: "date", label: "导入开始时间", key: "startTime" },
+        // { type: "date", label: "导入终止时间", key: "endTime" },
         // {
         //   type: "select",
         //   label: "签名",
