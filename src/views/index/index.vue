@@ -57,18 +57,12 @@ export default {
       },
       loginDisabled: false,
       isShowTel: false,
+      _beforeUnload_time:0,
+      _gap_time:0,
     };
   },
   created() {
      navigator.mediaDevices.getUserMedia({ audio: true })
-    // var stream = navigator.mediaDevices.getUserMedia({ audio: true });
-    // // 添加用户交互事件
-    // document.body.addEventListener('click', function() {
-    //     // 播放媒体流
-    //     var audio = new Audio();
-    //     audio.srcObject = stream;
-    //     audio.play();
-    // });
 
   },
   mounted() {
@@ -88,7 +82,12 @@ export default {
         this.isShowTel = false
       }
     }
-    // window.addEventListener("unload", (e) => this.logout(e));
+    window.addEventListener("beforeunload", (e) => {
+      e.returnValue="关闭提示"
+      this.logout()
+      return '关闭提示'
+      
+    });
   },
   computed: {
     IsLogin() {
@@ -123,11 +122,10 @@ export default {
         }
       });
     },
+
   },
   beforeDestroy() {
-    // window.removeEventListener('unload', this.logout);
-    // this.logout();
-    // window.removeEventListener("click");
+    window.removeEventListener('beforeunload');
   },
   watch: {
     "$store.state.IsLogin": {
