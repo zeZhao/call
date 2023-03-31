@@ -19,6 +19,11 @@
       <el-table-column label="序号" type="index" align="center" />
       <!-- <el-table-column prop="corpName" label="公司名称" /> -->
       <el-table-column prop="taskName" label="任务标题" />
+      <el-table-column prop="uploadTime" label="导入时间">
+        <template slot-scope="{ row }">
+          <span>{{ row.uploadTime | dateTime }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="startTime" label="开始时间" >
         <template slot-scope="{row}">
           <span>{{row.startTime | dateTime}}</span>
@@ -35,7 +40,7 @@
         <template slot-scope="{row}">
           <span v-if="row.isConnected == 0">未接通</span>
           <span v-else-if="row.isConnected == 1">接通</span>
-          <span v-else>未开始</span>
+          <span v-else-if="row.isConnected == 2">未开始</span>
         </template>
       </el-table-column>
     </el-table>
@@ -65,12 +70,13 @@ export default {
           optionData: [
             { key: "0", value: "未接通" },
             { key: "1", value: "接通" },
-            { key: "", value: "未开始" },
+            { key: "2", value: "未开始" },
           ],
         },
         { type: "input", label: "通话时长>", key: "talkDuration" },
-        { type: "date", label: "导入开始时间", key: "startTime" },
-        { type: "date", label: "导入终止时间", key: "endTime" },
+        { type: "datetime", label: "导入时间", key: ["","startTime","endTime"] },
+        // { type: "date", label: "导入开始时间", key: "startTime" },
+        // { type: "date", label: "导入终止时间", key: "endTime" },
         // {
         //   type: "select",
         //   label: "签名",
