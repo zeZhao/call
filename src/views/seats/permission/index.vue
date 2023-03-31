@@ -17,6 +17,13 @@
       <el-table-column prop="corpName" label="商家名称" />
       <el-table-column prop="roleName" label="角色名称" />
       <el-table-column prop="remarks" label="描述" />
+      <el-table-column prop="status" label="坐席类型">
+        <template slot-scope="{ row }">
+          <span v-if="row.roleType == 0">企业管理员</span>
+          <span v-if="row.roleType == 1">普通坐席</span>
+          <span v-if="row.roleType == 2">班长坐席</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="{ row }">
           <span v-if="row.status == 0">禁用</span>
@@ -134,7 +141,7 @@ export default {
         {
           type: "input",
           label: "商户名称",
-          key: "corpId",
+          key: "userId",
           defaultValue: "",
           isShow:true,
           // optionData: [],
@@ -184,7 +191,7 @@ export default {
         label: "name",
       },
       roleId: "",
-      corpId: "",
+      userId: "",
     };
   },
   created() {},
@@ -249,19 +256,20 @@ export default {
       });
     },
     jurisdictionBtn(row) {
-      const { roleId,corpId } = row;
+      const { roleId,userId } = row;
       this.roleId = roleId;
-      this.corpId = corpId;
+      this.userId = userId;
       this.jurisdictionVisible = true;
 
       this.sysRoleMenuList(roleId);
     },
     submitTree() {
       let arr = this.$refs.tree.getCheckedKeys();
-      this.$http.role.permissionsPost({roleId: this.roleId,corpId:this.corpId,menuIdList:arr}).then((res) => {
+      this.$http.role.permissionsPost({roleId: this.roleId,userId:this.userId,menuIdList:arr}).then((res) => {
         if (resOk) {
           this.jurisdictionVisible = false;
           this.roleId = "";
+          this.$message.success('操作成功！')
         }
       });
     },

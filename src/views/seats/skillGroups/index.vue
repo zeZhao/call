@@ -342,7 +342,7 @@ export default {
           this.attendSkillGroupList.forEach((item) => {
             arr.push({
               key: item.attendId,
-              label: `${item.attendName}（${item.jobNumber}）`,
+              label: `${item.attendName}（${item.jobNumber}${item.roleType == 2 ? '-班长':''}）`,
             });
             checkList.push(item.attendId);
           });
