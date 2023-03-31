@@ -146,6 +146,17 @@ export default {
           defaultValue: "",
         },
         {
+          type: "radio",
+          label: "坐席类型",
+          key: "roleType",
+          defaultValue: "",
+          optionData: [
+            { key: 0, value: "企业管理员" },
+            { key: 1, value: "普通坐席" },
+            { key: 2, value: "班长坐席" },
+          ],
+        },
+        {
           type: "select",
           label: "状态",
           key: "status",
@@ -155,6 +166,7 @@ export default {
             { key: 0, value: "禁用" },
           ],
         },
+        
         {
           type: "textarea",
           label: "备注",

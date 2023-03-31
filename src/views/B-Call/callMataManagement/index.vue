@@ -40,7 +40,7 @@
         <template slot-scope="{row}">
           <span v-if="row.isConnected == 0">未接通</span>
           <span v-else-if="row.isConnected == 1">接通</span>
-          <span v-else>未开始</span>
+          <span v-else-if="row.isConnected == 2">未开始</span>
         </template>
       </el-table-column>
     </el-table>
@@ -70,7 +70,7 @@ export default {
           optionData: [
             { key: "0", value: "未接通" },
             { key: "1", value: "接通" },
-            { key: "", value: "未开始" },
+            { key: "2", value: "未开始" },
           ],
         },
         { type: "input", label: "通话时长>", key: "talkDuration" },
