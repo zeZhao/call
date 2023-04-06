@@ -14,6 +14,7 @@
               icon="el-icon-phone"
               @click="cell"
               size="small"
+              type="info"
               :disabled="!destroyDisabled"
               >呼叫</el-button
             >
@@ -327,6 +328,8 @@ export default {
             this.startTime();
           }, 1000);
           this.callDuration = true
+        }else if (val == "trying"){
+          this.destroyDisabled = false;
         }else if (val == "early"){
           this.destroyDisabled = false;
         } else {
