@@ -26,12 +26,11 @@ function bootstrap(login, passwd, url, prot) {
     tag: "webcam",
     ringFile: 'https://ccclient.jvtdtest.top/voice/sentence20230317103803909.wav',
     iceServers: true,
-
     wsFallbackURL: null,
     turnServer: null,
     // sessid:'',
     deviceParams: {
-      // Set to 'none' to disable outbound audio.
+      // Set to 'none' to disable outbound audio.  
       useMic: 'any',
       // Set to 'none' to disable inbound audio.
       useSpeak: 'any',
@@ -184,7 +183,7 @@ export function transferCall() {
 export function onWSLogin(verto, success) {
   console.log('onWSLogin', success);
   if (success){
-    store.commit('IsLogin', success)
+    store.commit('IsLogin', true)
     console.log("分机登录成功~")
   }
   
@@ -193,7 +192,6 @@ export function onWSLogin(verto, success) {
 function onWSClose(verto, success) {
   console.log('onWSClose', success);
   if (success) {
-    store.commit('IsLogout', success)
     store.commit('IsLogin', false)
     console.log("分机退出成功~")
   }

@@ -8,17 +8,14 @@
           <!-- <div style="margin-right: 20px" v-if="info.ext">
           分机号：{{ info.ext }}
         </div> -->
-          <el-input v-model="tell" style="width: 220px" clearable>
-            <el-button
-              slot="append"
+          <el-input v-model="tell" style="width: 150px" clearable>
+          </el-input>
+          <el-button
               icon="el-icon-phone"
               @click="cell"
-              size="small"
-              type="info"
               :disabled="!destroyDisabled"
               >呼叫</el-button
             >
-          </el-input>
           <!-- <div>
           <img src="" alt="">
         </div> -->
@@ -175,7 +172,8 @@ export default {
   },
   created() {
     if (JSON.parse(getStorage("info")) !== null) {
-      const { name, account, sysMenus } = JSON.parse(getStorage("info"));
+      const { name, account, sysMenus, ext, extPwd, extUrl, extPort } = JSON.parse(getStorage("info"));
+      init(ext, extPwd, extUrl, extPort);
       this.name = name;
       this.account = account;
       this.$nextTick(() => {
@@ -344,6 +342,32 @@ export default {
           this.m10 = "";
           this.h10 = "";
           this.timeTxt = "00:00:00";
+        }
+      },
+    },
+    "$store.state.IsLogin": {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        if (val) {
+          console.log('登录')
+          this.$notify.closeAll()
+           
+          setTimeout(()=>{
+            this.$notify({
+              title: '成功',
+              message: '拨打电话服务连接成功~',
+              type: 'success',
+            });
+          })
+          
+        } else{
+          this.$notify({
+            title: '重新连接',
+            message: '请稍后，拨打电话服务正在重连~',
+            duration: 0,
+          });
+          console.log('退出')
         }
       },
     },

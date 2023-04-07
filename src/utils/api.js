@@ -78,7 +78,7 @@ export default {
     },
     //任务管理 清空数据
     clearData(params) {
-      return request("/callTask/clearData", 'post', params);
+      return request("/callTask/clearData", 'get', params);
     },
     //任务管理 查询可用号码列表
     listMobileByAccess(params) {
