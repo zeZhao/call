@@ -40,7 +40,7 @@
         <template slot-scope="{row}">
           <span v-if="row.isConnected == 0">未接通</span>
           <span v-else-if="row.isConnected == 1">接通</span>
-          <span v-else-if="row.isConnected == 2">未开始</span>
+          <span v-else>未开始</span>
         </template>
       </el-table-column>
     </el-table>
