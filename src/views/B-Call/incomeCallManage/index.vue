@@ -71,13 +71,13 @@
           max-height="500"
           border
         >
-          <el-table-column
+          <!-- <el-table-column
             align="center"
             prop="corpName"
             label="商户名称"
             min-width="150"
             :show-overflow-tooltip="true"
-          ></el-table-column>
+          ></el-table-column> -->
           <el-table-column
             align="center"
             prop="taskName"
