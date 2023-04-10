@@ -14,7 +14,7 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
-      <el-table-column prop="corpName" label="商家名称" />
+      <!-- <el-table-column prop="corpName" label="商家名称" /> -->
       <el-table-column prop="roleName" label="角色名称" />
       <el-table-column prop="remarks" label="描述" />
       <el-table-column prop="status" label="坐席类型">

@@ -13,7 +13,7 @@
       :height="tableHeight"
     >
       <!-- <el-table-column label="序号" type="index" align="center" /> -->
-      <el-table-column prop="corpName" label="商户名称" />
+      <!-- <el-table-column prop="corpName" label="商户名称" /> -->
       <el-table-column prop="skillGroupName" label="技能组名称" />
       <!-- <el-table-column prop="ivrId" label="技能组流程" >
         <template slot-scope="{row}">
