@@ -14,7 +14,7 @@
     >
       <el-table-column label="序号" type="index" align="center" />
       <el-table-column prop="corpId" label="商家公司名" />
-      <el-table-column prop="corpId" label="座席/分机号" />
+      <el-table-column prop="corpId" label="坐席/分机号" />
       <el-table-column prop="corpId" label="主叫" />
       <el-table-column prop="corpId" label="被叫" />
       <el-table-column prop="corpId" label="开始时间" />

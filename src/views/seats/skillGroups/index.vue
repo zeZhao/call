@@ -21,8 +21,8 @@
           <span v-if="row.taskType === 2">呼通后转人工</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="attendCount" label="座席数量" />
-      <el-table-column prop="attendPolicy" label="座席分配策略">
+      <el-table-column prop="attendCount" label="坐席数量" />
+      <el-table-column prop="attendPolicy" label="坐席分配策略">
         <template slot-scope="{ row }">
           <span v-if="row.attendPolicy === 0">随机</span>
           <span v-if="row.attendPolicy === 1">轮选</span>
@@ -126,7 +126,7 @@ export default {
         
         {
           type: "select",
-          label: "座席分配策略",
+          label: "坐席分配策略",
           key: "attendPolicy",
           optionData: [
             { key: 0, value: "随机" },
@@ -205,7 +205,7 @@ export default {
         // },
         {
           type: "select",
-          label: "座席分配策略",
+          label: "坐席分配策略",
           key: "attendPolicy",
           colSpan: 12,
           optionData: [
@@ -251,7 +251,7 @@ export default {
           key: "attendIdList",
           data: [],
           defaultValue: [],
-          titles: ["待关联座席", "已关联座席"],
+          titles: ["待关联坐席", "已关联坐席"],
           leftDefaultCheckedList: this.leftDefaultCheckedList,
           rightDefaultCheckedList: this.rightDefaultCheckedList,
           rules: [],
