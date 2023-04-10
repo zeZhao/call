@@ -77,6 +77,16 @@
 ::v-deep .el-table__fixed-body-wrapper {
   max-height: 100% !important;
 }
+.el-table:not(.el-table--scrollable-x) {
+  .el-table__fixed-right {
+    height: 100% !important;
+  }
+}
+
+.el-table__fixed-right {
+  height: 100% !important;
+  box-shadow: 3px 0px 10px 7px rgba(216, 216, 216, 0.7);
+}
 
 /* 表单 */
 ::v-deep .el-form-item--medium .el-form-item__label {
