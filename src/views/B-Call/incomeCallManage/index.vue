@@ -217,11 +217,11 @@
                 size="small"
                 >编辑</el-button
               >
-              <el-divider direction="vertical" v-if="scope.row.status == 1 || scope.row.status == '1'"></el-divider>
+              <el-divider direction="vertical" v-if="scope.row.status == 0 || scope.row.status == '0'"></el-divider>
               <el-button
                 type="text"
                 size="small"
-                v-if="scope.row.status == 1 || scope.row.status == '1'"
+                v-if="scope.row.status == 0 || scope.row.status == '0'"
                 @click="del(scope.$index, scope.row)"
                 >删除</el-button
               >
