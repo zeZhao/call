@@ -98,7 +98,14 @@
           >
         </div>
       </div>
+      <video
+        id="webcam"
+        ref="webcam"
+        autoplay="autoplay"
+        style="width: 100%; height: 500px; object-fit: inherit; display: none"
+      ></video>
     </div>
+    
 
     <el-dialog
       title="温馨提示"
@@ -172,8 +179,12 @@ export default {
     };
   },
   created() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+  },
+  mounted() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
     if (JSON.parse(getStorage("info")) !== null) {
-      const { name, account, sysMenus, ext, extPwd, extUrl, extPort } = JSON.parse(getStorage("info"));
+      const { name, account, sysMenus,ext, extPwd, extUrl, extPort } = JSON.parse(getStorage("info"));
       init(ext, extPwd, extUrl, extPort);
       this.name = name;
       this.account = account;
@@ -193,10 +204,27 @@ export default {
         }
       });
     }
-    // init('2004','123456','vertoweb.jvtdtest.top','8082')
-  },
-  mounted() {
+    
     window.addEventListener("keydown", this.keyDown);
+    window.addEventListener('beforeunload', (e) => {
+      this._beforeUnload_time = new Date().getTime()
+      console.log(this._beforeUnload_time, 'this._beforeUnload_time')
+    })
+    window.addEventListener('unload', () => {
+      this._gap_time = new Date().getTime() - this._beforeUnload_time
+      console.log(this._gap_time, 'ssss', new Date().getTime(), this._beforeUnload_time)
+      if (this._gap_time <= 5) {
+        //关闭
+        this.logout()
+        window.confirm('关闭页面')
+        alert("关闭页面")
+        // localStorage.removeItem('token')
+      } else {
+        window.confirm('关闭页面')
+        // 刷新
+        console.log('刷新页面')
+      }
+    })
   },
   computed: {},
   methods: {
@@ -256,9 +284,8 @@ export default {
     transferCall() {
       transferCall();
     },
-    logout() {
-      this.$http.login.logout().then((res) => {
-        console.log(res, "----");
+    async logout(e) {
+      await this.$http.login.logout().then((res) => {
         if (res.state === "200") {
           try {
             logout();
@@ -311,6 +338,8 @@ export default {
   },
   destroyed() {
     window.removeEventListener("keydown", this.keyDown, false);
+     window.removeEventListener('beforeunload')
+    window.removeEventListener('unload')
   },
   watch: {
     "$store.state.vertoState": {
