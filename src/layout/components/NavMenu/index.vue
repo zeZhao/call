@@ -8,9 +8,10 @@
           <!-- <div style="margin-right: 20px" v-if="info.ext">
           分机号：{{ info.ext }}
         </div> -->
-          <el-input v-model="tell" style="width: 150px" clearable>
+          <el-input v-model="tell" style="width: 150px" clearable class="tellInp">
           </el-input>
           <el-button
+              class="tellBtn"
               icon="el-icon-phone"
               @click="cell"
               :disabled="!destroyDisabled"
@@ -410,6 +411,18 @@ export default {
       // justify-content: center;
       // align-items: center;
       width: calc(100% - 176px);
+      .tellInp{
+        ::v-deep .el-input__inner{
+          border-top-right-radius: 0 !important;
+          border-bottom-right-radius: 0 !important;
+          border-right: none !important;
+        }
+      }
+      .tellBtn {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        padding: 12px 10px !important;
+      }
       .shake {
         animation: shake 800ms ease-in-out infinite;
       }
