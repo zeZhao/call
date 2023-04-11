@@ -94,6 +94,7 @@
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
         @selectChange="selectChange"
+        @transferChange="transferChange"
         :isSubmitBtn="true"
       >
         <!-- <template v-slot:custom="{ formData }">
@@ -324,6 +325,9 @@ export default {
             this.$set(item, "data", data);
           });
       });
+    },
+    transferChange(data){
+      this._setDefaultValue(this.formConfig, [], "attendIdList", data.current);
     },
     // 获取本企业所有坐席
     async getListAttendAll(corpId) {

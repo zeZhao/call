@@ -528,6 +528,11 @@
                 :titles="item.titles"
                 :left-default-checked="item.leftDefaultChecked"
                 :right-default-checked="item.rightDefaultChecked"
+                @change="
+                  (current, direction, movingData) => {
+                    transferChange(item, current, direction, movingData);
+                  }
+                "
               ></el-transfer>
             </template>
             <p v-if="item.tip" class="tip">{{ item.tip }}</p>
@@ -681,6 +686,10 @@ export default {
     // 选择组件
     chooses(item) {
       this.$emit("choose", item);
+    },
+    //穿梭框change事件
+    transferChange(item, current, direction, movingData) {
+      this.$emit("transferChange", { item, current, direction, movingData });
     },
     /**
      * 提交验证
