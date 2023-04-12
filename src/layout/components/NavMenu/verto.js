@@ -96,6 +96,7 @@ export function makeCall(destinationNumber) {
     screenShare: false,
     dedEnc: false,
     mirrorInput: false,
+    tag: "webcam1",
     userVariables: {
       avatar: "",
       email: ""

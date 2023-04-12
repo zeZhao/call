@@ -63,6 +63,7 @@ export default {
         background: #fff;
         margin-top: 10px;
         padding: 10px 20px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
       }
 
       // ::v-deep .el-button {

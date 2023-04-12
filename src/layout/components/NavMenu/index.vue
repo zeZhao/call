@@ -102,7 +102,13 @@
         id="webcam"
         ref="webcam"
         autoplay="autoplay"
-        style="width: 100%; height: 500px; object-fit: inherit; display: none"
+        style="width: 100%; height: 500px; object-fit: inherit; display: black !important;"
+      ></video>
+      <video
+        id="webcam1"
+        ref="webcam"
+        autoplay="autoplay"
+        style="width: 100%; height: 500px; object-fit: inherit; display: black !important;"
       ></video>
     </div>
     
@@ -205,6 +211,9 @@ export default {
       });
     }
     
+    // window.addEventListener("click", () => {
+    //   console.log("Click")
+    // });
     window.addEventListener("keydown", this.keyDown);
     window.addEventListener('beforeunload', (e) => {
       this._beforeUnload_time = new Date().getTime()
@@ -419,7 +428,7 @@ export default {
   overflow: hidden;
   background: #182131;
   .nav_conent {
-    background: rgba(119, 119, 119, 1);
+    background: #182131;
     color: #fff;
     .nav_conent_title {
       width: 176px;
