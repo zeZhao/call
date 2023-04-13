@@ -25,7 +25,7 @@ function onAnswerSDP(self,sdp){self.answer.SDP=self.stereoHack(sdp.sdp);console.
 function onMessage(self,msg){console.log("Message");doCallback(self,"onICESDP",msg);}
 FSRTCattachMediaStream=function(element,stream){if(typeof element.srcObject!=='undefined'){element.srcObject=stream;}else{console.error('Error attaching stream to element.');}}
 function onRemoteStream(self,stream){if(self.options.useVideo){self.options.useVideo.style.display='block';var iOS=['iPad','iPhone','iPod'].indexOf(navigator.platform)>=0;if(iOS){self.options.useVideo.setAttribute("playsinline",true);}}
-var element=self.options.useAudio;console.log("REMOTE STREAM",stream,element);self.remoteStream=stream;onRemoteStreamSuccess(self,stream);}
+var element=self.options.useAudio;console.log("REMOTE STREAM",stream,element);FSRTCattachMediaStream(element,stream);self.remoteStream=stream;onRemoteStreamSuccess(self,stream);}
 function onOfferSDP(self,sdp){self.mediaData.SDP=self.stereoHack(sdp.sdp);console.log("Offer SDP");doCallback(self,"onOfferSDP");}
 $.FSRTC.prototype.answer=function(sdp,onSuccess,onError){this.peer.addAnswerSDP({type:"answer",sdp:sdp},onSuccess,onError);};$.FSRTC.prototype.stopPeer=function(){if(self.peer){console.log("stopping peer");self.peer.stop();}}
 $.FSRTC.prototype.stop=function(){var self=this;if(self.options.useVideo){self.options.useVideo.style.display='none';self.options.useVideo['src']='';}
