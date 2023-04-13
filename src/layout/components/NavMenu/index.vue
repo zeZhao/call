@@ -106,7 +106,13 @@
       ></video>
       <video
         id="webcam1"
-        ref="webcam"
+        ref="webcam1"
+        autoplay="autoplay"
+        style="width: 100%; height: 500px; object-fit: inherit; display: black !important;"
+      ></video>
+      <video
+        id="webcam2"
+        ref="webcam2"
         autoplay="autoplay"
         style="width: 100%; height: 500px; object-fit: inherit; display: black !important;"
       ></video>
