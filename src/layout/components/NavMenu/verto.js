@@ -106,9 +106,9 @@ export function makeCall(destinationNumber) {
 
 function onDialogState(dialog) {
   currentCall = dialog;
+  console.log(dialog.state.name,'===========dialog.state.name')
   store.commit('vertoState', dialog.state.name)
   if (dialog.state.name == 'ringing') {
-    console.log(dialog,'=======dialog')
     console.log('有人在呼叫你，快接!');
   }
   switch (dialog.state.name) {
@@ -224,9 +224,9 @@ vertoCallbacks = {
   onWSClose: onWSClose,
   onDialogState: onDialogState,
   onMessage: function (verto, dialog, msg, data) {
-    if (dialog.state.name === "active"){
-      store.commit('vertoState', 'connect')
-    }
+    // if (dialog.state.name === "active"){
+    //   store.commit('vertoState', 'connect')
+    // }
     console.log(verto, dialog, msg, data, '======onMessage')
     // verto.eventSUBS.presence = []
   }

@@ -28,16 +28,14 @@
             style="margin-left: 20px"
             :disabled="destroyDisabled"
             @click="hangupCall()"
-            :class="{ shake: isRinging }"
             >挂断</el-button
           >
           <el-button
             type="success"
-            size="small"
             icon="el-icon-phone"
+            size="small"
             round
             @click="answerCall()"
-            :disabled="vertoStatus == 'active'"
             :class="{ shake: isRinging }"
             >接听</el-button
           >
@@ -51,7 +49,7 @@
           >静音/取消静音</el-button
         > -->
           <el-button icon="el-icon-phone" size="small" round @click="holdCall()"
-          :disabled="vertoStatus !== 'active' && !callDuration"
+          :disabled="vertoStatus !== 'active'"
             >保持通话</el-button
           >
           <el-button
@@ -66,7 +64,7 @@
             icon="el-icon-phone"
             size="small"
             round
-            :disabled="vertoStatus !== 'active' && !callDuration"
+            :disabled="vertoStatus !== 'active'"
             @click="transferCall()"
             >转接</el-button
           >
@@ -180,7 +178,7 @@ export default {
       states: 2,
       info: JSON.parse(getStorage("info")),
       isShowTel: true,
-      callDuration: false,
+      callDuration: true,
       second: 1,
       minute: 0,
       hours: 0,
@@ -369,18 +367,18 @@ export default {
           this.isRinging = true;
         } else if (val == "active") {
           this.destroyDisabled = false;
-        }else if (val == "trying"){
-          this.destroyDisabled = false;
-        }else if(val == 'connect'){
-          this.callDuration = true
           this.setTime = setInterval(() => {
             this.startTime();
           }, 1000);
-        }
-        else if (val == "early"){
+          this.callDuration = true
+        }else if (val == "trying"){
           this.destroyDisabled = false;
-        }else if(val == 'destroy'){
+        }else if (val == "early"){
+          this.destroyDisabled = false;
+        } else {
+          this.isRinging = false;
           this.callDuration = false;
+          this.destroyDisabled = true;
           this.setTime = clearInterval(this.setTime);
           this.second = 1;
           this.minute = 0;
@@ -389,11 +387,6 @@ export default {
           this.m10 = "";
           this.h10 = "";
           this.timeTxt = "00:00:00";
-          this.destroyDisabled = true;
-        } else {
-          this.isRinging = false;
-          
-          
         }
       },
     },
