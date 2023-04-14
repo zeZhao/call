@@ -389,9 +389,10 @@ export default {
           this.m10 = "";
           this.h10 = "";
           this.timeTxt = "00:00:00";
+          this.destroyDisabled = true;
         } else {
           this.isRinging = false;
-          this.destroyDisabled = true;
+          
           
         }
       },
