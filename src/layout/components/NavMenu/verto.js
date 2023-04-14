@@ -224,7 +224,9 @@ vertoCallbacks = {
   onWSClose: onWSClose,
   onDialogState: onDialogState,
   onMessage: function (verto, dialog, msg, data) {
-    
+    if (dialog.state.name === "active"){
+      store.commit('vertoState', 'connect')
+    }
     console.log(verto, dialog, msg, data, '======onMessage')
     // verto.eventSUBS.presence = []
   }

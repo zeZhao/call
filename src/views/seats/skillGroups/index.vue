@@ -455,4 +455,21 @@ export default {
   watch: {},
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep .el-transfer{
+  margin-left: -80px;
+  display: flex;
+  width: calc(100% + 80px);
+  .el-transfer-panel{
+    width: 45% !important
+  }
+  .el-transfer__buttons{
+    width: 10%;
+    padding: 100px 10px;
+    text-align: center;
+    .el-transfer__button{
+      margin-left: 0px;
+    }
+  }
+}
+</style>
