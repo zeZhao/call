@@ -201,14 +201,14 @@
                 size="small"
                 v-if="scope.row.status == 1 || scope.row.status == '1'"
                 @click="status(scope.$index, scope.row, 0)"
-                >禁用</el-button
+                >停止</el-button
               >
               <el-button
                 type="text"
                 size="small"
                 v-if="scope.row.status == 0 || scope.row.status == '0'"
                 @click="status(scope.$index, scope.row, 1)"
-                >启用</el-button
+                >开始</el-button
               >
               <el-divider direction="vertical"></el-divider>
               <el-button
