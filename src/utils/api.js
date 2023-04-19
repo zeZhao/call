@@ -44,6 +44,10 @@ export default {
     skillGroupListAll(data) {
       return request('/skillGroup/listAll', 'get', data)
     },
+    // 获取外呼任务下拉
+    listTask(data) {
+      return request('/callTask/listTask', 'get', data)
+    },
   },
   // 外呼管理
   outbound: {
@@ -71,6 +75,10 @@ export default {
     //任务管理 添加
     addCampaign(params) {
       return request("/call/campaign/addCampaign", 'post', params);
+    },
+    //任务管理 清空数据
+    clearData(params) {
+      return request("/callTask/clearData", 'get', params);
     },
     //任务管理 查询可用号码列表
     listMobileByAccess(params) {

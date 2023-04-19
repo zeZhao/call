@@ -5,7 +5,7 @@
       <el-tag
         v-for="tag in tags"
         :key="tag.path"
-        closable
+        :closable="tag.path != '/index'"
         @click="skip(tag)"
         @close="close(tag)"
         :class="{ 'tag_active': tag.active }"

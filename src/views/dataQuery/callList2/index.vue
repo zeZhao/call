@@ -14,11 +14,11 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
-      <el-table-column prop="uploadTime" label="导入时间">
+      <!-- <el-table-column prop="uploadTime" label="导入时间">
         <template slot-scope="{ row }">
           <span>{{ row.uploadTime | dateTime }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="startTime" label="开始时间">
         <template slot-scope="{ row }">
           <span>{{ row.startTime | dateTime }}</span>
@@ -37,14 +37,14 @@
       <el-table-column prop="callerId" label="主叫" />
       <el-table-column prop="calledId" label="被叫" />
       <el-table-column prop="callId" label="呼叫ID" />
-      <el-table-column prop="callType" label="通话类型">
+      <!-- <el-table-column prop="callType" label="通话类型">
         <template slot-scope="{ row }">
           <span v-if="row.callType == 1">AI外呼</span>
           <span v-if="row.callType == 2">外呼人工</span>
           <span v-if="row.callType == 3">呼入</span>
           <span v-if="row.callType == 4">呼入人工</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="hangupCause" label="挂机原因" />
       <el-table-column prop="talkDuration" label="通话时长" />
       <el-table-column prop="costType" label="用户收费类型">
@@ -56,7 +56,7 @@
       </el-table-column>
       <el-table-column prop="costDuration" label="用户收费时长" />
       <el-table-column prop="cost" label="用户费用" />
-      <el-table-column prop="dataTag" label="标签" />
+      <!-- <el-table-column prop="dataTag" label="标签" /> -->
       <el-table-column prop="recordFile" label="录音">
         <template slot-scope="{ row }">
           <el-button type="text" @click="look(row)">查看录音</el-button>
@@ -112,7 +112,7 @@ export default {
       searchFormConfig: [
         { type: "input", label: "主叫", key: "callerId" },
         { type: "input", label: "被叫", key: "calledId" },
-        // { type: "input", label: "座席姓名", key: "attendName" },
+        // { type: "input", label: "坐席姓名", key: "attendName" },
         // { type: "input", label: "工号", key: "jobNumber" },
         { type: "input", label: "挂机原因", key: "hangupCause" },
         { type: "input", label: "通话时长>", key: "talkDuration" },

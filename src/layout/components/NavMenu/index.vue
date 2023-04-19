@@ -8,16 +8,15 @@
           <!-- <div style="margin-right: 20px" v-if="info.ext">
           分机号：{{ info.ext }}
         </div> -->
-          <el-input v-model="tell" style="width: 220px" clearable>
-            <el-button
-              slot="append"
+          <el-input v-model="tell" style="width: 150px" clearable class="tellInp">
+          </el-input>
+          <el-button
+              class="tellBtn"
               icon="el-icon-phone"
               @click="cell"
-              size="small"
               :disabled="!destroyDisabled"
               >呼叫</el-button
             >
-          </el-input>
           <!-- <div>
           <img src="" alt="">
         </div> -->
@@ -29,14 +28,16 @@
             style="margin-left: 20px"
             :disabled="destroyDisabled"
             @click="hangupCall()"
+            :class="{ shake: isRinging }"
             >挂断</el-button
           >
           <el-button
             type="success"
-            icon="el-icon-phone"
             size="small"
+            icon="el-icon-phone"
             round
             @click="answerCall()"
+            :disabled="vertoStatus == 'active' || vertoStatus == 'connect' || isHeld"
             :class="{ shake: isRinging }"
             >接听</el-button
           >
@@ -50,7 +51,7 @@
           >静音/取消静音</el-button
         > -->
           <el-button icon="el-icon-phone" size="small" round @click="holdCall()"
-          :disabled="vertoStatus !== 'active'"
+          :disabled="vertoStatus !== 'active' && !callDuration || isHeld"
             >保持通话</el-button
           >
           <el-button
@@ -65,7 +66,7 @@
             icon="el-icon-phone"
             size="small"
             round
-            :disabled="vertoStatus !== 'active'"
+            :disabled="vertoStatus !== 'active' && !callDuration"
             @click="transferCall()"
             >转接</el-button
           >
@@ -99,7 +100,26 @@
           >
         </div>
       </div>
+      <video
+        id="webcam"
+        ref="webcam"
+        autoplay="autoplay"
+        style="width: 100%; height: 500px; object-fit: inherit; display: black !important;"
+      ></video>
+      <video
+        id="webcam1"
+        ref="webcam1"
+        autoplay="autoplay"
+        style="width: 100%; height: 500px; object-fit: inherit; display: black !important;"
+      ></video>
+      <video
+        id="webcam2"
+        ref="webcam2"
+        autoplay="autoplay"
+        style="width: 100%; height: 500px; object-fit: inherit; display: black !important;"
+      ></video>
     </div>
+    
 
     <el-dialog
       title="温馨提示"
@@ -160,7 +180,7 @@ export default {
       states: 2,
       info: JSON.parse(getStorage("info")),
       isShowTel: true,
-      callDuration: true,
+      callDuration: false,
       second: 1,
       minute: 0,
       hours: 0,
@@ -170,11 +190,17 @@ export default {
       timeTxt: "00:00:00",
       setTime:null,
       vertoStatus:null,
+      isHeld:false 
     };
   },
   created() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+  },
+  mounted() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
     if (JSON.parse(getStorage("info")) !== null) {
-      const { name, account, sysMenus } = JSON.parse(getStorage("info"));
+      const { name, account, sysMenus,ext, extPwd, extUrl, extPort } = JSON.parse(getStorage("info"));
+      init(ext, extPwd, extUrl, extPort);
       this.name = name;
       this.account = account;
       this.$nextTick(() => {
@@ -193,10 +219,30 @@ export default {
         }
       });
     }
-    // init('2004','123456','vertoweb.jvtdtest.top','8082')
-  },
-  mounted() {
+    
+    // window.addEventListener("click", () => {
+    //   console.log("Click")
+    // });
     window.addEventListener("keydown", this.keyDown);
+    window.addEventListener('beforeunload', (e) => {
+      this._beforeUnload_time = new Date().getTime()
+      console.log(this._beforeUnload_time, 'this._beforeUnload_time')
+    })
+    window.addEventListener('unload', () => {
+      this._gap_time = new Date().getTime() - this._beforeUnload_time
+      console.log(this._gap_time, 'ssss', new Date().getTime(), this._beforeUnload_time)
+      if (this._gap_time <= 5) {
+        //关闭
+        this.logout()
+        window.confirm('关闭页面')
+        alert("关闭页面")
+        // localStorage.removeItem('token')
+      } else {
+        window.confirm('关闭页面')
+        // 刷新
+        console.log('刷新页面')
+      }
+    })
   },
   computed: {},
   methods: {
@@ -256,9 +302,8 @@ export default {
     transferCall() {
       transferCall();
     },
-    logout() {
-      this.$http.login.logout().then((res) => {
-        console.log(res, "----");
+    async logout(e) {
+      await this.$http.login.logout().then((res) => {
         if (res.state === "200") {
           try {
             logout();
@@ -311,28 +356,59 @@ export default {
   },
   destroyed() {
     window.removeEventListener("keydown", this.keyDown, false);
+     window.removeEventListener('beforeunload')
+    window.removeEventListener('unload')
   },
   watch: {
+    /**
+     * 通话状态
+     * 
+     * @value trying   正在尝试建立连接
+     * @value early    已经建立连接，等待对方回应
+     * @value ringing  振铃中
+     * @value active   正在拨打电话/电话已接通
+     * @value connect  正在通话
+     * @value destroy  电话挂断
+     * @value fileName
+     * @value fileName
+     */
     "$store.state.vertoState": {
       immediate: true,
       deep: true,
       handler(val) {
         this.vertoStatus = val;
+        
         if (val == "ringing") {
-          this.destroyDisabled = false;
+          // 添加振铃样式
           this.isRinging = true;
-        } else if (val == "active") {
+          // 可以挂断
           this.destroyDisabled = false;
+        }else if( val == "trying"){
+          this.destroyDisabled = false;
+        }
+        else if(val == "early"){
+          this.destroyDisabled = false;
+        }
+        else if(val == "active"){
+          this.destroyDisabled = false;
+          this.isHeld = false
+        }
+        else if(val == 'connect'){
+          // 展示通话时长
+          this.callDuration = true
+          this.isHeld = false
           this.setTime = setInterval(() => {
             this.startTime();
           }, 1000);
-          this.callDuration = true
-        }else if (val == "early"){
+        }
+        else if(val == 'held'){
+          this.isHeld = true
           this.destroyDisabled = false;
-        } else {
-          this.isRinging = false;
+        }
+        else if(val == 'destroy'){
+          // 关闭通话时长
           this.callDuration = false;
-          this.destroyDisabled = true;
+          this.isHeld = false;
           this.setTime = clearInterval(this.setTime);
           this.second = 1;
           this.minute = 0;
@@ -341,6 +417,36 @@ export default {
           this.m10 = "";
           this.h10 = "";
           this.timeTxt = "00:00:00";
+          this.destroyDisabled = true;
+          this.isRinging = false;
+        } else {
+          this.isRinging = false;
+        }
+      },
+    },
+    "$store.state.IsLogin": {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        if (val) {
+          console.log('登录')
+          this.$notify.closeAll()
+           
+          setTimeout(()=>{
+            this.$notify({
+              title: '成功',
+              message: '拨打电话服务连接成功~',
+              type: 'success',
+            });
+          })
+          
+        } else{
+          this.$notify({
+            title: '重新连接',
+            message: '请稍后，拨打电话服务正在重连~',
+            duration: 0,
+          });
+          console.log('退出')
         }
       },
     },
@@ -362,7 +468,7 @@ export default {
   overflow: hidden;
   background: #182131;
   .nav_conent {
-    background: rgba(119, 119, 119, 1);
+    background: #182131;
     color: #fff;
     .nav_conent_title {
       width: 176px;
@@ -383,6 +489,18 @@ export default {
       // justify-content: center;
       // align-items: center;
       width: calc(100% - 176px);
+      .tellInp{
+        ::v-deep .el-input__inner{
+          border-top-right-radius: 0 !important;
+          border-bottom-right-radius: 0 !important;
+          border-right: none !important;
+        }
+      }
+      .tellBtn {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        padding: 12px 10px !important;
+      }
       .shake {
         animation: shake 800ms ease-in-out infinite;
       }

@@ -4,6 +4,7 @@
     <Search
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
+      :add="false"
       @create="_mxCreate"
     ></Search>
     <el-table
@@ -14,14 +15,17 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
-      <el-table-column prop="userName" label="商家账号" />
-      <el-table-column prop="shortName" label="商家简称" />
-      <el-table-column prop="attendName" label="座席姓名" />
+      <!-- <el-table-column prop="userName" label="商家账号" /> -->
+      <el-table-column prop="shortName" label="登录账号" >
+        <template slot-scope="{ row }">
+          <span>{{row.jobNumber}}@{{row.shortName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="pwd" label="登录密码" />
+      <el-table-column prop="attendName" label="坐席姓名" />
       <el-table-column prop="jobNumber" label="工号" />
-      <el-table-column prop="pwd" label="座席密码" />
-      <el-table-column prop="roleName" label="角色" />
+      <el-table-column prop="roleName" label="坐席权限" />
       <el-table-column prop="skillGroupName" label="归属技能组" />
-      
       <el-table-column prop="roleType" label="坐席类型">
         <template slot-scope="{ row }">
           <span v-if="row.roleType == 0">企业管理员</span>
@@ -115,7 +119,7 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         // { type: "input", label: "商家账号", key: "userName" },
-        { type: "input", label: "座席名称", key: "attendName" },
+        { type: "input", label: "坐席名称", key: "attendName" },
         { type: "inputNum", label: "工号", key: "jobNumber" },
         {
           type: "select",
@@ -169,7 +173,7 @@ export default {
         },
         {
           type: "input",
-          label: "座席姓名",
+          label: "坐席姓名",
           key: "attendName",
           defaultValue: "",
         },
@@ -194,7 +198,7 @@ export default {
         },
         {
           type: "select",
-          label: "座席角色",
+          label: "坐席角色",
           key: "attendroleId",
           defaultValue: "",
           optionData:[

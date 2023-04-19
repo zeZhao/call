@@ -13,7 +13,7 @@
       :height="tableHeight"
     >
       <!-- <el-table-column label="序号" type="index" align="center" /> -->
-      <el-table-column prop="corpName" label="商户名称" />
+      <!-- <el-table-column prop="corpName" label="商户名称" /> -->
       <el-table-column prop="skillGroupName" label="技能组名称" />
       <!-- <el-table-column prop="ivrId" label="技能组流程" >
         <template slot-scope="{row}">
@@ -21,8 +21,8 @@
           <span v-if="row.taskType === 2">呼通后转人工</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="attendCount" label="座席数量" />
-      <el-table-column prop="attendPolicy" label="座席分配策略">
+      <el-table-column prop="attendCount" label="坐席数量" />
+      <el-table-column prop="attendPolicy" label="坐席分配策略">
         <template slot-scope="{ row }">
           <span v-if="row.attendPolicy === 0">随机</span>
           <span v-if="row.attendPolicy === 1">轮选</span>
@@ -94,6 +94,7 @@
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
         @selectChange="selectChange"
+        @transferChange="transferChange"
         :isSubmitBtn="true"
       >
         <!-- <template v-slot:custom="{ formData }">
@@ -126,7 +127,7 @@ export default {
         
         {
           type: "select",
-          label: "座席分配策略",
+          label: "坐席分配策略",
           key: "attendPolicy",
           optionData: [
             { key: 0, value: "随机" },
@@ -205,7 +206,7 @@ export default {
         // },
         {
           type: "select",
-          label: "座席分配策略",
+          label: "坐席分配策略",
           key: "attendPolicy",
           colSpan: 12,
           optionData: [
@@ -251,7 +252,7 @@ export default {
           key: "attendIdList",
           data: [],
           defaultValue: [],
-          titles: ["待关联座席", "已关联座席"],
+          titles: ["待关联坐席", "已关联坐席"],
           leftDefaultCheckedList: this.leftDefaultCheckedList,
           rightDefaultCheckedList: this.rightDefaultCheckedList,
           rules: [],
@@ -324,6 +325,9 @@ export default {
             this.$set(item, "data", data);
           });
       });
+    },
+    transferChange(data){
+      this._setDefaultValue(this.formConfig, [], "attendIdList", data.current);
     },
     // 获取本企业所有坐席
     async getListAttendAll(corpId) {
@@ -451,4 +455,21 @@ export default {
   watch: {},
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep .el-transfer{
+  margin-left: -80px;
+  display: flex;
+  width: calc(100% + 80px);
+  .el-transfer-panel{
+    width: 45% !important
+  }
+  .el-transfer__buttons{
+    width: 10%;
+    padding: 100px 10px;
+    text-align: center;
+    .el-transfer__button{
+      margin-left: 0px;
+    }
+  }
+}
+</style>

@@ -40,7 +40,7 @@
         <template slot-scope="{row}">
           <span v-if="row.isConnected == 0">未接通</span>
           <span v-else-if="row.isConnected == 1">接通</span>
-          <span v-else-if="row.isConnected == 2">未开始</span>
+          <span v-else>未开始</span>
         </template>
       </el-table-column>
     </el-table>
@@ -61,7 +61,7 @@ export default {
     return {
       // 搜索框配置
       searchFormConfig: [
-        { type: "input", label: "任务名称", key: "taskName" },
+        { type: "select", label: "任务名称", key: "taskId",optionData:[] },
         { type: "input", label: "外呼号码", key: "mobile" },
         {
           type: "select",
@@ -102,9 +102,25 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.listTask()
+  },
+  activated(){
+    this.listTask()
+  },
   computed: {},
   methods: {
+    listTask() {
+      this.$http.select.listTask().then((res) => {
+        this._setDefaultValue(
+          this.searchFormConfig,
+          res.data,
+          "taskId", 
+          "taskId",
+          "taskName"
+        );
+      });
+    },
     exportExecl(form){
       console.log(form,'========')
       // this.$http.outboundata.export(this.searchParam).then(res=>{
