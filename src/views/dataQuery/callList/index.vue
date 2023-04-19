@@ -14,50 +14,27 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
-      <el-table-column prop="uploadTime" label="导入时间" >
-        <template slot-scope="{row}">
-          <span>{{row.uploadTime | dateTime}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="startTime" label="开始时间" >
-        <template slot-scope="{row}">
-          <span>{{row.startTime | dateTime}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="connTime" label="接通时间" >
+      <!-- <el-table-column prop="corpName" label="企业名称" /> -->
+      <el-table-column prop="taskName" label="任务名称" />
+      <el-table-column prop="connTime" label="开始时间" >
         <template slot-scope="{row}">
           <span>{{row.connTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="endTime" label="结束时间" >
+      <el-table-column prop="endTime" label="终止时间" >
         <template slot-scope="{row}">
           <span>{{row.endTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="callerId" label="主叫" />
-      <el-table-column prop="calledId" label="被叫" />
-      <el-table-column prop="callId" label="呼叫ID" />
-      <el-table-column prop="callType" label="通话类型" >
+      <el-table-column prop="calledId" label="被叫号码" />
+      <el-table-column prop="talkDuration" label="通话时长（秒）" />
+      <el-table-column prop="hungUpPerson" label="挂断方" />
+      <el-table-column prop="isConnected" label="呼叫结果" >
         <template slot-scope="{row}">
-          <span v-if="row.callType == 1">AI外呼</span>
-          <span v-if="row.callType == 2">外呼人工</span>
-          <span v-if="row.callType == 3">呼入</span>
-          <span v-if="row.callType == 4">呼入人工</span>
+          <span v-if="row.isConnected == 0">失败</span>
+          <span v-if="row.isConnected == 1">成功</span>
         </template>
       </el-table-column>
-      <el-table-column prop="hangupCause" label="挂机原因" />
-      <el-table-column prop="talkDuration" label="通话时长" />
-      <el-table-column prop="costType" label="用户收费类型" >
-        <template slot-scope="{row}">
-          <span v-if="row.costType == 1">费率</span>
-          <span v-if="row.costType == 2">套餐</span>
-          <span v-if="row.costType == 3">套餐+余额</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="costDuration" label="用户收费时长" />
-      <el-table-column prop="cost" label="用户费用" />
-      <el-table-column prop="period" label="用户计费周期" />
-      <el-table-column prop="costSetMeal" label="用户套餐扣除时长" />
       <el-table-column prop="dataTag" label="标签" />
       <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
@@ -149,12 +126,22 @@ export default {
     return {
       // 搜索框配置
       searchFormConfig: [
-        { type: "input", label: "主叫", key: "callerId" },
+        // { type: "select", label: "公司名称", key: "corpId", optionData: [] },
+        { type: "select", label: "任务名称", key: "taskId",optionData:[] },
         { type: "input", label: "被叫", key: "calledId" },
-        { type: "input", label: "挂机原因", key: "hangupCause" },
+        { type: "input", label: "被叫标签", key: "dataTag" },
         { type: "input", label: "通话时长>", key: "talkDuration" },
-        { type: "datetime", label: "导入时间", key: ["","startTime","endTime"] },
-
+        { type: "input", label: "挂断方", key: "hungUpPerson" },
+        {
+          type: "select",
+          label: "呼叫结果",
+          key: "isConnected",
+          optionData: [
+            { key: "0", value: "失败" },
+            { key: "1", value: "成功" },
+          ],
+        },
+        { type: "datetime", label: "接通时间", key: ["","callStartTime","callEndTime"] },
       ],
       //搜索框数据
       searchParam: {},
@@ -175,9 +162,58 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    // this.queryCorpByCorpType()
+    this.listTask()
+  },
+  activated(){
+    // this.queryCorpByCorpType()
+    this.listTask()
+  },
   computed: {},
   methods: {
+    //获取公司下拉
+    // corpType（0:商家,1:代理商,2:供应商）
+    // queryCorpByCorpType(corpType) {
+    //   this.$http.select.queryCorpByCorpType({ corpType: "0" }).then((res) => {
+    //     this._setDefaultValue(
+    //       this.searchFormConfig,
+    //       res.data.records,
+    //       "corpId",
+    //       "corpId",
+    //       "corpName"
+    //     );
+    //   });
+    // },
+    listTask() {
+      this.$http.select.listTask().then((res) => {
+        this._setDefaultValue(
+          this.searchFormConfig,
+          res.data,
+          "taskId",
+          "taskId",
+          "taskName"
+        );
+      });
+    },
+    // //获取供应商账户
+    // getCorpListAll(){
+    //   this.$http.select.corpListAll({}).then(res=>{
+    //     this._setDefaultValue(this.searchFormConfig,res.data.records,'supplyId','supplyId','userName')
+    //   })
+    // },
+    // // 获取商户账户
+    // getUserListAll(){
+    //   this.$http.select.userListAll({}).then(res=>{
+    //     this._setDefaultValue(this.searchFormConfig,res.data.records,'userId','userId','userName')
+    //   })
+    // },
+    // // 获取代理商账户
+    // getAgentListAll(){
+    //   this.$http.select.agentListAll({}).then(res=>{
+    //     this._setDefaultValue(this.searchFormConfig,res.data.records,'agentId','agentId','userName')
+    //   })
+    // },
     /*
       试听
      */
@@ -205,7 +241,7 @@ export default {
       self.title =
         "电话：" + self.rowData.calledId + "   时间：" + new Date(self.rowData.startTime).Format("yyyy-MM-dd hh:mm:ss");
       this.$http.dataquery.voicetalkAiList(row.dataId).then(res => {
-        if (res.state == "0000") {
+        if (res.state == "200") {
           if (res.data.length == 0) {
             self.$notify({
               title: "提示",
@@ -274,6 +310,7 @@ export default {
       width: 100%;
       display: flex;
       justify-content: space-between;
+
       .date {
         text-align: right;
       }

@@ -24,9 +24,9 @@
           <span>{{ row.uploadTime | dateTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="startTime" label="开始时间" >
+      <el-table-column prop="connTime" label="开始时间" >
         <template slot-scope="{row}">
-          <span>{{row.startTime | dateTime}}</span>
+          <span>{{row.connTime | dateTime}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="endTime" label="终止时间" >
