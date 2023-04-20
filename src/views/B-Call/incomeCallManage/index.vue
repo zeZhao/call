@@ -836,7 +836,7 @@ export default {
     // 清空数据
     clearData(row){
       this.$http.outbound.clearData({ taskId: row.taskId}).then(res=>{
-        if (res.state === "200") {
+        if (res.state === "0000") {
           this.$message.success('操作成功')
           console.log(res);
         } else {
