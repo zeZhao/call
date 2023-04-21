@@ -35,25 +35,21 @@ pipeline {
             steps {
                 echo 'Building..'
 				//java构建
-				// sh """
-				//   source /usr/local/change_jdk.sh jdk11
-				//   ${MAVEN_HOME}/mvn clean package -Dmaven.${BRANCH}.skip=true -U -P${BRANCH}
-				// """
+                //sh '${MAVEN_HOME}/mvn clean package -Dmaven.${BRANCH}.skip=true'
+				
 				//前端npm/yarn 构建(将java构建注释、修改下面npm 构建参数)
-				// npm run build:${BRANCH}
-                // sh """
-                //     npm run build:${BRANCH}
-                // """
-                sh """
+				sh """
 				pwd
 				/usr/local/node-v14.15.1/bin/npm install --unsafe-perm
-				
 				echo "npm install"
 				/usr/local/node-v14.15.1/bin/npm run build:${BRANCH}
-				
+				sed -i 's#logpath#${APP_ID}-${BRANCH}#' nginx.conf
 				"""
+				//sh '/usr/local/node-v14.15.1/bin/cnpm install --unsafe-perm'
+				//sh '/usr/local/node-v14.15.1/bin/npm run build:test'
+				
 				//前端npm/yarn 构建(将java构建注释、修改下面yarn 构建参数)
-				// yarn build:${BRANCH}
+				//sh 'yarn build:${BRANCH}'
             }
         }
 		
@@ -61,15 +57,13 @@ pipeline {
         stage('打包镜像') {
             steps {
                 echo "********************************************=打包镜像"
-                // sh "docker build -f dockerfile -t ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} --build-arg JAR_FILE_PATH=target ."
                 script {
                     build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
                 }
-                
                 sh "echo $build_tag "
-                sh "docker login ${docker_repo_url_ali} --username=${docker_build_aliyun_user} -p ${docker_build_aliyun_user_pwd}"
                 sh "docker build -f dockerfile -t ${docker_repo_url_ali}/jvtd/${APP_ID}-${BRANCH}:${COMMIT_DATE}.${build_tag} ."
             }
+            
             post {
                 failure {
                     sendIntegrationResult("false", "打包镜像失败")
@@ -82,12 +76,10 @@ pipeline {
     
             steps {
                   // 推送镜像到腾讯
-                  //sh "docker login ${docker_repo_url_tc} --username=${docker_builder_tc} -p ${docker_builder_pwd_tc}"
-                  //sh "docker tag ${BUILD_TAG}-${BRANCH}:${COMMIT_DATE}-${build_tag} ccr.ccs.tencentyun.com/jvtd/${BUILD_TAG}-${BRANCH}:${COMMIT_DATE}-${build_tag}"
-                  //sh "docker push ${docker_repo_url_tc}/jvtd/${APP_ID}-${BRANCH}:${COMMIT_DATE}.${build_tag}"
-                  // 推送镜像到阿里
+                echo "********************************************=推送镜像"
                   sh "docker login ${docker_repo_url_ali} --username=${docker_build_aliyun_user} -p ${docker_build_aliyun_user_pwd}"
                   sh "docker push ${docker_repo_url_ali}/jvtd/${APP_ID}-${BRANCH}:${COMMIT_DATE}.${build_tag}" 
+         
                       
             }
             
@@ -101,7 +93,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Testing...'
+                echo 'Testing..'
             }
         }
         stage('Deploy') {
