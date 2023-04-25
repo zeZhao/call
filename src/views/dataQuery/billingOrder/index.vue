@@ -24,17 +24,17 @@
           <span>{{row.endTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="attendName" label="坐席姓名" />
-      <el-table-column prop="jobNumber" label="工号" />
+      <!-- <el-table-column prop="attendName" label="坐席姓名" /> -->
+      <!-- <el-table-column prop="jobNumber" label="工号" /> -->
       <el-table-column prop="callerId" label="主叫" />
       <el-table-column prop="calledId" label="被叫" />
       <el-table-column prop="talkDuration" label="通话时长" />
       <el-table-column prop="callType" label="呼叫方向" >
         <template slot-scope="{row}">
-          <span v-if="row.callType == 1">AI外呼</span>
-          <span v-if="row.callType == 2">外呼人工</span>
+          <span v-if="row.callType == 1">批量呼出</span>
+          <!-- <span v-if="row.callType == 2">外呼人工</span> -->
           <span v-if="row.callType == 3">呼入</span>
-          <span v-if="row.callType == 4">呼入人工</span>
+          <!-- <span v-if="row.callType == 4">呼入人工</span> -->
           <span v-if="row.callType == 5">呼出</span>
         </template>
       </el-table-column>
@@ -44,14 +44,18 @@
           <span v-if="row.isConnected == 1">成功</span>
         </template>
       </el-table-column>
-      <el-table-column prop="satisfaction" label="满意度" />
+      <!-- <el-table-column prop="satisfaction" label="满意度" /> -->
       <el-table-column prop="hungUpPerson" label="挂断方" />
-      <el-table-column prop="recordFile" label="录音" >
-        <template slot-scope="{ row }">
-          <el-button type="text" @click="look(row)">查看录音</el-button>
-          <!-- <a :href="origin + row.recordFile" target="_blank" rel="noopener noreferrer">录音</a> -->
+      <el-table-column prop="costType" label="用户收费类型" >
+        <template slot-scope="{row}">
+          <span v-if="row.costType == 1">费率</span>
+          <span v-if="row.costType == 2">套餐</span>
+          <span v-if="row.costType == 3">套餐+余额</span>
         </template>
       </el-table-column>
+      <el-table-column prop="costDuration" label="用户收费时长" />
+      <el-table-column prop="cost" label="用户费用" />
+      <el-table-column prop="costSetMeal" label="用户套餐扣除时长" />
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -91,10 +95,10 @@ export default {
       searchFormConfig: [
         { type: "input", label: "主叫", key: "callerId" },
         { type: "input", label: "被叫", key: "calledId" },
-        { type: "input", label: "坐席姓名", key: "attendName" },
         { type: "input", label: "通话时长>", key: "talkDuration" },
         { type: "input", label: "挂断方", key: "hungUpPerson" },
         { type: "select", label: "呼叫结果", key: "isConnected", optionData:[{key:'0',value:"失败"},{key:1,value:'成功'}] },        
+        { type: "select", label: "计费类型", key: "costType", optionData:[{key:1,value:'费率'},{key:2,value:'套餐'},{key:3,value:'套餐+余额'},] },        
         { type: "datetime", label: "呼叫时间", key: ["","callStartTime","callEndTime"] },
       ],
       //搜索框数据
@@ -102,7 +106,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "dataquery",
-        list: "attendLogList",
+        list: "detailedBillList",
       },
       isParamsNotData: false,
       submitParamsIsData: false,

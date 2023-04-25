@@ -108,6 +108,14 @@ const constRouterList = [
           title: '录音记录',
         },
       },
+      {
+        path: '/dataQuery/billingOrder',
+        name: 'billingOrder',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/dataQuery/billingOrder/index.vue'),
+        meta: {
+          title: '计费详单',
+        },
+      },
     ]
   },
   {

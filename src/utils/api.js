@@ -258,6 +258,10 @@ export default {
     attendLogList(data) {
       return request('/dataquery/attendLog/list', 'post', data)
     },
+    //计费详单列表
+    detailedBillList(data) {
+      return request('/dataquery/detailedBill/list', 'post', data)
+    },
     //通话详单-AI对话详情
     voicetalkAiList(data) {
       return request(`/dataquery/voicetalk/ai/${data}`, 'post')
