@@ -256,7 +256,7 @@ export default {
     },
     //坐席列表
     attendLogList(data) {
-      return request('/attendLog/list', 'post', data)
+      return request('/dataquery/attendLog/list', 'post', data)
     },
     //通话详单-AI对话详情
     voicetalkAiList(data) {

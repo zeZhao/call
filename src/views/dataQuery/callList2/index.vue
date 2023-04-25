@@ -14,65 +14,44 @@
       :height="tableHeight"
     >
       <el-table-column label="序号" type="index" align="center" />
-      <!-- <el-table-column prop="uploadTime" label="导入时间">
-        <template slot-scope="{ row }">
-          <span>{{ row.uploadTime | dateTime }}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="startTime" label="开始时间">
-        <template slot-scope="{ row }">
-          <span>{{ row.startTime | dateTime }}</span>
+      <el-table-column prop="connTime" label="开始时间" >
+        <template slot-scope="{row}">
+          <span>{{row.connTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="connTime" label="接通时间">
-        <template slot-scope="{ row }">
-          <span>{{ row.connTime | dateTime }}</span>
+      <el-table-column prop="endTime" label="结束时间" >
+        <template slot-scope="{row}">
+          <span>{{row.endTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="endTime" label="结束时间">
-        <template slot-scope="{ row }">
-          <span>{{ row.endTime | dateTime }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column prop="attendName" label="坐席姓名" />
+      <el-table-column prop="jobNumber" label="工号" />
       <el-table-column prop="callerId" label="主叫" />
       <el-table-column prop="calledId" label="被叫" />
-      <el-table-column prop="callId" label="呼叫ID" />
-      <!-- <el-table-column prop="callType" label="通话类型">
-        <template slot-scope="{ row }">
+      <el-table-column prop="talkDuration" label="通话时长" />
+      <el-table-column prop="callType" label="呼叫方向" >
+        <template slot-scope="{row}">
           <span v-if="row.callType == 1">AI外呼</span>
           <span v-if="row.callType == 2">外呼人工</span>
           <span v-if="row.callType == 3">呼入</span>
           <span v-if="row.callType == 4">呼入人工</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="hangupCause" label="挂机原因" />
-      <el-table-column prop="talkDuration" label="通话时长" />
-      <el-table-column prop="costType" label="用户收费类型">
-        <template slot-scope="{ row }">
-          <span v-if="row.costType == 1">费率</span>
-          <span v-if="row.costType == 2">套餐</span>
-          <span v-if="row.costType == 3">套餐+余额</span>
+          <span v-if="row.callType == 5">呼出</span>
         </template>
       </el-table-column>
-      <el-table-column prop="costDuration" label="用户收费时长" />
-      <el-table-column prop="cost" label="用户费用" />
-      <!-- <el-table-column prop="dataTag" label="标签" /> -->
-      <el-table-column prop="recordFile" label="录音">
+      <el-table-column prop="isConnected" label="呼叫结果" >
+        <template slot-scope="{row}">
+          <span v-if="row.isConnected == 1">失败</span>
+          <span v-if="row.isConnected == 2">成功</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="satisfaction" label="满意度" />
+      <el-table-column prop="hungUpPerson" label="挂断方" />
+      <el-table-column prop="recordFile" label="录音" >
         <template slot-scope="{ row }">
           <el-button type="text" @click="look(row)">查看录音</el-button>
           <!-- <a :href="origin + row.recordFile" target="_blank" rel="noopener noreferrer">录音</a> -->
         </template>
       </el-table-column>
-      <!-- <el-table-column label="操作" width="100" fixed="right">
-        <template slot-scope="scope">
-          <el-button
-            @click="dialogue(scope.index, scope.row)"
-            type="text"
-            size="small"
-            >通话详情</el-button
-          >
-        </template>
-      </el-table-column> -->
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -112,18 +91,11 @@ export default {
       searchFormConfig: [
         { type: "input", label: "主叫", key: "callerId" },
         { type: "input", label: "被叫", key: "calledId" },
-        // { type: "input", label: "坐席姓名", key: "attendName" },
-        // { type: "input", label: "工号", key: "jobNumber" },
-        { type: "input", label: "挂机原因", key: "hangupCause" },
+        { type: "input", label: "坐席姓名", key: "attendName" },
         { type: "input", label: "通话时长>", key: "talkDuration" },
-        {
-          type: "datetime",
-          label: "导入时间",
-          key: ["", "startTime", "endTime"],
-        },
-
-        // { type: "date", label: "开始时间", key: "startTime" },
-        // { type: "date", label: "终止时间", key: "endTime" },
+        { type: "input", label: "挂断方", key: "hungUpPerson" },
+        { type: "select", label: "呼叫结果", key: "isConnected", optionData:[{key:'0',value:"失败"},{key:1,value:'成功'}] },        
+        { type: "datetime", label: "呼叫时间", key: ["","callStartTime","callEndTime"] },
       ],
       //搜索框数据
       searchParam: {},
@@ -150,7 +122,7 @@ export default {
   methods: {
     look(row) {
       this.$nextTick(() => {
-        this.auditionUrl = this.origin + row.recordFile;
+        this.auditionUrl = row.recordFile;
       });
 
       this.isDetails = true;
