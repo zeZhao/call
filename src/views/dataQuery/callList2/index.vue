@@ -19,16 +19,16 @@
           <span>{{row.connTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="endTime" label="结束时间" >
+      <el-table-column prop="endTime" label="终止时间" >
         <template slot-scope="{row}">
           <span>{{row.endTime | dateTime}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="attendName" label="坐席姓名" />
       <el-table-column prop="jobNumber" label="工号" />
-      <el-table-column prop="callerId" label="主叫" />
-      <el-table-column prop="calledId" label="被叫" />
-      <el-table-column prop="talkDuration" label="通话时长" />
+      <el-table-column prop="callerId" label="主叫号码" />
+      <el-table-column prop="calledId" label="被叫号码" />
+      <el-table-column prop="talkDuration" label="通话时长(秒)" />
       <el-table-column prop="callType" label="呼叫方向" >
         <template slot-scope="{row}">
           <span v-if="row.callType == 1">AI外呼</span>
