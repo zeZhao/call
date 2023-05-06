@@ -36,7 +36,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="dataTag" label="标签" />
-      <el-table-column label="操作" width="100" fixed="right">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button
             @click="dialogue(scope.index, scope.row)"
