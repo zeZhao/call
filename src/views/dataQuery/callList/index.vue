@@ -241,7 +241,7 @@ export default {
       self.title =
         "电话：" + self.rowData.calledId + "   时间：" + new Date(self.rowData.startTime).Format("yyyy-MM-dd hh:mm:ss");
       this.$http.dataquery.voicetalkAiList(row.dataId).then(res => {
-        if (res.state == "200") {
+        if (res.state == "0000") {
           if (res.data.length == 0) {
             self.$notify({
               title: "提示",

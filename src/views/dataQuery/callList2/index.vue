@@ -151,44 +151,6 @@ export default {
         audio.play();
       }, 200);
     },
-    /*
-      对话详情
-     */
-    dialogue(index, row) {
-      const self = this;
-
-      self.rowData = row;
-      this.auditionUrl = row.recordFile;
-      self.title =
-        "电话:" +
-        self.rowData.calledId +
-        "   时间:" +
-        new Date(self.rowData.startTime).Format("yyyy-MM-dd hh:mm:ss");
-      this.$http.dataquery.voicetalkAiList(row.dataId).then((res) => {
-        if (res.state == "200") {
-          if (res.data.length == 0) {
-            self.$notify({
-              title: "提示",
-              message: "暂无对话详情",
-            });
-            return;
-          }
-          self.isDetails = true;
-          res.data.forEach((val) => {
-            val.robotSpeechTime = new Date(val.robotSpeechTime).Format(
-              "yyyy-MM-dd hh:mm:ss"
-            );
-            val.custSpeechTime = new Date(val.custSpeechTime).Format(
-              "yyyy-MM-dd hh:mm:ss"
-            );
-            // val.custSpeechTime = datetime(val.custSpeechTime);
-          });
-          self.detailsData = res.data;
-        } else {
-          self.$message.error(res.msg);
-        }
-      });
-    },
   },
   watch: {},
 };
