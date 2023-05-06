@@ -53,7 +53,7 @@
           <span v-if="row.state === 8">手动暂停</span> -->
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150" fixed="right">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <!-- <el-button
             @click="_mxEdit(scope.row, 'sgId')"
