@@ -107,6 +107,7 @@ export function makeCall(destinationNumber) {
 function onDialogState(dialog) {
   currentCall = dialog;
   console.log(dialog.state.name,'===========dialog.state.name')
+  console.log(dialog,'===========dialog')
   store.commit('vertoState', dialog.state.name)
   if (dialog.state.name == 'ringing') {
     console.log('有人在呼叫你，快接!');
