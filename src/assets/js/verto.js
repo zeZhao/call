@@ -1,9 +1,8 @@
-import store from '../../../store'
-require("../../../assets/js/verto-min.js")
-
+import store from '@/store'
+require("@/assets/js/verto-min.js")
 
 export var vertoHandle, vertoCallbacks, currentCall;
-
+console.log(store)
 // put your code here!
 //配置初始化
 export function init(login, passwd, url, prot = "8082") {
