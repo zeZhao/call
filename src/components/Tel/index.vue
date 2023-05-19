@@ -4,16 +4,20 @@
       <!-- <div style="margin-right: 20px" v-if="info.ext">
           分机号：{{ info.ext }}
         </div> -->
-      <!-- <el-image src="@/assets/images/lingdang1.png"></el-image> -->
-      <el-input v-model="tell" style="width: 150px" clearable class="tellInp">
-      </el-input>
-      <el-button
-        class="tellBtn"
-        icon="el-icon-phone"
-        @click="cell"
-        :disabled="!destroyDisabled"
-        >呼叫</el-button
-      >
+      <!-- <el-image :src="dingDang"></el-image> -->
+      <div>
+        <!-- <img src="@/assets/images/lingdang1.png" alt="" style="width:40px;height:40px;background:#fff" :class="{ shake: isRinging }"> -->
+        <el-input v-model="tell" style="width: 150px" clearable class="tellInp">
+        </el-input>
+        <el-button
+          class="tellBtn"
+          icon="el-icon-phone"
+          @click="cell"
+          :disabled="!destroyDisabled"
+          >呼叫</el-button
+        >
+      </div>
+      
       <!-- <div>
           <img src="" alt="">
         </div> -->
@@ -36,7 +40,7 @@
         :disabled="
           !isRinging
         "
-        :class="{ shake: isRinging }"
+        
         >接听</el-button
       >
       <!-- <el-button type="primary" icon="el-icon-phone" size="small" round @click="muteCall()">静音</el-button> -->
@@ -127,6 +131,7 @@ import {
   transferCall,
   logout,
 } from "@/assets/js/verto.js";
+import dingDang from "@/assets/images/lingdang1.png"
 export default {
   components: {},
   data() {
@@ -359,14 +364,20 @@ export default {
 <style lang="scss" scoped>
 .Tel {
   .handle {
-    min-width: 695px;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    // min-width: 695px;
   }
 }
 .tellInp {
   ::v-deep .el-input__inner {
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
     border-right: none !important;
+    border-left: none !important;
   }
 }
 .tellBtn {

@@ -16,28 +16,28 @@
     >
       <!-- <el-table-column label="序号" type="index" align="center" /> -->
       <!-- <el-table-column prop="corpName" label="企业名称" /> -->
-      <el-table-column prop="connTime" label="日期" >
+      <el-table-column prop="createTime" label="日期" >
         <template slot-scope="{row}">
-          <span>{{row.connTime | dateTime}}</span>
+          <span>{{row.createTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="attendName" label="技能组" />
-      <el-table-column prop="jobNumber" label="转坐席数" />
-      <el-table-column prop="callerId" label="坐席接通数" />
-      <el-table-column prop="calledId" label="坐席接通率" />
-      <el-table-column prop="calledId" label="15S接通数" />
-      <el-table-column prop="calledId" label="15S接通率" />
-      <el-table-column prop="calledId" label="服务总时长" />
-      <el-table-column prop="calledId" label="呼入平均时长" />
-      <!-- <el-table-column prop="calledId" label="平均排队时间" /> -->
-      <el-table-column prop="calledId" label="平均振铃时间" />
-      <el-table-column prop="calledId" label="参评率" />
-      <el-table-column prop="calledId" label="满意率" />
-      <el-table-column prop="calledId" label="呼出总数" />
-      <el-table-column prop="calledId" label="呼出接通数" />
-      <el-table-column prop="calledId" label="呼出接通率" />
-      <el-table-column prop="calledId" label="呼出总时长" />
-      <el-table-column prop="calledId" label="呼出平均时长" />
+      <el-table-column prop="skillGroupName" label="技能组" />
+      <el-table-column prop="transferSeatNum" label="转坐席数" />
+      <el-table-column prop="seatConnectionNum" label="坐席接通数" />
+      <el-table-column prop="seatConnectionRate" label="坐席接通率" />
+      <el-table-column prop="seat15ConnectionNum" label="15S接通数" />
+      <el-table-column prop="seat15ConnectionRate" label="15S接通率" />
+      <el-table-column prop="serviceDuration" label="服务总时长" />
+      <el-table-column prop="callinDurationAvg" label="呼入平均时长" />
+      <!-- <el-table-column prop="queueDurationAvg" label="平均排队时间" /> -->
+      <el-table-column prop="ringDurationAvg" label="平均振铃时间" />
+      <el-table-column prop="participateCommentsRate" label="参评率" />
+      <el-table-column prop="satisfiedRate" label="满意率" />
+      <el-table-column prop="calloutNum" label="呼出总数" />
+      <el-table-column prop="calloutConnectionNum" label="呼出接通数" />
+      <el-table-column prop="calloutConnectionRate" label="呼出接通率" />
+      <el-table-column prop="calloutTotalDuration" label="呼出总时长" />
+      <el-table-column prop="calloutDurationAvg" label="呼出平均时长" />
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -56,25 +56,25 @@ export default {
     return {
       // 搜索框配置
       searchFormConfig: [
-        { type: "select", label: "企业ID", key: "corpId", optionData:[] },
-        { type: "input", label: "主叫", key: "callerId" },
-        { type: "input", label: "被叫", key: "calledId" },
-        { type: "input", label: "坐席姓名", key: "attendName" },
-        { type: "input", label: "通话时长>", key: "talkDuration" },
-        { type: "input", label: "挂断方", key: "hungUpPerson" },
-        { type: "select", label: "呼叫结果", key: "isConnected", optionData:[{key:'0',value:"失败"},{key:1,value:'成功'}] },        
-        // { type: "datetime", label: "开始时间", key: "startTime" },
-        // { type: "datetime", label: "终止时间", key: "endTime" },
-        { type: "datetime", label: "呼叫时间", key: ["","callStartTime","callEndTime"] },
+        // { type: "select", label: "企业ID", key: "corpId", optionData:[] },
+        { type: "input", label: "技能组", key: "skillGroupName" },
+        // { type: "input", label: "被叫", key: "calledId" },
+        // { type: "input", label: "坐席姓名", key: "attendName" },
+        // { type: "input", label: "通话时长>", key: "talkDuration" },
+        // { type: "input", label: "挂断方", key: "hungUpPerson" },
+        // { type: "select", label: "呼叫结果", key: "isConnected", optionData:[{key:'0',value:"失败"},{key:1,value:'成功'}] },        
+        // // { type: "datetime", label: "开始时间", key: "startTime" },
+        // // { type: "datetime", label: "终止时间", key: "endTime" },
+        { type: "datetime", label: "呼叫时间", key: ["","startTime","endTime"] },
       ],
       //搜索框数据
       searchParam: {},
       //接口地址
       searchAPI: {
-        namespace: "dataquery",
-        list: "attendLogList", 
+        namespace: "dataStatistics",
+        list: "skillsGroupStatisList", 
       },
-      isParamsNotData: false,
+      // isParamsNotData: false,-------------                                                                                                                                       
       submitParamsIsData: false,
       // 列表参数
       namespace: "",
@@ -83,10 +83,10 @@ export default {
   },
   created() {},
   mounted() {
-    this.queryCorpByCorpType()
+    // this.queryCorpByCorpType()
   },
   activated(){
-    this.queryCorpByCorpType()
+    // this.queryCorpByCorpType()
   },
   computed: {},
   methods: {

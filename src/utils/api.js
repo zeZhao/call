@@ -313,4 +313,27 @@ export default {
       return request('/attend/updateAttendAndLoginMode', 'post', data)
     },
   },
+  //数据统计
+  dataStatistics:{
+    //每日话务情况
+    dailyTrafficList(data) {
+      return request('/dailyTraffic/listByPage', 'post', data)
+    },
+    //分时话务分析情况
+    timeSharingList(data) {
+      return request('/timeSharing/listByPage', 'post', data)
+    },
+    //技能组话务统计
+    skillsGroupStatisList(data) {
+      return request('/skillsGroupStatis/listByPage', 'post', data)
+    },
+    //坐席话务统计
+    attendantTrafficStatisticsList(data) {
+      return request('/attendantTrafficStatistics/listByPage', 'post', data)
+    },
+    //每日话务情况
+    trafficCostStatisticsList(data) {
+      return request('/trafficCostStatistics/list', 'post', data)
+    },
+  }
 }

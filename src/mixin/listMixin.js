@@ -153,7 +153,7 @@ async function queryData() {
     } else if (res.code === 500 || res.code === "500") {
       this.$message.error(res.data || res.msg || "获取数据失败");
     } else {
-      this.$message.error(res.data || res.msg || "获取数据失败");
+      this.$message.error(res.msg || res.data || "获取数据失败");
     }
 
     this.tableDoLayout();

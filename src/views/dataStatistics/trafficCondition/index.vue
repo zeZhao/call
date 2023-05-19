@@ -14,27 +14,28 @@
       style="width: 100%"
       :height="tableHeight"
     >
-      <el-table-column prop="connTime" label="日期" >
+      <!-- <el-table-column prop="corpName" label="企业名称" /> -->
+      <el-table-column prop="createTime"  width="150" label="日期" >
         <template slot-scope="{row}">
-          <span>{{row.connTime | dateTime}}</span>
+          <span>{{row.createTime | dateTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="attendName" label="登录坐席数" />
-      <el-table-column prop="jobNumber" label="接话坐席数" />
-      <el-table-column prop="callerId" label="呼入总数" />
-      <el-table-column prop="calledId" label="转坐席数" />
-      <el-table-column prop="talkDuration" label="坐席接通数" />
-      <el-table-column prop="talkDuration" label="坐席接通率" />
-      <el-table-column prop="talkDuration" label="呼入总时长" />
-      <el-table-column prop="talkDuration" label="呼入平均时长" />
-      <!-- <el-table-column prop="talkDuration" label="平均排队时长" /> -->
-      <el-table-column prop="talkDuration" label="平均振铃时长" />
-      <el-table-column prop="talkDuration" label="呼出坐席数" />
-      <el-table-column prop="talkDuration" label="呼出总数" />
-      <el-table-column prop="talkDuration" label="呼出接通数" />
-      <el-table-column prop="talkDuration" label="呼出接通率" />
-      <el-table-column prop="talkDuration" label="呼出总时长" />
-      <el-table-column prop="talkDuration" label="呼出平均通话时长" />
+      <el-table-column prop="attendLoginNum" label="登录坐席数" />
+      <el-table-column prop="connectSeatsNum" label="接话坐席数" />
+      <el-table-column prop="callinNum" label="呼入总数" />
+      <el-table-column prop="transferSeatNum" label="转坐席数" />
+      <el-table-column prop="seatConnectionNum" label="坐席接通数" />
+      <el-table-column prop="seatConnectionRate" label="坐席接通率" />
+      <el-table-column prop="callinDuration" label="呼入总时长" />
+      <el-table-column prop="callinDurationAvg" label="呼入平均时长" />
+      <!-- <el-table-column prop="queueDurationAvg" label="平均排队时长" /> -->
+      <el-table-column prop="ringDurationAvg" label="平均振铃时长" />
+      <el-table-column prop="calloutAttendNum" label="呼出坐席数" />
+      <el-table-column prop="calloutNum" label="呼出总数" />
+      <el-table-column prop="calloutConnectionNum" label="呼出接通数" />
+      <el-table-column prop="calloutConnectionRate" label="呼出接通率" />
+      <el-table-column prop="calloutTotalDuration" label="呼出总时长" />
+      <el-table-column prop="calloutDurationAvg" label="呼出平均通话时长" />
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -53,19 +54,19 @@ export default {
     return {
       // 搜索框配置
       searchFormConfig: [
-        { type: "select", label: "企业ID", key: "corpId", optionData:[] },
-        { type: "input", label: "主叫", key: "callerId" },
-        { type: "select", label: "呼叫结果", key: "isConnected", optionData:[{key:'0',value:"失败"},{key:1,value:'成功'}] },        
-        { type: "datetime", label: "日期", key: ["","callStartTime","callEndTime"] },
+        // { type: "select", label: "企业名称", key: "corpId", optionData:[] },
+        // { type: "input", label: "主叫", key: "callerId" },
+        // { type: "select", label: "呼叫结果", key: "isConnected", optionData:[{key:'0',value:"失败"},{key:1,value:'成功'}] },        
+        { type: "datetime", label: "日期", key: ["","startTime","endTime"] },
       ],
       //搜索框数据
       searchParam: {},
       //接口地址
       searchAPI: {
-        namespace: "dataquery",
-        list: "attendLogList", 
+        namespace: "dataStatistics",
+        list: "dailyTrafficList",
       },
-      isParamsNotData: false,
+      // isParamsNotData: false,
       submitParamsIsData: false,
       // 列表参数
       namespace: "",
@@ -74,10 +75,10 @@ export default {
   },
   created() {},
   mounted() {
-    this.queryCorpByCorpType()
+    // this.queryCorpByCorpType()
   },
   activated(){
-    this.queryCorpByCorpType()
+    // this.queryCorpByCorpType()
   },
   computed: {},
   methods: {
