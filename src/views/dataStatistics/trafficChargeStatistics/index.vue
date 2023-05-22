@@ -65,7 +65,7 @@ export default {
         namespace: "dataStatistics",
         list: "trafficCostStatisticsList", 
       },
-      // isParamsNotData: false,
+      isParamsNotData: false,
       submitParamsIsData: false,
       // 列表参数
       namespace: "",

@@ -74,7 +74,7 @@ export default {
         namespace: "dataStatistics",
         list: "skillsGroupStatisList", 
       },
-      // isParamsNotData: false,-------------                                                                                                                                       
+      isParamsNotData: false,                                                                                                                     
       submitParamsIsData: false,
       // 列表参数
       namespace: "",
