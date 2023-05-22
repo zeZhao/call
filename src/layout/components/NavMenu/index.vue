@@ -197,6 +197,7 @@ export default {
       float: right;
       height: 80px;
       line-height: 80px;
+      overflow: hidden;
       // display: flex;
       // justify-content: center;
       // align-items: center;
@@ -299,8 +300,7 @@ export default {
       span:last-child {
         cursor: pointer;
       }
-      .user,
-      .handle {
+      .user {
         display: flex;
         justify-content: center;
         align-items: center;

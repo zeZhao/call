@@ -5,8 +5,8 @@
           分机号：{{ info.ext }}
         </div> -->
       <!-- <el-image :src="dingDang"></el-image> -->
-      <div>
-        <!-- <img src="@/assets/images/lingdang1.png" alt="" style="width:40px;height:40px;background:#fff" :class="{ shake: isRinging }"> -->
+      <div class="handle_tell">
+        <img src="@/assets/images/lingdang1.png" alt="" class="lingdang" :class="{ shake: isRinging }">
         <el-input v-model="tell" style="width: 150px" clearable class="tellInp">
         </el-input>
         <el-button
@@ -367,7 +367,19 @@ export default {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
+    height: 80px;
     // min-width: 695px;
+    .handle_tell{
+      display: flex;
+      align-items: center;
+      height: 40px;
+      background: #fff;
+      .lingdang{
+         width:40px;
+         height:40px;
+         background:#fff
+      }
+    }
   }
 }
 .tellInp {
