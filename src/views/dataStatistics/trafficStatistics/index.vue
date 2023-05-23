@@ -18,7 +18,7 @@
       <!-- <el-table-column prop="corpName" label="企业名称" /> -->
       <el-table-column prop="createTime" label="日期" >
         <template slot-scope="{row}">
-          <span>{{row.createTime | dateTime}}</span>
+          <span>{{row.createTime | Date}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="skillGroupName" label="技能组" />

@@ -17,7 +17,7 @@
       <!-- <el-table-column prop="corpName" label="企业名称" /> -->
       <el-table-column prop="createTime"  width="150" label="日期" >
         <template slot-scope="{row}">
-          <span>{{row.createTime | dateTime}}</span>
+          <span>{{row.createTime | Date}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="attendLoginNum" label="登录坐席数" />
